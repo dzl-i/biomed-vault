@@ -109,6 +109,7 @@ model Project {
     id                 String              @id @default(uuid())
     name               String
     description        String
+    code               String // Used to join the project
     status             ProjectStatus       @default(ACTIVE)
     researcherProjects ResearcherProject[]
 }
