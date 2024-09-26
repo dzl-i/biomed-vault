@@ -17,9 +17,8 @@ model Researcher {
     email                  String              @unique
     username               String              @unique
     password               String
-    accessToken            String?
-    refreshToken           String?
     remainingLoginAttempts Int                 @default(3)
+    tokens                 Token[]
     patients               Patient[]
     dataAccessLogs         DataAccessLog[]
     researcherProjects     ResearcherProject[]
@@ -122,6 +121,14 @@ model ResearcherProject {
     role         ProjectRole
 
     @@id([researcherId, projectId])
+}
+
+model Token {
+    id           String     @id @default(uuid())
+    accessToken  String     @unique
+    refreshToken String     @unique
+    researcherId String
+    researcher   Researcher @relation(fields: [researcherId], references: [id], onDelete: Cascade)
 }
 
 enum Sex {
