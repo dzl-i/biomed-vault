@@ -86,3 +86,15 @@ Some plans for the UI/UX design to make the web application more intuitive for r
 - Several tabs for the datasets such as Patients, Genomic Data, etc.
 - One tab for "All", where all datasets will be shows and searches/filters can be applied here
 - Vertical navbar for a cleaner look
+
+## Technical Requirements
+
+### Security Workflow
+- User has access tokens and refresh tokens in cookies -> tokens has researcherId embedded in it (JWTs).
+- We can get researcherId by decoding the token.
+- When a user makes an API call, tokens are sent together with the request.
+- Before any requests are processed, the access token is checked to see if it is valid -> check to see if it exists (in the database) and if is not expired yet
+- If the access token exists in the database but is expired, check for the refresh token and check if it is valid. If the refresh token is valid, generate a new access token and refresh token pair and assign it to the user. Delete the old access-refresh token pair.
+- If the access token exists in the database and it is not expired, proceed with processing the request.
+- If the access token is not valid, return a HTTP Error code 401 Unauthorised.
+- Refresh tokens are one time use - it can only be used once to generate a new access token. Once it is used, it cannot be used again to generate a new token pair. Hence, it should be deleted from the database.
