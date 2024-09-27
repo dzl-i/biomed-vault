@@ -29,7 +29,7 @@ const httpServer = new Server(app);
 
 // Use middleware that allows for access from other domains
 app.use(cors({
-  origin: ["http://localhost:3000", "https://bebetter.denzeliskandar.com"],
+  origin: ["http://localhost:8080", "https://biomedata.denzeliskandar.com"],
   credentials: true
 }));
 
