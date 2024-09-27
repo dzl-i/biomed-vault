@@ -29,7 +29,8 @@ model Patient {
     name           String
     dateOfBirth    DateTime
     sex            Sex
-    diagnosticInfo String?
+    diagnosticInfo String // Diagnosis such as cancer/autism/osteoporosis
+    treatmentInfo  String? // Treatment information - how the patient was treated
     researcherId   String
     researcher     Researcher        @relation(fields: [researcherId], references: [id])
     genomicData    GenomicData[]
@@ -57,7 +58,6 @@ model Phenotype {
     patient     Patient  @relation(fields: [patientId], references: [id])
     description String
     traits      String[]
-    source      String? // Source of the phenotype data (e.g., clinician, self-reported)
 }
 
 model ImagingData {
