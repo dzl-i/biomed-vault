@@ -10,7 +10,7 @@ import { Server } from 'http';
 import jwt, { JwtPayload, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 // Helper functions
-import { deleteToken, generateToken } from './helper/tokenHelper';
+import { deleteToken, deleteTokenFromEmail, generateToken } from './helper/tokenHelper';
 
 // Route imports
 import { authRegister } from './auth/register';
@@ -74,8 +74,12 @@ app.post('/auth/login', async (req: Request, res: Response) => {
     const { accessToken, refreshToken, researcherId, researcherName, researcherUsername } = await authLogin(email, password);
 
     // Delete the previous token pair
-    const oldRefreshToken = req.cookies.refreshToken;
-    await deleteToken(oldRefreshToken);
+    if (req.cookies.refreshToken) {
+      const oldRefreshToken = req.cookies.refreshToken;
+      await deleteToken(oldRefreshToken);
+    } else {
+      await deleteTokenFromEmail(email);
+    }
 
     // Assign cookies
     res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });

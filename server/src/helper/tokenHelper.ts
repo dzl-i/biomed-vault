@@ -4,6 +4,7 @@ import "dotenv/config";
 import crypto from "crypto";
 
 import { getHash } from "./util";
+import { getResearcherByEmail } from "./researcherHelper";
 
 const prisma = new PrismaClient();
 
@@ -36,6 +37,18 @@ export async function deleteToken(refreshToken: string) {
   return await prisma.token.delete({
     where: {
       refreshToken: getHash(refreshToken)
+    }
+  })
+}
+
+export async function deleteTokenFromEmail(email: string) {
+  const researcher = await getResearcherByEmail(email);
+
+  if (researcher === null) return null;
+
+  return await prisma.token.deleteMany({
+    where: {
+      researcher: researcher
     }
   })
 }
