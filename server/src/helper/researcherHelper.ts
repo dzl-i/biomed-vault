@@ -18,3 +18,12 @@ export async function getResearcherByEmail(email: string) {
     }
   });
 }
+
+export async function getResearcherByUsername(username: string) {
+  // Prisma Queries
+  return await prisma.researcher.findFirst({
+    where: {
+      username: username
+    }
+  });
+}

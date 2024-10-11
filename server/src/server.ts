@@ -16,6 +16,7 @@ import { deleteToken, deleteTokenFromEmail, generateToken } from './helper/token
 import { authRegister } from './auth/register';
 import { authLogin } from './auth/login';
 import { authLogout } from './auth/logout';
+import { researcherProfile } from './researcher/profile';
 
 // Database client
 const prisma = new PrismaClient()
@@ -105,6 +106,19 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
   }
 });
+
+// RESEARCHER ROUTES
+app.get('/researcher/profile', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { username } = req.params;
+    const { name, email, institution } = await researcherProfile(username);
+
+    res.status(200).json({ researcherName: name, researcherUsername: username, researcherEmail: email, researcherInstitution: institution });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
 
 
 ///////////////////////// SERVER /////////////////////////
