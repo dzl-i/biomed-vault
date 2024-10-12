@@ -34,7 +34,7 @@ model Patient {
     researcherId   String
     researcher     Researcher        @relation(fields: [researcherId], references: [id])
     genomicData    GenomicData[]
-    phenotypes     Phenotype[]
+    phenotypes     PhenotypeData[]
     imagingData    ImagingData[]
     signalData     SignalData[]
     categories     CategoryPatient[]
@@ -53,7 +53,7 @@ model GenomicData {
     quality       DataQuality     @default(UNKNOWN)
 }
 
-model Phenotype {
+model PhenotypeData {
     id          String   @id @default(uuid())
     patientId   String
     name        String
