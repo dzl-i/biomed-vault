@@ -87,8 +87,8 @@ export default function Page() {
           router.push("/dashboard");
 
           const responseData = await response.json();
-          sessionStorage.setItem("userHandle", responseData.userHandle);
-          sessionStorage.setItem("userFullName", responseData.userFullName);
+          sessionStorage.setItem("name", responseData.researcherName);
+          sessionStorage.setItem("username", responseData.researcherUsername);
         } else {
           // Handle error response from the API
           const errorData = await response.json();
