@@ -50,6 +50,7 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
+
 // AUTH ROUTES
 app.post('/auth/register', async (req: Request, res: Response) => {
   try {
@@ -107,8 +108,9 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
   }
 });
 
+
 // RESEARCHER ROUTES
-app.get('/researcher/profile', authenticateToken, async (req: Request, res: Response) => {
+app.get('/researcher/profile/:username', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
     const { name, email, institution } = await researcherProfile(username);
