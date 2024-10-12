@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { CategoryType, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function getPhenotypes() {
@@ -131,4 +131,43 @@ export async function getSignals() {
     researcherUsername: image.patient.researcher.username,
     researcherEmail: image.patient.researcher.email
   }));
+}
+
+export async function getCategorisedData(categoryType: CategoryType) {
+  const datas = await prisma.category.findMany({
+    where: {
+      type: categoryType
+    },
+    select: {
+      name: true,
+      patients: {
+        select: {
+          patient: {
+            select: {
+              sex: true,
+              diagnosticInfo: true,
+              treatmentInfo: true,
+              researcher: {
+                select: {
+                  username: true,
+                  email: true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return datas.flatMap(category =>
+    category.patients.map(({ patient }) => ({
+      categoryName: category.name,
+      sex: patient.sex,
+      diagnosticInfo: patient.diagnosticInfo,
+      treatmentInfo: patient.treatmentInfo,
+      researcherUsername: patient.researcher.username,
+      researcherEmail: patient.researcher.email
+    }))
+  );
 }

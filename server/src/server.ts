@@ -5,7 +5,7 @@ import errorHandler from 'middleware-http-errors';
 import cors from 'cors';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import { PrismaClient } from '@prisma/client';
+import { CategoryType, PrismaClient } from '@prisma/client';
 import { Server } from 'http';
 import jwt, { JwtPayload, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
@@ -22,6 +22,7 @@ import { datasetListPhenotype } from './dataset/listPhenotypes';
 import { datasetListGenomics } from './dataset/listGenomic';
 import { datasetListImaging } from './dataset/listImaging';
 import { datasetListSignals } from './dataset/listSignals';
+import { datasetListCategorisedData } from './dataset/listCategory';
 
 // Database client
 const prisma = new PrismaClient()
@@ -179,6 +180,18 @@ app.get('/dataset/list-signals', authenticateToken, async (req: Request, res: Re
     const { signals } = await datasetListSignals();
 
     res.status(200).json({ signals });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.get('/dataset/list-categorised/:category', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { category } = req.params;
+    const { data } = await datasetListCategorisedData(category as CategoryType);
+
+    res.status(200).json({ data });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
