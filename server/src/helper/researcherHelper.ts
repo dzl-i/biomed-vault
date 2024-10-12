@@ -27,3 +27,22 @@ export async function getResearcherByUsername(username: string) {
     }
   });
 }
+
+export async function getResearcherPatients(id: string) {
+  return await prisma.researcher.findFirst({
+    where: {
+      id: id
+    },
+    select: {
+      patients: {
+        select: {
+          name: true,
+          dateOfBirth: true,
+          sex: true,
+          diagnosticInfo: true,
+          treatmentInfo: true
+        }
+      }
+    }
+  });
+}
