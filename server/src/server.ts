@@ -20,6 +20,7 @@ import { researcherProfile } from './researcher/profile';
 import { datasetListPatients } from './dataset/listPatients';
 import { datasetListPhenotype } from './dataset/listPhenotypes';
 import { datasetListGenomics } from './dataset/listGenomic';
+import { datasetListImaging } from './dataset/listImaging';
 
 // Database client
 const prisma = new PrismaClient()
@@ -155,6 +156,17 @@ app.get('/dataset/list-genomics', authenticateToken, async (req: Request, res: R
     const { genomics } = await datasetListGenomics();
 
     res.status(200).json({ genomics });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.get('/dataset/list-imaging', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { imaging } = await datasetListImaging();
+
+    res.status(200).json({ imaging });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

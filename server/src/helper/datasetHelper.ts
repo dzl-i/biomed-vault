@@ -66,3 +66,35 @@ export async function getGenomics() {
     researcherEmail: genomic.patient.researcher.email
   }));
 }
+
+export async function getImaging() {
+  const imaging = await prisma.imagingData.findMany({
+    select: {
+      name: true,
+      description: true,
+      imageType: true,
+      image: true,
+      imageUrl: true,
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              username: true,
+              email: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return imaging.map(image => ({
+    name: image.name,
+    description: image.description,
+    imageType: image.imageType,
+    image: image.image,
+    imageUrl: image.imageUrl,
+    researcherUsername: image.patient.researcher.username,
+    researcherEmail: image.patient.researcher.email
+  }));
+}
