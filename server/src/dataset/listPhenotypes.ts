@@ -1,5 +1,4 @@
 import { getPhenotypes } from "../helper/datasetHelper";
-import { getResearcherPatients } from "../helper/researcherHelper";
 
 export async function datasetListPhenotype() {
   // Get a list of all phenotypes, with patients being anonymised
