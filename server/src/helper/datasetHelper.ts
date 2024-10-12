@@ -98,3 +98,37 @@ export async function getImaging() {
     researcherEmail: image.patient.researcher.email
   }));
 }
+
+export async function getSignals() {
+  const imaging = await prisma.signalData.findMany({
+    select: {
+      name: true,
+      description: true,
+      signalType: true,
+      dataPoints: true,
+      duration: true,
+      sampleRate: true,
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              username: true,
+              email: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return imaging.map(image => ({
+    name: image.name,
+    description: image.description,
+    signalType: image.signalType,
+    dataPoints: image.dataPoints,
+    duration: image.duration,
+    sampleRate: image.sampleRate,
+    researcherUsername: image.patient.researcher.username,
+    researcherEmail: image.patient.researcher.email
+  }));
+}
