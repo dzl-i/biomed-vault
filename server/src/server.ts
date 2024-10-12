@@ -205,9 +205,9 @@ app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Res
   try {
     const { id } = req.params;
     const { researcherId } = res.locals.researcherId;
-    const { patient } = await patientDetails(id, researcherId);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await patientDetails(id, researcherId);
 
-    res.status(200).json({ patient });
+    res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
