@@ -19,6 +19,7 @@ import { authLogout } from './auth/logout';
 import { researcherProfile } from './researcher/profile';
 import { datasetListPatients } from './dataset/listPatients';
 import { datasetListPhenotype } from './dataset/listPhenotypes';
+import { datasetListGenomics } from './dataset/listGenomic';
 
 // Database client
 const prisma = new PrismaClient()
@@ -149,6 +150,17 @@ app.get('/dataset/list-phenotypes', authenticateToken, async (req: Request, res:
   }
 })
 
+app.get('/dataset/list-genomics', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { genomics } = await datasetListGenomics();
+
+    res.status(200).json({ genomics });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
 
 ///////////////////////// SERVER /////////////////////////
 
@@ -177,7 +189,7 @@ async function authenticateToken(req: Request, res: Response, next: NextFunction
 
   try {
     const atDecoded = jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET as string) as JwtPayload;
-    console.log(atDecoded);
+
     if (atDecoded && atDecoded.researcherId) {
       const researcher = await prisma.researcher.findUnique({ where: { id: atDecoded.researcherId } });
 
