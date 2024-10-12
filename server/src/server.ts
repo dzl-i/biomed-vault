@@ -23,6 +23,7 @@ import { datasetListGenomics } from './dataset/listGenomic';
 import { datasetListImaging } from './dataset/listImaging';
 import { datasetListSignals } from './dataset/listSignals';
 import { datasetListCategorisedData } from './dataset/listCategory';
+import { patientDetails } from './patient/details';
 
 // Database client
 const prisma = new PrismaClient()
@@ -192,6 +193,21 @@ app.get('/dataset/list-categorised/:category', authenticateToken, async (req: Re
     const { data } = await datasetListCategorisedData(category as CategoryType);
 
     res.status(200).json({ data });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+
+// PATIENT ROUTES
+app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { researcherId } = res.locals.researcherId;
+    const { patient } = await patientDetails(id, researcherId);
+
+    res.status(200).json({ patient });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
