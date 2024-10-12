@@ -43,44 +43,47 @@ model Patient {
 model GenomicData {
     id            String          @id @default(uuid())
     name          String
-    patientId     String
-    patient       Patient         @relation(fields: [patientId], references: [id])
+    description   String
     dataType      GenomicDataType
     geneNames     String[]
     mutationTypes String[]
     impacts       String[]
     rawDataUrl    String // URL to the stored raw genomic data file
     quality       DataQuality     @default(UNKNOWN)
+    patientId     String
+    patient       Patient         @relation(fields: [patientId], references: [id])
 }
 
 model PhenotypeData {
     id          String   @id @default(uuid())
-    patientId   String
     name        String
-    patient     Patient  @relation(fields: [patientId], references: [id])
     description String
     traits      String[]
+    patientId   String
+    patient     Patient  @relation(fields: [patientId], references: [id])
 }
 
 model ImagingData {
-    id        String      @id @default(uuid())
-    name      String
-    patientId String
-    patient   Patient     @relation(fields: [patientId], references: [id])
-    imageType ImagingType
-    image     String? // Store the actual image
-    imageUrl  String? // URL to the stored image file
+    id          String      @id @default(uuid())
+    name        String
+    description String
+    imageType   ImagingType
+    image       String? // Store the actual image
+    imageUrl    String? // URL to the stored image file
+    patientId   String
+    patient     Patient     @relation(fields: [patientId], references: [id])
 }
 
 model SignalData {
-    id         String     @id @default(uuid())
-    name       String
-    patientId  String
-    patient    Patient    @relation(fields: [patientId], references: [id])
-    signalType SignalType
-    dataPoints Json // Store data points as JSON
-    duration   Float? // Duration of the signal in seconds
-    sampleRate Float? // Sample rate in Hz
+    id          String     @id @default(uuid())
+    name        String
+    description String
+    signalType  SignalType
+    dataPoints  Json // Store data points as JSON
+    duration    Float? // Duration of the signal in seconds
+    sampleRate  Float? // Sample rate in Hz
+    patientId   String
+    patient     Patient    @relation(fields: [patientId], references: [id])
 }
 
 model Category {
@@ -118,11 +121,11 @@ model Project {
 }
 
 model ResearcherProject {
-    researcherId String
-    projectId    String
-    researcher   Researcher  @relation(fields: [researcherId], references: [id])
-    project      Project     @relation(fields: [projectId], references: [id])
     role         ProjectRole
+    projectId    String
+    project      Project     @relation(fields: [projectId], references: [id])
+    researcherId String
+    researcher   Researcher  @relation(fields: [researcherId], references: [id])
 
     @@id([researcherId, projectId])
 }
