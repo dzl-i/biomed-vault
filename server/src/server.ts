@@ -26,7 +26,7 @@ import { datasetListCategorisedData } from './dataset/listCategory';
 import { patientDetails } from './patient/details';
 import { uploadPatient } from './upload/patient';
 import { uploadGenomic } from './upload/genomic';
-import { uploadPhenotype } from './visualisation/phenotype';
+import { uploadPhenotype } from './upload/phenotype';
 
 // Database client
 const prisma = new PrismaClient()
