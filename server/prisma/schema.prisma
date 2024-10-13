@@ -79,7 +79,7 @@ model SignalData {
     name        String
     description String
     signalType  SignalType
-    dataPoints  Json // Store data points as JSON
+    dataPoints  String // Store data points as JSON String (stringify)
     duration    Float? // Duration of the signal in seconds
     sampleRate  Float? // Sample rate in Hz
     patientId   String
