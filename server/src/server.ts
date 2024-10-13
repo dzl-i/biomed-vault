@@ -26,6 +26,7 @@ import { datasetListCategorisedData } from './dataset/listCategory';
 import { patientDetails } from './patient/details';
 import { uploadPatient } from './upload/patient';
 import { uploadGenomic } from './upload/genomic';
+import { uploadPhenotype } from './visualisation/phenotype';
 
 // Database client
 const prisma = new PrismaClient()
@@ -237,6 +238,18 @@ app.post('/upload/genomic', authenticateToken, async (req: Request, res: Respons
     const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality);
 
     res.status(200).json({ id: genomic.id, name: genomic.name, description: genomic.description, dataType: genomic.dataType });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+});
+
+app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { patientId, name, description, traits } = req.body;
+    const phenotype = await uploadPhenotype(patientId, name, description, traits);
+
+    res.status(200).json({ id: phenotype.id, name: phenotype.name, description: phenotype.description, traits: phenotype.traits });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

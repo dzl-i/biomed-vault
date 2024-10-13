@@ -41,3 +41,19 @@ export async function createGenomic(patientId: string, name: string, description
     }
   });
 }
+
+export async function createPhenotype(patientId: string, name: string, description: string, traits: string[]) {
+  const patient = await getPatientFromId(patientId);
+  if (patient === null) return null;
+
+  return await prisma.phenotypeData.create({
+    data: {
+      name: name,
+      description: description,
+      traits: traits,
+      patient: {
+        connect: patient
+      }
+    }
+  });
+}
