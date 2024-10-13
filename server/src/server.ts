@@ -7,7 +7,7 @@ import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import { CategoryType, PrismaClient } from '@prisma/client';
 import { Server } from 'http';
-import jwt, { JwtPayload, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // Helper functions
 import { deleteToken, deleteTokenFromEmail, generateToken } from './helper/tokenHelper';
@@ -238,7 +238,7 @@ async function authenticateToken(req: Request, res: Response, next: NextFunction
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 
-  if (!accessToken) return res.status(401).json({ error: "No access token provided." });
+  if (!accessToken && !refreshToken) return res.status(401).json({ error: "No token provided." });
 
   try {
     const atDecoded = jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET as string) as JwtPayload;
@@ -261,36 +261,32 @@ async function authenticateToken(req: Request, res: Response, next: NextFunction
       res.status(403).json({ error: "Invalid access token." });
     }
   } catch (err) {
-    if (err instanceof TokenExpiredError || err instanceof JsonWebTokenError) {
-      // If access token is expired or invalid, attempt to use refresh token
-      if (!refreshToken) {
-        return res.status(401).json({ error: "No refresh token provided." });
+    // If access token is expired or invalid, attempt to use refresh token
+    if (!refreshToken) { return res.status(401).json({ error: "No refresh token provided." }); }
+
+    try {
+      const rtDecoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET as string) as JwtPayload;
+
+      if (rtDecoded && rtDecoded.researcherId) {
+        // Generate new token pair
+        const newTokens = await generateToken(rtDecoded.researcherId);
+
+        // Delete the previous refresh token as they are single use only
+        await deleteToken(refreshToken);
+
+        // Set new cookies
+        res.cookie('accessToken', newTokens.accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
+        res.cookie('refreshToken', newTokens.refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
+
+        res.locals.researcherId = rtDecoded.researcherId;
+        return next();
       }
-
-      try {
-        const rtDecoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET as string) as JwtPayload;
-
-        if (rtDecoded && rtDecoded.researcherId) {
-          // Generate new token pair
-          const newTokens = await generateToken(rtDecoded.researcherId);
-
-          // Delete the previous refresh token as they are single use only
-          await deleteToken(refreshToken);
-
-          // Set new cookies
-          res.cookie('accessToken', newTokens.accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
-          res.cookie('refreshToken', newTokens.refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
-
-          res.locals.researcherId = rtDecoded.researcherId;
-          return next();
-        }
-      } catch (refreshErr) {
-        // Refresh token is invalid or expired
-        return res.status(403).json({ error: "Invalid refresh token. Please log in again." });
-      }
+    } catch (refreshErr) {
+      // Refresh token is invalid or expired
+      return res.status(403).json({ error: "Invalid refresh token. Please log in again." });
     }
 
     // For any other errors
-    return res.status(500).json({ error: "An unexpected error occurred" });
+    return res.status(500).json({ error: "An unexpected error occurred when authenticating token." });
   }
 }

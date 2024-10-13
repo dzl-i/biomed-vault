@@ -14,7 +14,7 @@ export async function generateToken(id: string) {
     expiresIn: "30m"
   });
 
-  const refreshToken: string = jwt.sign({ uuid: crypto.randomUUID() }, process.env.REFRESH_JWT_SECRET as string, {
+  const refreshToken: string = jwt.sign({ uuid: crypto.randomUUID(), researcherId: id }, process.env.REFRESH_JWT_SECRET as string, {
     expiresIn: "90d"
   });
 
