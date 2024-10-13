@@ -29,6 +29,7 @@ import { uploadGenomic } from './upload/genomic';
 import { uploadPhenotype } from './upload/phenotype';
 import { uploadImaging } from './upload/imaging';
 import { uploadSignal } from './upload/signal';
+import { overviewPatient } from './overview/patient';
 
 // Database client
 const prisma = new PrismaClient()
@@ -138,7 +139,7 @@ app.get('/researcher/profile/:username', authenticateToken, async (req: Request,
 // DATASET ROUTES
 app.get('/dataset/list-patients', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const { researcherId } = res.locals.researcherId;
+    const researcherId = res.locals.researcherId;
     const { patients } = await datasetListPatients(researcherId);
 
     res.status(200).json({ patients });
@@ -209,7 +210,7 @@ app.get('/dataset/list-categorised/:category', authenticateToken, async (req: Re
 app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { researcherId } = res.locals.researcherId;
+    const researcherId = res.locals.researcherId;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await patientDetails(id, researcherId);
 
     res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
@@ -223,7 +224,7 @@ app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Res
 // UPLOAD ROUTES
 app.post('/upload/patient', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const { researcherId } = res.locals.researcherId;
+    const researcherId = res.locals.researcherId;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo } = req.body;
     const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo);
 
@@ -281,6 +282,21 @@ app.post('/upload/signal', authenticateToken, async (req: Request, res: Response
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
   }
 });
+
+
+// OVERVIEW ROUTES
+app.get('/overview/patient/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const researcherId = res.locals.researcherId;
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await overviewPatient(id, researcherId);
+
+    res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
 
 
 ///////////////////////// SERVER /////////////////////////
