@@ -24,6 +24,7 @@ import { datasetListImaging } from './dataset/listImaging';
 import { datasetListSignals } from './dataset/listSignals';
 import { datasetListCategorisedData } from './dataset/listCategory';
 import { patientDetails } from './patient/details';
+import { uploadPatient } from './upload/patient';
 
 // Database client
 const prisma = new PrismaClient()
@@ -213,6 +214,21 @@ app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Res
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
   }
 })
+
+
+// UPLOAD ROUTES
+app.post('/upload/patient', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { researcherId } = res.locals.researcherId;
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo } = req.body;
+    const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo);
+
+    res.status(200).json({ patient });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+});
 
 
 ///////////////////////// SERVER /////////////////////////
