@@ -7,6 +7,7 @@ export async function getPatientDetails(patientId: string) {
       id: patientId
     },
     select: {
+      id: true,
       name: true,
       dateOfBirth: true,
       sex: true,

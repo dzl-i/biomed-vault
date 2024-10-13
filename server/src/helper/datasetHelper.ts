@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 export async function getPhenotypes() {
   const phenotypes = await prisma.phenotypeData.findMany({
     select: {
+      id: true,
       name: true,
       description: true,
       traits: true,
@@ -21,6 +22,7 @@ export async function getPhenotypes() {
   });
 
   return phenotypes.map(phenotype => ({
+    id: phenotype.id,
     name: phenotype.name,
     description: phenotype.description,
     traits: phenotype.traits,
@@ -32,6 +34,7 @@ export async function getPhenotypes() {
 export async function getGenomics() {
   const genomics = await prisma.genomicData.findMany({
     select: {
+      id: true,
       name: true,
       description: true,
       dataType: true,
@@ -54,6 +57,7 @@ export async function getGenomics() {
   });
 
   return genomics.map(genomic => ({
+    id: genomic.id,
     name: genomic.name,
     description: genomic.description,
     dataType: genomic.dataType,
@@ -70,6 +74,7 @@ export async function getGenomics() {
 export async function getImaging() {
   const imaging = await prisma.imagingData.findMany({
     select: {
+      id: true,
       name: true,
       description: true,
       imageType: true,
@@ -89,6 +94,7 @@ export async function getImaging() {
   });
 
   return imaging.map(image => ({
+    id: image.id,
     name: image.name,
     description: image.description,
     imageType: image.imageType,
@@ -100,8 +106,9 @@ export async function getImaging() {
 }
 
 export async function getSignals() {
-  const imaging = await prisma.signalData.findMany({
+  const signals = await prisma.signalData.findMany({
     select: {
+      id: true,
       name: true,
       description: true,
       signalType: true,
@@ -121,15 +128,16 @@ export async function getSignals() {
     }
   });
 
-  return imaging.map(image => ({
-    name: image.name,
-    description: image.description,
-    signalType: image.signalType,
-    dataPoints: image.dataPoints,
-    duration: image.duration,
-    sampleRate: image.sampleRate,
-    researcherUsername: image.patient.researcher.username,
-    researcherEmail: image.patient.researcher.email
+  return signals.map(signal => ({
+    id: signal.id,
+    name: signal.name,
+    description: signal.description,
+    signalType: signal.signalType,
+    dataPoints: signal.dataPoints,
+    duration: signal.duration,
+    sampleRate: signal.sampleRate,
+    researcherUsername: signal.patient.researcher.username,
+    researcherEmail: signal.patient.researcher.email
   }));
 }
 
@@ -139,6 +147,7 @@ export async function getCategorisedData(categoryType: CategoryType) {
       type: categoryType
     },
     select: {
+      id: true,
       name: true,
       patients: {
         select: {
@@ -162,6 +171,7 @@ export async function getCategorisedData(categoryType: CategoryType) {
 
   return datas.flatMap(category =>
     category.patients.map(({ patient }) => ({
+      id: category.id,
       categoryName: category.name,
       sex: patient.sex,
       diagnosticInfo: patient.diagnosticInfo,
