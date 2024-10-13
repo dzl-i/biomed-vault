@@ -49,3 +49,12 @@ export async function updatePhenotypeData(phenotypeId: string, phenotypeData: an
     data: phenotypeData
   });
 }
+
+export async function updateImagingData(imagingId: string, imagingData: any) {
+  return await prisma.imagingData.update({
+    where: {
+      id: imagingId
+    },
+    data: imagingData
+  });
+}
