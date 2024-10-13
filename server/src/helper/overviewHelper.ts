@@ -14,3 +14,22 @@ export async function detailPatient(patientId: string) {
     }
   });
 }
+
+export async function detailGenomic(genomicId: string) {
+  return await prisma.genomicData.findUnique({
+    where: {
+      id: genomicId
+    },
+    include: {
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              id: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
