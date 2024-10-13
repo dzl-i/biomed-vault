@@ -58,3 +58,12 @@ export async function updateImagingData(imagingId: string, imagingData: any) {
     data: imagingData
   });
 }
+
+export async function updateSignalData(signalId: string, signalData: any) {
+  return await prisma.signalData.update({
+    where: {
+      id: signalId
+    },
+    data: signalData
+  });
+}
