@@ -30,7 +30,7 @@ model Patient {
     dateOfBirth    DateTime          @db.Date
     sex            Sex
     diagnosticInfo String // Diagnosis such as cancer/autism/osteoporosis
-    treatmentInfo  String? // Treatment information - how the patient was treated
+    treatmentInfo  String // Treatment information - how the patient was treated
     researcherId   String
     researcher     Researcher        @relation(fields: [researcherId], references: [id])
     genomicData    GenomicData[]
