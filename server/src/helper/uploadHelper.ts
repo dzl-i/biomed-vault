@@ -1,4 +1,4 @@
-import { DataQuality, GenomicDataType, PrismaClient, Sex } from "@prisma/client";
+import { DataQuality, GenomicDataType, ImagingType, PrismaClient, Sex } from "@prisma/client";
 import { getResearcherById } from "./researcherHelper";
 import { getPatientFromId } from "./patientHelper";
 const prisma = new PrismaClient();
@@ -51,6 +51,24 @@ export async function createPhenotype(patientId: string, name: string, descripti
       name: name,
       description: description,
       traits: traits,
+      patient: {
+        connect: patient
+      }
+    }
+  });
+}
+
+export async function createImaging(patientId: string, name: string, description: string, imageType: ImagingType, image: string, imageUrl: string) {
+  const patient = await getPatientFromId(patientId);
+  if (patient === null) return null;
+
+  return await prisma.imagingData.create({
+    data: {
+      name: name,
+      description: description,
+      imageType: imageType,
+      image: image,
+      imageUrl: imageUrl,
       patient: {
         connect: patient
       }

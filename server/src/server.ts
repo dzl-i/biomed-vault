@@ -5,7 +5,7 @@ import errorHandler from 'middleware-http-errors';
 import cors from 'cors';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import { CategoryType, DataQuality, GenomicDataType, PrismaClient } from '@prisma/client';
+import { CategoryType, DataQuality, GenomicDataType, ImagingType, PrismaClient } from '@prisma/client';
 import { Server } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
@@ -27,6 +27,7 @@ import { patientDetails } from './patient/details';
 import { uploadPatient } from './upload/patient';
 import { uploadGenomic } from './upload/genomic';
 import { uploadPhenotype } from './upload/phenotype';
+import { uploadImaging } from './upload/imaging';
 
 // Database client
 const prisma = new PrismaClient()
@@ -250,6 +251,18 @@ app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Respo
     const phenotype = await uploadPhenotype(patientId, name, description, traits);
 
     res.status(200).json({ id: phenotype.id, name: phenotype.name, description: phenotype.description, traits: phenotype.traits });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+});
+
+app.post('/upload/imaging', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { patientId, name, description, imageType, image, imageUrl } = req.body;
+    const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl);
+
+    res.status(200).json({ id: imaging.id, name: imaging.name, description: imaging.description, imageType: imaging.imageType });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
