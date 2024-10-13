@@ -71,3 +71,22 @@ export async function detailImaging(imagingId: string) {
     }
   });
 }
+
+export async function detailSignal(signalId: string) {
+  return await prisma.signalData.findUnique({
+    where: {
+      id: signalId
+    },
+    include: {
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              id: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
