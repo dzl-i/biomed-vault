@@ -27,7 +27,7 @@ model Researcher {
 model Patient {
     id             String            @id @default(uuid())
     name           String
-    dateOfBirth    DateTime
+    dateOfBirth    DateTime          @db.Date
     sex            Sex
     diagnosticInfo String // Diagnosis such as cancer/autism/osteoporosis
     treatmentInfo  String? // Treatment information - how the patient was treated
