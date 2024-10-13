@@ -5,7 +5,7 @@ import errorHandler from 'middleware-http-errors';
 import cors from 'cors';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import { CategoryType, PrismaClient } from '@prisma/client';
+import { CategoryType, DataQuality, GenomicDataType, PrismaClient } from '@prisma/client';
 import { Server } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
@@ -25,6 +25,7 @@ import { datasetListSignals } from './dataset/listSignals';
 import { datasetListCategorisedData } from './dataset/listCategory';
 import { patientDetails } from './patient/details';
 import { uploadPatient } from './upload/patient';
+import { uploadGenomic } from './upload/genomic';
 
 // Database client
 const prisma = new PrismaClient()
@@ -223,7 +224,19 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo } = req.body;
     const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo);
 
-    res.status(200).json({ patient });
+    res.status(200).json({ name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+});
+
+app.post('/upload/genomic', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { patientId, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = req.body;
+    const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality);
+
+    res.status(200).json({ id: genomic.id, name: genomic.name, description: genomic.description, dataType: genomic.dataType });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
