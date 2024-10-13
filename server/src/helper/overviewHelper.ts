@@ -52,3 +52,22 @@ export async function detailPhenotype(phenotypeId: string) {
     }
   });
 }
+
+export async function detailImaging(imagingId: string) {
+  return await prisma.imagingData.findUnique({
+    where: {
+      id: imagingId
+    },
+    include: {
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              id: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
