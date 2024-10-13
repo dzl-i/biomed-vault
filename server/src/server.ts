@@ -36,6 +36,7 @@ import { overviewImaging } from './overview/imaging';
 import { overviewSignal } from './overview/signal';
 import { updatePatient } from './update/patient';
 import { updateResearcher } from './update/researcher';
+import { updateGenomic } from './update/genomic';
 
 // Database client
 const prisma = new PrismaClient()
@@ -380,6 +381,20 @@ app.put('/update/patient/:id', authenticateToken, async (req: Request, res: Resp
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await updatePatient(researcherId, id, updatedPatientData);
 
     res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.put('/update/genomic/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const researcherId = res.locals.researcherId;
+    const updatedGenomicData = req.body;
+    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await updateGenomic(researcherId, id, updatedGenomicData);
+
+    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

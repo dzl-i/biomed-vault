@@ -36,3 +36,12 @@ export async function updatePatientData(patientId: string, patientData: any) {
     }
   });
 }
+
+export async function updateGenomicData(genomicId: string, genomicData: any) {
+  return await prisma.genomicData.update({
+    where: {
+      id: genomicId
+    },
+    data: genomicData
+  });
+}
