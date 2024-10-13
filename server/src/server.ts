@@ -31,6 +31,7 @@ import { uploadImaging } from './upload/imaging';
 import { uploadSignal } from './upload/signal';
 import { overviewPatient } from './overview/patient';
 import { overviewGenomic } from './overview/genomic';
+import { overviewPhenotype } from './overview/phenotype';
 
 // Database client
 const prisma = new PrismaClient()
@@ -306,6 +307,19 @@ app.get('/overview/genomic/:id', authenticateToken, async (req: Request, res: Re
     const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await overviewGenomic(id, researcherId);
 
     res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.get('/overview/phenotype/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const researcherId = res.locals.researcherId;
+    const { name, description, traits } = await overviewPhenotype(id, researcherId);
+
+    res.status(200).json({ id, name, description, traits });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

@@ -33,3 +33,22 @@ export async function detailGenomic(genomicId: string) {
     }
   });
 }
+
+export async function detailPhenotype(phenotypeId: string) {
+  return await prisma.phenotypeData.findUnique({
+    where: {
+      id: phenotypeId
+    },
+    include: {
+      patient: {
+        select: {
+          researcher: {
+            select: {
+              id: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
