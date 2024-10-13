@@ -32,7 +32,7 @@ import { uploadSignal } from './upload/signal';
 import { overviewPatient } from './overview/patient';
 import { overviewGenomic } from './overview/genomic';
 import { overviewPhenotype } from './overview/phenotype';
-import { overviewimaging } from './overview/imaging';
+import { overviewImaging } from './overview/imaging';
 
 // Database client
 const prisma = new PrismaClient()
@@ -331,7 +331,7 @@ app.get('/overview/imaging/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, imageType, image, imageUrl } = await overviewimaging(id, researcherId);
+    const { name, description, imageType, image, imageUrl } = await overviewImaging(id, researcherId);
 
     res.status(200).json({ id, name, description, imageType, image, imageUrl });
   } catch (error: any) {
