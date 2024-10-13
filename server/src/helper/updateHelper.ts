@@ -28,11 +28,6 @@ export async function updatePatientData(patientId: string, patientData: any) {
       phenotypes: true,
       imagingData: true,
       signalData: true,
-      researcher: {
-        select: {
-          id: true
-        }
-      }
     }
   });
 }
@@ -43,5 +38,14 @@ export async function updateGenomicData(genomicId: string, genomicData: any) {
       id: genomicId
     },
     data: genomicData
+  });
+}
+
+export async function updatePhenotypeData(phenotypeId: string, phenotypeData: any) {
+  return await prisma.phenotypeData.update({
+    where: {
+      id: phenotypeId
+    },
+    data: phenotypeData
   });
 }
