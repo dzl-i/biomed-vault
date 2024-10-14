@@ -41,6 +41,7 @@ import { updatePhenotype } from './update/phenotype';
 import { updateImaging } from './update/imaging';
 import { updateSignal } from './update/signal';
 import { logCreate } from './log/create';
+import { logList } from './log/list';
 
 // Database client
 const prisma = new PrismaClient()
@@ -533,6 +534,20 @@ app.put('/update/signal/:id', authenticateToken, async (req: Request, res: Respo
     await logCreate(researcherId, `updated Patient ${name}'s Signal Data`, "SUCCESS");
 
     res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+
+// LOG ROUTES
+app.get('/log/list', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const researcherId = res.locals.researcherId;
+    const { logs } = await logList(researcherId);
+
+    res.status(200).json({ logs });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

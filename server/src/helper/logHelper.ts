@@ -16,3 +16,22 @@ export async function createLog(researcherId: string, event: string, outcome: st
     }
   });
 }
+
+export async function listLog() {
+  const logs = await prisma.dataAccessLog.findMany({
+    include: {
+      researcher: {
+        select: {
+          username: true
+        }
+      }
+    }
+  });
+
+  return logs.map(log => ({
+    researcherUsername: log.researcher.username,
+    event: log.event,
+    outcome: log.outcome,
+    timestamp: log.timestamp
+  }));
+}
