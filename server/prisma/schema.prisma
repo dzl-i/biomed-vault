@@ -68,8 +68,8 @@ model ImagingData {
     name        String
     description String
     imageType   ImagingType
-    image       String? // Store the actual image
-    imageUrl    String? // URL to the stored image file
+    image       String // Store the actual image
+    imageUrl    String // URL to the stored image file
     patientId   String
     patient     Patient     @relation(fields: [patientId], references: [id])
 }
@@ -80,8 +80,8 @@ model SignalData {
     description String
     signalType  SignalType
     dataPoints  String // Store data points as JSON String (stringify)
-    duration    Float? // Duration of the signal in seconds
-    sampleRate  Float? // Sample rate in Hz
+    duration    Float // Duration of the signal in seconds
+    sampleRate  Float // Sample rate in Hz
     patientId   String
     patient     Patient    @relation(fields: [patientId], references: [id])
 }
@@ -104,11 +104,11 @@ model CategoryPatient {
 
 model DataAccessLog {
     id           String     @id @default(uuid())
+    event        String // e.g. logged in, register, accessed patient data
+    outcome      String // successful (authorised) or failed (unauthorised)
+    timestamp    DateTime   @default(now())
     researcherId String
     researcher   Researcher @relation(fields: [researcherId], references: [id])
-    action       String
-    details      String
-    timestamp    DateTime   @default(now())
 }
 
 model Project {
