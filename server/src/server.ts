@@ -42,6 +42,7 @@ import { updateImaging } from './update/imaging';
 import { updateSignal } from './update/signal';
 import { logCreate } from './log/create';
 import { logList } from './log/list';
+import { logResearcher } from './log/researcher';
 
 // Database client
 const prisma = new PrismaClient()
@@ -546,6 +547,19 @@ app.get('/log/list', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
     const { logs } = await logList(researcherId);
+
+    res.status(200).json({ logs });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.get('/log/researcher/:id', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const researcherId = res.locals.researcherId;
+    const { logs } = await logResearcher(researcherId, id);
 
     res.status(200).json({ logs });
   } catch (error: any) {
