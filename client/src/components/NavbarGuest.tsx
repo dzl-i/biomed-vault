@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/react";
 
 export const NavbarGuest = () => {
   return (
-    <div className="bg-white w-full px-12 py-6 flex flex-row justify-between items-center">
+    <div className="bg-white shadow-xl w-full px-12 py-6 flex flex-row justify-between items-center">
       <div className="flex justify-start">
         <a href="/" className="flex flex-row items-center gap-4">
           <Image
