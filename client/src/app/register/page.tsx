@@ -12,7 +12,7 @@ import validator from "validator";
 
 import { Button, Card, CardBody, Divider, Input, Link, Spinner } from "@nextui-org/react";
 import { ErrorMessage } from "../../components/ErrorMessage";
-import { Navbar } from "@/components/Navbar";
+import { NavbarGuest } from "@/components/NavbarGuest";
 
 export default function Page() {
   const [name, setName] = useState<string>("");
@@ -105,10 +105,9 @@ export default function Page() {
   };
 
   return (
-    <div className="flex items-center min-h-screen w-full bg-blue-200">
-      <Navbar />
-      <div className="flex w-full items-center justify-center">
-
+    <div className="flex flex-col min-h-screen w-full bg-blue-200">
+      <NavbarGuest />
+      <div className="flex flex-grow w-full items-center justify-center">
         <Card style={{ border: "0.1rem solid rgba(255, 255, 255, 0.4)" }} className="flex items-center flex-col w-[500px] p-8">
           <form className="w-full">
             <CardBody className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-5 items-center">
@@ -119,7 +118,7 @@ export default function Page() {
                   width={33}
                   height={33}
                 />
-                <h2 className="text-3xl font-black bg-gradient-to-r from-[#596FFF] to-[#A34CF5] inline-block text-transparent bg-clip-text">BiomeData</h2>
+                <h2 className="text-3xl font-black bg-gradient-to-r from-biomedata-blue to-biomedata-purple inline-block text-transparent bg-clip-text">BiomeData</h2>
               </div>
               <Input isRequired size="md" type="name" label="Full Name" placeholder="Enter your full name" onChange={handleNameChange} />
               <Input isRequired size="md" type="email" label="Email" placeholder="Enter your email" onChange={handleEmailChange} />
@@ -128,10 +127,10 @@ export default function Page() {
               <Input isRequired size="md" type="text" label="Institution" placeholder="Enter your institution" onChange={handleInstitutionChange} />
               <ErrorMessage message={errorMessage} onClose={() => setErrorMessage(null)} />
               <div className="flex flex-row w-full justify-between">
-                <a href="/" className="flex justify-start">
+                <a href="/">
                   <Button color="danger">Back</Button>
                 </a>
-                <Button type="submit" color="primary" variant="solid" onClick={handleSignUp} onSubmit={handleSignUp} disabled={isLoading || !readyToSubmit} className="disabled:bg-transparent disabled:border disabled:border-black disabled:text-black disabled:cursor-not-allowed disabled:opacity-50 justify-end">
+                <Button type="submit" color="primary" variant="solid" onClick={handleSignUp} onSubmit={handleSignUp} disabled={isLoading || !readyToSubmit} className="disabled:bg-transparent disabled:border disabled:border-black disabled:text-black disabled:cursor-not-allowed disabled:opacity-50">
                   {isLoading ? <Spinner size="md" color="default" /> : "Sign Up"}
                 </Button>
               </div>

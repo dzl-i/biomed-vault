@@ -10,8 +10,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        "biomedata-blue": "#596FFF",
+        "biomedata-purple": "#A34CF5",
       },
     },
   },
