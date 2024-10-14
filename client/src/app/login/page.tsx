@@ -85,8 +85,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex items-center min-h-screen w-full">
-      <Image src={"/assets/background.jpg"} alt="Bioinformatics Background" fill />
+    <div className="flex items-center min-h-screen w-full bg-blue-200">
       <Navbar />
       <div className="flex w-full items-center justify-center">
 
