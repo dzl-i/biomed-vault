@@ -40,6 +40,7 @@ import { updateGenomic } from './update/genomic';
 import { updatePhenotype } from './update/phenotype';
 import { updateImaging } from './update/imaging';
 import { updateSignal } from './update/signal';
+import { logCreate } from './log/create';
 
 // Database client
 const prisma = new PrismaClient()
@@ -86,6 +87,9 @@ app.post('/auth/register', async (req: Request, res: Response) => {
 
     res.header('Access-Control-Allow-Credentials', 'true');
 
+    // Logging
+    await logCreate(researcherId, "registered an account", "SUCCESS");
+
     res.status(200).json({ researcherId: researcherId, researcherName: researcherName, researcherUsername: researcherUsername });
   } catch (error: any) {
     console.error(error);
@@ -112,6 +116,9 @@ app.post('/auth/login', async (req: Request, res: Response) => {
 
     res.header('Access-Control-Allow-Credentials', 'true');
 
+    // Logging
+    await logCreate(researcherId, "logged into their account", "SUCCESS");
+
     res.status(200).json({ researcherId: researcherId, researcherName: researcherName, researcherUsername: researcherUsername });
   } catch (error: any) {
     console.error(error);
@@ -121,8 +128,12 @@ app.post('/auth/login', async (req: Request, res: Response) => {
 
 app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const refreshToken = req.cookies.refreshToken;
     await authLogout(refreshToken);
+
+    // Logging
+    await logCreate(researcherId, "logged out of their account", "SUCCESS");
 
     res.sendStatus(200);
   } catch (error: any) {
@@ -136,7 +147,11 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
 app.get('/researcher/profile/:username', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { username } = req.params;
+    const researcherId = res.locals.researcherId;
     const { name, email, institution } = await researcherProfile(username);
+
+    // Logging
+    await logCreate(researcherId, `viewed Researcher ${username}'s profile`, "SUCCESS");
 
     res.status(200).json({ researcherName: name, researcherUsername: username, researcherEmail: email, researcherInstitution: institution });
   } catch (error: any) {
@@ -152,6 +167,9 @@ app.get('/dataset/list-patients', authenticateToken, async (req: Request, res: R
     const researcherId = res.locals.researcherId;
     const { patients } = await datasetListPatients(researcherId);
 
+    // Logging
+    await logCreate(researcherId, `viewed a list of their patients`, "SUCCESS");
+
     res.status(200).json({ patients });
   } catch (error: any) {
     console.error(error);
@@ -161,7 +179,11 @@ app.get('/dataset/list-patients', authenticateToken, async (req: Request, res: R
 
 app.get('/dataset/list-phenotypes', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { phenotypes } = await datasetListPhenotype();
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of phenotype data`, "SUCCESS");
 
     res.status(200).json({ phenotypes });
   } catch (error: any) {
@@ -172,7 +194,11 @@ app.get('/dataset/list-phenotypes', authenticateToken, async (req: Request, res:
 
 app.get('/dataset/list-genomics', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { genomics } = await datasetListGenomics();
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of genomic data`, "SUCCESS");
 
     res.status(200).json({ genomics });
   } catch (error: any) {
@@ -183,7 +209,11 @@ app.get('/dataset/list-genomics', authenticateToken, async (req: Request, res: R
 
 app.get('/dataset/list-imaging', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { imaging } = await datasetListImaging();
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of imaging data`, "SUCCESS");
 
     res.status(200).json({ imaging });
   } catch (error: any) {
@@ -194,7 +224,11 @@ app.get('/dataset/list-imaging', authenticateToken, async (req: Request, res: Re
 
 app.get('/dataset/list-signals', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { signals } = await datasetListSignals();
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of signal data`, "SUCCESS");
 
     res.status(200).json({ signals });
   } catch (error: any) {
@@ -205,8 +239,12 @@ app.get('/dataset/list-signals', authenticateToken, async (req: Request, res: Re
 
 app.get('/dataset/list-categorised/:category', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { category } = req.params;
     const { data } = await datasetListCategorisedData(category as CategoryType);
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of categorised data`, "SUCCESS");
 
     res.status(200).json({ data });
   } catch (error: any) {
@@ -223,6 +261,9 @@ app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Res
     const researcherId = res.locals.researcherId;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await patientDetails(id, researcherId);
 
+    // Logging
+    await logCreate(researcherId, `viewed Patient ${name}'s data`, "SUCCESS");
+
     res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
   } catch (error: any) {
     console.error(error);
@@ -238,6 +279,9 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo } = req.body;
     const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo);
 
+    // Logging
+    await logCreate(researcherId, `uploaded Patient ${name}'s data`, "SUCCESS");
+
     res.status(200).json({ name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo });
   } catch (error: any) {
     console.error(error);
@@ -247,8 +291,12 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
 
 app.post('/upload/genomic', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { patientId, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = req.body;
     const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality);
+
+    // Logging
+    await logCreate(researcherId, `uploaded a Genomic Data ${name} for Patient ${patientId}`, "SUCCESS");
 
     res.status(200).json({ id: genomic.id, name: genomic.name, description: genomic.description, dataType: genomic.dataType });
   } catch (error: any) {
@@ -259,8 +307,12 @@ app.post('/upload/genomic', authenticateToken, async (req: Request, res: Respons
 
 app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { patientId, name, description, traits } = req.body;
     const phenotype = await uploadPhenotype(patientId, name, description, traits);
+
+    // Logging
+    await logCreate(researcherId, `uploaded a Phenotype Data ${name} for Patient ${patientId}`, "SUCCESS");
 
     res.status(200).json({ id: phenotype.id, name: phenotype.name, description: phenotype.description, traits: phenotype.traits });
   } catch (error: any) {
@@ -271,8 +323,12 @@ app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Respo
 
 app.post('/upload/imaging', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { patientId, name, description, imageType, image, imageUrl } = req.body;
     const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl);
+
+    // Logging
+    await logCreate(researcherId, `uploaded an Imaging Data ${name} for Patient ${patientId}`, "SUCCESS");
 
     res.status(200).json({ id: imaging.id, name: imaging.name, description: imaging.description, imageType: imaging.imageType });
   } catch (error: any) {
@@ -283,8 +339,12 @@ app.post('/upload/imaging', authenticateToken, async (req: Request, res: Respons
 
 app.post('/upload/signal', authenticateToken, async (req: Request, res: Response) => {
   try {
+    const researcherId = res.locals.researcherId;
     const { patientId, name, description, signalType, dataPoints, duration, sampleRate } = req.body;
     const signal = await uploadSignal(patientId, name, description, signalType as SignalType, dataPoints, duration, sampleRate);
+
+    // Logging
+    await logCreate(researcherId, `uploaded a Signal Data ${name} for Patient ${patientId}`, "SUCCESS");
 
     res.status(200).json({ id: signal.id, name: signal.name, description: signal.description, signalType: signal.signalType });
   } catch (error: any) {
@@ -301,6 +361,9 @@ app.get('/overview/patient/:id', authenticateToken, async (req: Request, res: Re
     const researcherId = res.locals.researcherId;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await overviewPatient(id, researcherId);
 
+    // Logging
+    await logCreate(researcherId, `viewed a detailed overview of Patient ${name}`, "SUCCESS");
+
     res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
   } catch (error: any) {
     console.error(error);
@@ -313,6 +376,9 @@ app.get('/overview/genomic/:id', authenticateToken, async (req: Request, res: Re
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await overviewGenomic(id, researcherId);
+
+    // Logging
+    await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Genomic Data ${name}`, "SUCCESS");
 
     res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
   } catch (error: any) {
@@ -327,6 +393,9 @@ app.get('/overview/phenotype/:id', authenticateToken, async (req: Request, res: 
     const researcherId = res.locals.researcherId;
     const { name, description, traits } = await overviewPhenotype(id, researcherId);
 
+    // Logging
+    await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Phenotype Data ${name}`, "SUCCESS");
+
     res.status(200).json({ id, name, description, traits });
   } catch (error: any) {
     console.error(error);
@@ -340,6 +409,9 @@ app.get('/overview/imaging/:id', authenticateToken, async (req: Request, res: Re
     const researcherId = res.locals.researcherId;
     const { name, description, imageType, image, imageUrl } = await overviewImaging(id, researcherId);
 
+    // Logging
+    await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Imaging Data ${name}`, "SUCCESS");
+
     res.status(200).json({ id, name, description, imageType, image, imageUrl });
   } catch (error: any) {
     console.error(error);
@@ -352,6 +424,9 @@ app.get('/overview/signal/:id', authenticateToken, async (req: Request, res: Res
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const { name, description, signalType, dataPoints, duration, sampleRate } = await overviewSignal(id, researcherId);
+
+    // Logging
+    await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Signal Data ${name}`, "SUCCESS");
 
     res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate });
   } catch (error: any) {
@@ -369,6 +444,9 @@ app.put('/update/researcher/:id', authenticateToken, async (req: Request, res: R
     const updatedResearcherData = req.body;
     const { name, username, email, institution } = await updateResearcher(researcherId, id, updatedResearcherData);
 
+    // Logging
+    await logCreate(researcherId, `updated their own data`, "SUCCESS");
+
     res.status(200).json({ id, name, username, email, institution });
   } catch (error: any) {
     console.error(error);
@@ -382,6 +460,9 @@ app.put('/update/patient/:id', authenticateToken, async (req: Request, res: Resp
     const researcherId = res.locals.researcherId;
     const updatedPatientData = req.body;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await updatePatient(researcherId, id, updatedPatientData);
+
+    // Logging
+    await logCreate(researcherId, `updated Patient ${name}'s data`, "SUCCESS");
 
     res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
   } catch (error: any) {
@@ -397,6 +478,9 @@ app.put('/update/genomic/:id', authenticateToken, async (req: Request, res: Resp
     const updatedGenomicData = req.body;
     const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await updateGenomic(researcherId, id, updatedGenomicData);
 
+    // Logging
+    await logCreate(researcherId, `updated Patient ${name}'s Genomic Data`, "SUCCESS");
+
     res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
   } catch (error: any) {
     console.error(error);
@@ -410,6 +494,9 @@ app.put('/update/phenotype/:id', authenticateToken, async (req: Request, res: Re
     const researcherId = res.locals.researcherId;
     const updatedPhenotypeData = req.body;
     const { name, description, traits } = await updatePhenotype(researcherId, id, updatedPhenotypeData);
+
+    // Logging
+    await logCreate(researcherId, `updated Patient ${name}'s Phenotype Data`, "SUCCESS");
 
     res.status(200).json({ id, name, description, traits });
   } catch (error: any) {
@@ -425,6 +512,9 @@ app.put('/update/imaging/:id', authenticateToken, async (req: Request, res: Resp
     const updatedImagingData = req.body;
     const { name, description, imageType, image, imageUrl } = await updateImaging(researcherId, id, updatedImagingData);
 
+    // Logging
+    await logCreate(researcherId, `updated Patient ${name}'s Imaging Data`, "SUCCESS");
+
     res.status(200).json({ id, name, description, imageType, image, imageUrl });
   } catch (error: any) {
     console.error(error);
@@ -438,6 +528,9 @@ app.put('/update/signal/:id', authenticateToken, async (req: Request, res: Respo
     const researcherId = res.locals.researcherId;
     const updatedSignalData = req.body;
     const { name, description, signalType, dataPoints, duration, sampleRate } = await updateSignal(researcherId, id, updatedSignalData);
+
+    // Logging
+    await logCreate(researcherId, `updated Patient ${name}'s Signal Data`, "SUCCESS");
 
     res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate });
   } catch (error: any) {
