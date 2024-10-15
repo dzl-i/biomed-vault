@@ -2,6 +2,7 @@ import React from 'react';
 import { cookies } from 'next/headers'
 import { Navbar } from '../../components/Navbar';
 import { Button } from '@nextui-org/react';
+import Link from 'next/link';
 
 export default function Page() {
   const cookieStore = cookies();
@@ -21,8 +22,8 @@ export default function Page() {
         <div className="flex flex-col items-center justify-center w-full gap-4">
           <p>If you see this, you are not logged in yet. Please create an account or log in to view the dashboard :)</p>
           <div className="flex flex-row gap-4">
-            <a href="/register"><Button color="primary">Sign Up</Button></a>
-            <a href="/login"><Button color="primary">Log In</Button></a>
+            <Link href="/register"><Button color="primary">Sign Up</Button></Link>
+            <Link href="/login"><Button color="primary">Log In</Button></Link>
           </div>
         </div>
       )}

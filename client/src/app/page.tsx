@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import Link from 'next/link';
 
 import { NavbarGuest } from "@/components/NavbarGuest";
 
@@ -22,7 +23,7 @@ export default function Home() {
               className="text-3xl inline-block italic text-center min-h-20"
             />
 
-            <a href="/register" className="mt-4"><Button color="primary" size="lg">Register Now</Button></a>
+            <Link href="/register" className="mt-4"><Button color="primary" size="lg">Register Now</Button></Link>
           </div>
           <div className="flex items-center justify-center">
             <Image src={"/assets/bioinformatics-cartoon.jpg"} alt="Bioinformatics Cartoon" width={600} height={600} />

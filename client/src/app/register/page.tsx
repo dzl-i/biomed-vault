@@ -2,6 +2,7 @@
 import React, { useState, useMemo, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 import { getHash } from "../../utils/crypto";
 import BiomeDataIcon from "../../assets/biomedata-logo.png";
@@ -10,7 +11,7 @@ import "dotenv/config";
 import { passwordStrength } from "check-password-strength";
 import validator from "validator";
 
-import { Button, Card, CardBody, Divider, Input, Link, Spinner } from "@nextui-org/react";
+import { Button, Card, CardBody, Divider, Input, Spinner } from "@nextui-org/react";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { NavbarGuest } from "@/components/NavbarGuest";
 
@@ -127,9 +128,9 @@ export default function Page() {
               <Input isRequired size="md" type="text" label="Institution" placeholder="Enter your institution" onChange={handleInstitutionChange} />
               <ErrorMessage message={errorMessage} onClose={() => setErrorMessage(null)} />
               <div className="flex flex-row w-full justify-between">
-                <a href="/">
+                <Link href="/">
                   <Button color="danger">Back</Button>
-                </a>
+                </Link>
                 <Button type="submit" color="primary" variant="solid" onClick={handleSignUp} onSubmit={handleSignUp} disabled={isLoading || !readyToSubmit} className="disabled:bg-transparent disabled:border disabled:border-black disabled:text-black disabled:cursor-not-allowed disabled:opacity-50">
                   {isLoading ? <Spinner size="md" color="default" /> : "Sign Up"}
                 </Button>
