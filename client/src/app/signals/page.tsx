@@ -1,10 +1,9 @@
 import React from 'react';
 import { cookies } from 'next/headers'
 import { Navbar } from '../../components/Navbar';
-import { Button } from '@nextui-org/react';
-import Link from 'next/link';
 
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { UnauthenticatedUser } from '@/components/UnauthenticatedUser';
 
 export default function Page() {
   // Cookie settings
@@ -28,13 +27,7 @@ export default function Page() {
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center w-full gap-4">
-          <p>If you see this, you are not logged in yet. Please create an account or log in to view the signal dataset page :)</p>
-          <div className="flex flex-row gap-4">
-            <Link href="/register"><Button color="primary">Sign Up</Button></Link>
-            <Link href="/login"><Button color="primary">Log In</Button></Link>
-          </div>
-        </div>
+        <UnauthenticatedUser />
       )}
     </div>
   )

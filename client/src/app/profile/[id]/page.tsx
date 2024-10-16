@@ -1,8 +1,8 @@
 import React from 'react';
 import { cookies } from 'next/headers'
 import { Navbar } from '../../../components/Navbar';
-import { Button } from '@nextui-org/react';
-import Link from 'next/link';
+
+import { UnauthenticatedUser } from '@/components/UnauthenticatedUser';
 
 export default function Page({ params }: { params: { id: string } }) {
   const cookieStore = cookies();
@@ -20,13 +20,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center w-full gap-4">
-          <p>If you see this, you are not logged in yet. Please create an account or log in to view the researcher profile page :)</p>
-          <div className="flex flex-row gap-4">
-            <Link href="/register"><Button color="primary">Sign Up</Button></Link>
-            <Link href="/login"><Button color="primary">Log In</Button></Link>
-          </div>
-        </div>
+        <UnauthenticatedUser />
       )}
     </div>
   )
