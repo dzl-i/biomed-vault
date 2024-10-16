@@ -12,6 +12,8 @@ module.exports = {
       colors: {
         "biomedata-blue": "#596FFF",
         "biomedata-purple": "#A34CF5",
+        "biomedata-hover": "#EBEBEB",
+        "biomedata-active": "#D2E2FE",
       },
     },
   },
