@@ -10,7 +10,7 @@ import { Server } from 'http';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // Helper functions
-import { deleteToken, deleteTokenFromEmail, generateToken } from './helper/tokenHelper';
+import { deleteToken, generateToken } from './helper/tokenHelper';
 
 // Route imports
 import { authRegister } from './auth/register';
@@ -104,14 +104,6 @@ app.post('/auth/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const { accessToken, refreshToken, researcherId, researcherName, researcherUsername } = await authLogin(email, password);
 
-    // Delete the previous token pair
-    if (req.cookies.refreshToken) {
-      const oldRefreshToken = req.cookies.refreshToken;
-      await deleteToken(oldRefreshToken);
-    } else {
-      await deleteTokenFromEmail(email);
-    }
-
     // Assign cookies
     res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
     res.cookie('refreshToken', refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
@@ -133,6 +125,10 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
     const researcherId = res.locals.researcherId;
     const refreshToken = req.cookies.refreshToken;
     await authLogout(refreshToken);
+
+    // Assign cookies
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
 
     // Logging
     await logCreate(researcherId, "logged out of their account", "SUCCESS");
