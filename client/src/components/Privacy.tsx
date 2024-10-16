@@ -15,7 +15,7 @@ export const Privacy = ({ onClose }: { onClose: MouseEventHandler<HTMLButtonElem
         </p>
 
         <p className="flex justify-center">
-          BiomeData also adheres to HIPAA Privacy Rule to protect patient's data. Patients are viewed anonymously by researchers unless the patient is affiliated to the researcher. Only data that are relevant to the research (such as diagnostic and treatment information, genomic data, phenotype data, etc.) are shown and visible to all researchers with an account, however, confidential data such as patient name and date of birth are hidden to the public. However, should a researcher wish to get more information about a specific patient, the researcher would be able to contact the lead researcher to obtain more details.
+          BiomeData also adheres to HIPAA Privacy Rule to protect patient&apos;s data. Patients are viewed anonymously by researchers unless the patient is affiliated to the researcher. Only data that are relevant to the research (such as diagnostic and treatment information, genomic data, phenotype data, etc.) are shown and visible to all researchers with an account, however, confidential data such as patient name and date of birth are hidden to the public. However, should a researcher wish to get more information about a specific patient, the researcher would be able to contact the lead researcher to obtain more details.
         </p>
 
         <p className="flex justify-center">
