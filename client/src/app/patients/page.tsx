@@ -6,11 +6,15 @@ import Link from 'next/link';
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export default function Page() {
+  // Cookie settings
   const cookieStore = cookies();
-  const validUser = cookieStore.has("accessToken") || cookieStore.has("refreshToken");
-  const token = cookieStore.get("refreshToken")?.value || "no token";
-  const tokenDecoded = jwt.verify(token, process.env.REFRESH_JWT_SECRET as string) as JwtPayload;
-  const researcherId = tokenDecoded.researcherId as string;
+  const token = cookieStore.get("refreshToken")?.value || "";
+  const validUser = cookieStore.has("refreshToken");
+  let researcherId = "";
+  if (token !== "") {
+    const tokenDecoded = jwt.verify(token, process.env.REFRESH_JWT_SECRET as string) as JwtPayload;
+    researcherId = tokenDecoded.researcherId as string;
+  }
 
   return (
     <div className='flex min-h-screen w-full'>
