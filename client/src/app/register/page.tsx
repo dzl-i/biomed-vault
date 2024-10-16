@@ -2,7 +2,6 @@
 import React, { useState, useMemo, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 
 import { getHash } from "../../utils/crypto";
 import BiomeDataIcon from "../../assets/biomedata-logo.png";
@@ -11,7 +10,7 @@ import "dotenv/config";
 import { passwordStrength } from "check-password-strength";
 import validator from "validator";
 
-import { Button, Card, CardBody, Divider, Input, Spinner } from "@nextui-org/react";
+import { Button, Card, CardBody, Divider, Input, Link, Spinner } from "@nextui-org/react";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { NavbarGuest } from "@/components/NavbarGuest";
 
@@ -141,7 +140,7 @@ export default function Page() {
           <CardBody>
             <p style={{ textAlign: "center" }}>
               Already have an account?{" "}
-              <Link href="/login">Log In</Link>
+              <Link href="/login" className="underline">Log In</Link>
             </p>
           </CardBody>
         </Card>
