@@ -32,6 +32,37 @@ export async function patientSearch(searchTerm: string) {
   });
 }
 
+export async function phenotypeSearch(searchTerm: string) {
+  return await prisma.phenotypeData.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          traits: {
+            has: searchTerm
+          }
+        },
+        {
+          categories: {
+            has: searchTerm.toUpperCase() as any
+          }
+        }
+      ]
+    }
+  });
+}
+
 export async function genomicSearch(searchTerm: string) {
   return await prisma.genomicData.findMany({
     where: {
@@ -76,6 +107,11 @@ export async function genomicSearch(searchTerm: string) {
         {
           quality: {
             equals: searchTerm as any
+          }
+        },
+        {
+          categories: {
+            has: searchTerm.toUpperCase() as any
           }
         }
       ]
