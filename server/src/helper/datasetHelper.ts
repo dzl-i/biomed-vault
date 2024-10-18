@@ -13,7 +13,7 @@ export async function getPhenotypes() {
         select: {
           researcher: {
             select: {
-              username: true,
+              id: true,
               email: true
             }
           }
@@ -28,7 +28,7 @@ export async function getPhenotypes() {
     description: phenotype.description,
     traits: phenotype.traits,
     categories: phenotype.categories,
-    researcherUsername: phenotype.patient.researcher.username,
+    researcherId: phenotype.patient.researcher.id,
     researcherEmail: phenotype.patient.researcher.email
   }));
 }
@@ -50,7 +50,7 @@ export async function getGenomics() {
         select: {
           researcher: {
             select: {
-              username: true,
+              id: true,
               email: true
             }
           }
@@ -70,7 +70,7 @@ export async function getGenomics() {
     rawDataUrl: genomic.rawDataUrl,
     quality: genomic.quality,
     categories: genomic.categories,
-    researcherUsername: genomic.patient.researcher.username,
+    researcherId: genomic.patient.researcher.id,
     researcherEmail: genomic.patient.researcher.email
   }));
 }
@@ -89,7 +89,7 @@ export async function getImaging() {
         select: {
           researcher: {
             select: {
-              username: true,
+              id: true,
               email: true
             }
           }
@@ -106,7 +106,7 @@ export async function getImaging() {
     image: image.image,
     imageUrl: image.imageUrl,
     categories: image.categories,
-    researcherUsername: image.patient.researcher.username,
+    researcherId: image.patient.researcher.id,
     researcherEmail: image.patient.researcher.email
   }));
 }
@@ -126,7 +126,7 @@ export async function getSignals() {
         select: {
           researcher: {
             select: {
-              username: true,
+              id: true,
               email: true
             }
           }
@@ -144,7 +144,7 @@ export async function getSignals() {
     duration: signal.duration,
     sampleRate: signal.sampleRate,
     categories: signal.categories,
-    researcherUsername: signal.patient.researcher.username,
+    researcherId: signal.patient.researcher.id,
     researcherEmail: signal.patient.researcher.email
   }));
 }

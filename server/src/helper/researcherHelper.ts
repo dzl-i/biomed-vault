@@ -41,7 +41,8 @@ export async function getResearcherPatients(id: string) {
           sex: true,
           diagnosticInfo: true,
           treatmentInfo: true,
-          categories: true
+          categories: true,
+          researcherId: true
         }
       }
     }
