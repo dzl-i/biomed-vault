@@ -43,6 +43,7 @@ import { updateSignal } from './update/signal';
 import { logCreate } from './log/create';
 import { logList } from './log/list';
 import { logResearcher } from './log/researcher';
+import { searchPatient } from './search/patient';
 
 // Database client
 const prisma = new PrismaClient()
@@ -542,6 +543,24 @@ app.get('/log/researcher/:id', authenticateToken, async (req: Request, res: Resp
     const { logs } = await logResearcher(researcherId, id);
 
     res.status(200).json({ logs });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+
+// SEARCH ROUTES
+app.get('/search/patients/:searchTerm', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const researcherId = res.locals.researcherId;
+    const { searchTerm } = req.params;
+    const { patients } = await searchPatient(researcherId);
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of patients with a search ${searchTerm}`, "SUCCESS");
+
+    res.status(200).json({ patients });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
