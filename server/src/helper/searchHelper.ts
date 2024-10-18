@@ -154,3 +154,50 @@ export async function imagingSearch(searchTerm: string) {
     }
   });
 }
+
+export async function signalSearch(searchTerm: string) {
+  return await prisma.signalData.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          signalType: {
+            equals: searchTerm as any
+          }
+        },
+        {
+          dataPoints: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          duration: {
+            equals: searchTerm as any
+          }
+        },
+        {
+          sampleRate: {
+            equals: searchTerm as any
+          }
+        },
+        {
+          categories: {
+            has: searchTerm.toUpperCase() as any
+          }
+        }
+      ]
+    }
+  });
+}
