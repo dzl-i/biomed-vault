@@ -118,3 +118,39 @@ export async function genomicSearch(searchTerm: string) {
     }
   });
 }
+
+export async function imagingSearch(searchTerm: string) {
+  return await prisma.imagingData.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: "insensitive"
+          }
+        },
+        {
+          imageType: {
+            equals: searchTerm as any
+          }
+        },
+        {
+          imageUrl: {
+            equals: searchTerm
+          }
+        },
+        {
+          categories: {
+            has: searchTerm.toUpperCase() as any
+          }
+        }
+      ]
+    }
+  });
+}

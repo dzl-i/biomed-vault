@@ -46,6 +46,7 @@ import { logResearcher } from './log/researcher';
 import { searchPatient } from './search/patient';
 import { searchGenomic } from './search/genomic';
 import { searchPhenotype } from './search/phenotype';
+import { searchImaging } from './search/imaging';
 
 // Database client
 const prisma = new PrismaClient()
@@ -595,6 +596,22 @@ app.get('/search/genomics/:searchTerm', authenticateToken, async (req: Request, 
     await logCreate(researcherId, `viewed a list of genomic data with a search ${searchTerm}`, "SUCCESS");
 
     res.status(200).json({ genomics });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
+
+app.get('/search/imaging/:searchTerm', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const researcherId = res.locals.researcherId;
+    const { searchTerm } = req.params;
+    const { imaging } = await searchImaging(searchTerm);
+
+    // Logging
+    await logCreate(researcherId, `viewed a list of imaging data with a search ${searchTerm}`, "SUCCESS");
+
+    res.status(200).json({ imaging });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
