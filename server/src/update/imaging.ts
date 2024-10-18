@@ -15,6 +15,7 @@ export async function updateImaging(researcherId: string, imagingId: string, ima
     description: imaging.description,
     imageType: imaging.imageType,
     image: imaging.image,
-    imageUrl: imaging.imageUrl
+    imageUrl: imaging.imageUrl,
+    categories: imaging.categories
   }
 }

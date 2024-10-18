@@ -11,6 +11,7 @@ export async function overviewSignal(signalid: string, researcherId: string) {
     signalType: signal.signalType,
     dataPoints: signal.dataPoints,
     duration: signal.duration,
-    sampleRate: signal.sampleRate
+    sampleRate: signal.sampleRate,
+    categories: signal.categories
   }
 }

@@ -16,6 +16,7 @@ export async function overviewPatient(patientId: string, researcherId: string) {
     genomicData: patient.genomicData,
     phenotypeData: patient.phenotypes,
     imagingData: patient.imagingData,
-    signalData: patient.signalData
+    signalData: patient.signalData,
+    categories: patient.categories
   }
 }

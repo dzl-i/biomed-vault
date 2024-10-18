@@ -25,7 +25,8 @@ export async function getPatientDetails(patientId: string) {
       phenotypes: true,
       imagingData: true,
       signalData: true,
-      researcherId: true
+      researcherId: true,
+      categories: true
     }
   });
 }

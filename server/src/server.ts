@@ -235,34 +235,18 @@ app.get('/dataset/list-signals', authenticateToken, async (req: Request, res: Re
   }
 })
 
-app.get('/dataset/list-categorised/:category', authenticateToken, async (req: Request, res: Response) => {
-  try {
-    const researcherId = res.locals.researcherId;
-    const { category } = req.params;
-    const { data } = await datasetListCategorisedData(category as CategoryType);
-
-    // Logging
-    await logCreate(researcherId, `viewed a list of categorised data`, "SUCCESS");
-
-    res.status(200).json({ data });
-  } catch (error: any) {
-    console.error(error);
-    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
-  }
-})
-
 
 // PATIENT ROUTES
 app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await patientDetails(id, researcherId);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories } = await patientDetails(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed Patient ${name}'s data`, "SUCCESS");
 
-    res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
+    res.status(200).json({ name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -274,13 +258,13 @@ app.get('/patient/details/:id', authenticateToken, async (req: Request, res: Res
 app.post('/upload/patient', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo } = req.body;
-    const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, categories } = req.body;
+    const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, categories);
 
     // Logging
     await logCreate(researcherId, `uploaded Patient ${name}'s data`, "SUCCESS");
 
-    res.status(200).json({ name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo });
+    res.status(200).json({ name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo, categories: patient.categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -290,13 +274,13 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
 app.post('/upload/genomic', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { patientId, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = req.body;
-    const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality);
+    const { patientId, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories } = req.body;
+    const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality, categories);
 
     // Logging
     await logCreate(researcherId, `uploaded a Genomic Data ${name} for Patient ${patientId}`, "SUCCESS");
 
-    res.status(200).json({ id: genomic.id, name: genomic.name, description: genomic.description, dataType: genomic.dataType });
+    res.status(200).json({ id: genomic.id, name: genomic.name, description: genomic.description, dataType: genomic.dataType, categories: genomic.categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -306,13 +290,13 @@ app.post('/upload/genomic', authenticateToken, async (req: Request, res: Respons
 app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { patientId, name, description, traits } = req.body;
-    const phenotype = await uploadPhenotype(patientId, name, description, traits);
+    const { patientId, name, description, traits, categories } = req.body;
+    const phenotype = await uploadPhenotype(patientId, name, description, traits, categories);
 
     // Logging
     await logCreate(researcherId, `uploaded a Phenotype Data ${name} for Patient ${patientId}`, "SUCCESS");
 
-    res.status(200).json({ id: phenotype.id, name: phenotype.name, description: phenotype.description, traits: phenotype.traits });
+    res.status(200).json({ id: phenotype.id, name: phenotype.name, description: phenotype.description, traits: phenotype.traits, categories: phenotype.categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -322,13 +306,13 @@ app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Respo
 app.post('/upload/imaging', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { patientId, name, description, imageType, image, imageUrl } = req.body;
-    const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl);
+    const { patientId, name, description, imageType, image, imageUrl, categories } = req.body;
+    const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl, categories);
 
     // Logging
     await logCreate(researcherId, `uploaded an Imaging Data ${name} for Patient ${patientId}`, "SUCCESS");
 
-    res.status(200).json({ id: imaging.id, name: imaging.name, description: imaging.description, imageType: imaging.imageType });
+    res.status(200).json({ id: imaging.id, name: imaging.name, description: imaging.description, imageType: imaging.imageType, categories: imaging.categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -338,13 +322,13 @@ app.post('/upload/imaging', authenticateToken, async (req: Request, res: Respons
 app.post('/upload/signal', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { patientId, name, description, signalType, dataPoints, duration, sampleRate } = req.body;
-    const signal = await uploadSignal(patientId, name, description, signalType as SignalType, dataPoints, duration, sampleRate);
+    const { patientId, name, description, signalType, dataPoints, duration, sampleRate, categories } = req.body;
+    const signal = await uploadSignal(patientId, name, description, signalType as SignalType, dataPoints, duration, sampleRate, categories);
 
     // Logging
     await logCreate(researcherId, `uploaded a Signal Data ${name} for Patient ${patientId}`, "SUCCESS");
 
-    res.status(200).json({ id: signal.id, name: signal.name, description: signal.description, signalType: signal.signalType });
+    res.status(200).json({ id: signal.id, name: signal.name, description: signal.description, signalType: signal.signalType, categories: signal.categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -357,12 +341,12 @@ app.get('/overview/patient/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await overviewPatient(id, researcherId);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories } = await overviewPatient(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
+    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -373,12 +357,12 @@ app.get('/overview/genomic/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await overviewGenomic(id, researcherId);
+    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories } = await overviewGenomic(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Genomic Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
+    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -389,12 +373,12 @@ app.get('/overview/phenotype/:id', authenticateToken, async (req: Request, res: 
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, traits } = await overviewPhenotype(id, researcherId);
+    const { name, description, traits, categories } = await overviewPhenotype(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Phenotype Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, traits });
+    res.status(200).json({ id, name, description, traits, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -405,12 +389,12 @@ app.get('/overview/imaging/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, imageType, image, imageUrl } = await overviewImaging(id, researcherId);
+    const { name, description, imageType, image, imageUrl, categories } = await overviewImaging(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Imaging Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, imageType, image, imageUrl });
+    res.status(200).json({ id, name, description, imageType, image, imageUrl, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -421,12 +405,12 @@ app.get('/overview/signal/:id', authenticateToken, async (req: Request, res: Res
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, signalType, dataPoints, duration, sampleRate } = await overviewSignal(id, researcherId);
+    const { name, description, signalType, dataPoints, duration, sampleRate, categories } = await overviewSignal(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Signal Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate });
+    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -457,12 +441,12 @@ app.put('/update/patient/:id', authenticateToken, async (req: Request, res: Resp
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const updatedPatientData = req.body;
-    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData } = await updatePatient(researcherId, id, updatedPatientData);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories } = await updatePatient(researcherId, id, updatedPatientData);
 
     // Logging
     await logCreate(researcherId, `updated Patient ${name}'s data`, "SUCCESS");
 
-    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData });
+    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -474,12 +458,12 @@ app.put('/update/genomic/:id', authenticateToken, async (req: Request, res: Resp
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const updatedGenomicData = req.body;
-    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality } = await updateGenomic(researcherId, id, updatedGenomicData);
+    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories } = await updateGenomic(researcherId, id, updatedGenomicData);
 
     // Logging
     await logCreate(researcherId, `updated Patient ${name}'s Genomic Data`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality });
+    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -491,12 +475,12 @@ app.put('/update/phenotype/:id', authenticateToken, async (req: Request, res: Re
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const updatedPhenotypeData = req.body;
-    const { name, description, traits } = await updatePhenotype(researcherId, id, updatedPhenotypeData);
+    const { name, description, traits, categories } = await updatePhenotype(researcherId, id, updatedPhenotypeData);
 
     // Logging
     await logCreate(researcherId, `updated Patient ${name}'s Phenotype Data`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, traits });
+    res.status(200).json({ id, name, description, traits, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -508,12 +492,12 @@ app.put('/update/imaging/:id', authenticateToken, async (req: Request, res: Resp
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const updatedImagingData = req.body;
-    const { name, description, imageType, image, imageUrl } = await updateImaging(researcherId, id, updatedImagingData);
+    const { name, description, imageType, image, imageUrl, categories } = await updateImaging(researcherId, id, updatedImagingData);
 
     // Logging
     await logCreate(researcherId, `updated Patient ${name}'s Imaging Data`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, imageType, image, imageUrl });
+    res.status(200).json({ id, name, description, imageType, image, imageUrl, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -525,12 +509,12 @@ app.put('/update/signal/:id', authenticateToken, async (req: Request, res: Respo
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
     const updatedSignalData = req.body;
-    const { name, description, signalType, dataPoints, duration, sampleRate } = await updateSignal(researcherId, id, updatedSignalData);
+    const { name, description, signalType, dataPoints, duration, sampleRate, categories } = await updateSignal(researcherId, id, updatedSignalData);
 
     // Logging
     await logCreate(researcherId, `updated Patient ${name}'s Signal Data`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate });
+    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate, categories });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

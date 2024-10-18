@@ -13,6 +13,7 @@ export async function updatePhenotype(researcherId: string, phenotypeId: string,
   return {
     name: phenotype.name,
     description: phenotype.description,
-    traits: phenotype.traits
+    traits: phenotype.traits,
+    categories: phenotype.categories
   }
 }

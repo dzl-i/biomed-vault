@@ -1,10 +1,10 @@
-import { Sex } from "@prisma/client";
+import { CategoryType, Sex } from "@prisma/client";
 import { createPatient } from "../helper/uploadHelper";
 
-export async function uploadPatient(researcherId: string, name: string, dateOfBirth: string, sex: Sex, diagnosticInfo: string, treatmentInfo: string) {
+export async function uploadPatient(researcherId: string, name: string, dateOfBirth: string, sex: Sex, diagnosticInfo: string, treatmentInfo: string, categories: CategoryType[]) {
   const dateOfBirthISO = new Date(dateOfBirth).toISOString();
 
-  const patient = await createPatient(researcherId, name, dateOfBirthISO, sex, diagnosticInfo, treatmentInfo);
+  const patient = await createPatient(researcherId, name, dateOfBirthISO, sex, diagnosticInfo, treatmentInfo, categories);
   if (patient === null) throw { status: 400, message: "Invalid researcher." };
 
   return {
@@ -12,6 +12,7 @@ export async function uploadPatient(researcherId: string, name: string, dateOfBi
     dateOfBirth: patient.dateOfBirth,
     sex: patient.sex,
     diagnosticInfo: patient.diagnosticInfo,
-    treatmentInfo: patient.treatmentInfo
+    treatmentInfo: patient.treatmentInfo,
+    categories: patient.categories
   }
 }

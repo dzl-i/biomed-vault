@@ -13,6 +13,7 @@ export async function overviewGenomic(genomicId: string, researcherId: string) {
     mutationTypes: genomic.mutationTypes,
     impacts: genomic.impacts,
     rawDataUrl: genomic.rawDataUrl,
-    quality: genomic.quality
+    quality: genomic.quality,
+    categories: genomic.categories
   }
 }

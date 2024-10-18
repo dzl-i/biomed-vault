@@ -1,9 +1,9 @@
-import { DataQuality, GenomicDataType, ImagingType, PrismaClient, Sex, SignalType } from "@prisma/client";
+import { CategoryType, DataQuality, GenomicDataType, ImagingType, PrismaClient, Sex, SignalType } from "@prisma/client";
 import { getResearcherById } from "./researcherHelper";
 import { getPatientFromId } from "./patientHelper";
 const prisma = new PrismaClient();
 
-export async function createPatient(researcherId: string, name: string, dateOfBirth: string, sex: Sex, diagnosticInfo: string, treatmentInfo: string) {
+export async function createPatient(researcherId: string, name: string, dateOfBirth: string, sex: Sex, diagnosticInfo: string, treatmentInfo: string, categories: CategoryType[]) {
   const researcher = await getResearcherById(researcherId);
   if (researcher === null) return null;
 
@@ -14,6 +14,7 @@ export async function createPatient(researcherId: string, name: string, dateOfBi
       sex: sex,
       diagnosticInfo: diagnosticInfo,
       treatmentInfo: treatmentInfo,
+      categories: categories,
       researcher: {
         connect: researcher
       }
@@ -21,7 +22,7 @@ export async function createPatient(researcherId: string, name: string, dateOfBi
   });
 }
 
-export async function createGenomic(patientId: string, name: string, description: string, dataType: GenomicDataType, geneNames: string[], mutationTypes: string[], impacts: string[], rawDataUrl: string, quality: DataQuality) {
+export async function createGenomic(patientId: string, name: string, description: string, dataType: GenomicDataType, geneNames: string[], mutationTypes: string[], impacts: string[], rawDataUrl: string, quality: DataQuality, categories: CategoryType[]) {
   const patient = await getPatientFromId(patientId);
   if (patient === null) return null;
 
@@ -35,14 +36,15 @@ export async function createGenomic(patientId: string, name: string, description
       impacts: impacts,
       rawDataUrl: rawDataUrl,
       quality: quality,
+      categories: categories,
       patient: {
-        connect: patient
+        connect: { id: patientId }
       }
     }
   });
 }
 
-export async function createPhenotype(patientId: string, name: string, description: string, traits: string[]) {
+export async function createPhenotype(patientId: string, name: string, description: string, traits: string[], categories: CategoryType[]) {
   const patient = await getPatientFromId(patientId);
   if (patient === null) return null;
 
@@ -51,14 +53,15 @@ export async function createPhenotype(patientId: string, name: string, descripti
       name: name,
       description: description,
       traits: traits,
+      categories: categories,
       patient: {
-        connect: patient
+        connect: { id: patientId }
       }
     }
   });
 }
 
-export async function createImaging(patientId: string, name: string, description: string, imageType: ImagingType, image: string, imageUrl: string) {
+export async function createImaging(patientId: string, name: string, description: string, imageType: ImagingType, image: string, imageUrl: string, categories: CategoryType[]) {
   const patient = await getPatientFromId(patientId);
   if (patient === null) return null;
 
@@ -69,14 +72,15 @@ export async function createImaging(patientId: string, name: string, description
       imageType: imageType,
       image: image,
       imageUrl: imageUrl,
+      categories: categories,
       patient: {
-        connect: patient
+        connect: { id: patientId }
       }
     }
   });
 }
 
-export async function createSignal(patientId: string, name: string, description: string, signalType: SignalType, dataPoints: string, duration: number, sampleRate: number) {
+export async function createSignal(patientId: string, name: string, description: string, signalType: SignalType, dataPoints: string, duration: number, sampleRate: number, categories: CategoryType[]) {
   const patient = await getPatientFromId(patientId);
   if (patient === null) return null;
 
@@ -88,8 +92,9 @@ export async function createSignal(patientId: string, name: string, description:
       dataPoints: dataPoints,
       duration: duration,
       sampleRate: sampleRate,
+      categories: categories,
       patient: {
-        connect: patient
+        connect: { id: patientId }
       }
     }
   });

@@ -8,6 +8,7 @@ export async function getPhenotypes() {
       name: true,
       description: true,
       traits: true,
+      categories: true,
       patient: {
         select: {
           researcher: {
@@ -26,6 +27,7 @@ export async function getPhenotypes() {
     name: phenotype.name,
     description: phenotype.description,
     traits: phenotype.traits,
+    categories: phenotype.categories,
     researcherUsername: phenotype.patient.researcher.username,
     researcherEmail: phenotype.patient.researcher.email
   }));
@@ -43,6 +45,7 @@ export async function getGenomics() {
       impacts: true,
       rawDataUrl: true,
       quality: true,
+      categories: true,
       patient: {
         select: {
           researcher: {
@@ -66,6 +69,7 @@ export async function getGenomics() {
     impacts: genomic.impacts,
     rawDataUrl: genomic.rawDataUrl,
     quality: genomic.quality,
+    categories: genomic.categories,
     researcherUsername: genomic.patient.researcher.username,
     researcherEmail: genomic.patient.researcher.email
   }));
@@ -80,6 +84,7 @@ export async function getImaging() {
       imageType: true,
       image: true,
       imageUrl: true,
+      categories: true,
       patient: {
         select: {
           researcher: {
@@ -100,6 +105,7 @@ export async function getImaging() {
     imageType: image.imageType,
     image: image.image,
     imageUrl: image.imageUrl,
+    categories: image.categories,
     researcherUsername: image.patient.researcher.username,
     researcherEmail: image.patient.researcher.email
   }));
@@ -115,6 +121,7 @@ export async function getSignals() {
       dataPoints: true,
       duration: true,
       sampleRate: true,
+      categories: true,
       patient: {
         select: {
           researcher: {
@@ -136,48 +143,8 @@ export async function getSignals() {
     dataPoints: signal.dataPoints,
     duration: signal.duration,
     sampleRate: signal.sampleRate,
+    categories: signal.categories,
     researcherUsername: signal.patient.researcher.username,
     researcherEmail: signal.patient.researcher.email
   }));
-}
-
-export async function getCategorisedData(categoryType: CategoryType) {
-  const datas = await prisma.category.findMany({
-    where: {
-      type: categoryType
-    },
-    select: {
-      id: true,
-      name: true,
-      patients: {
-        select: {
-          patient: {
-            select: {
-              sex: true,
-              diagnosticInfo: true,
-              treatmentInfo: true,
-              researcher: {
-                select: {
-                  username: true,
-                  email: true
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  });
-
-  return datas.flatMap(category =>
-    category.patients.map(({ patient }) => ({
-      id: category.id,
-      categoryName: category.name,
-      sex: patient.sex,
-      diagnosticInfo: patient.diagnosticInfo,
-      treatmentInfo: patient.treatmentInfo,
-      researcherUsername: patient.researcher.username,
-      researcherEmail: patient.researcher.email
-    }))
-  );
 }

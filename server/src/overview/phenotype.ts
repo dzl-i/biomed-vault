@@ -8,6 +8,7 @@ export async function overviewPhenotype(phenotypeId: string, researcherId: strin
   return {
     name: phenotype.name,
     description: phenotype.description,
-    traits: phenotype.traits
+    traits: phenotype.traits,
+    categories: phenotype.categories
   }
 }

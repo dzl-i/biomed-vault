@@ -11,33 +11,32 @@ datasource db {
 }
 
 model Researcher {
-    id                     String              @id @default(uuid())
+    id                     String          @id @default(uuid())
     name                   String
     institution            String
-    email                  String              @unique
-    username               String              @unique
+    email                  String          @unique
+    username               String          @unique
     password               String
-    remainingLoginAttempts Int                 @default(3)
+    remainingLoginAttempts Int             @default(3)
     tokens                 Token[]
     patients               Patient[]
     dataAccessLogs         DataAccessLog[]
-    researcherProjects     ResearcherProject[]
 }
 
 model Patient {
-    id             String            @id @default(uuid())
+    id             String          @id @default(uuid())
     name           String
-    dateOfBirth    DateTime          @db.Date
+    dateOfBirth    DateTime        @db.Date
     sex            Sex
     diagnosticInfo String // Diagnosis such as cancer/autism/osteoporosis
     treatmentInfo  String // Treatment information - how the patient was treated
     researcherId   String
-    researcher     Researcher        @relation(fields: [researcherId], references: [id])
+    researcher     Researcher      @relation(fields: [researcherId], references: [id])
     genomicData    GenomicData[]
     phenotypes     PhenotypeData[]
     imagingData    ImagingData[]
     signalData     SignalData[]
-    categories     CategoryPatient[]
+    categories     CategoryType[]
 }
 
 model GenomicData {
@@ -50,56 +49,44 @@ model GenomicData {
     impacts       String[]
     rawDataUrl    String // URL to the stored raw genomic data file
     quality       DataQuality     @default(UNKNOWN)
+    categories    CategoryType[]
     patientId     String
     patient       Patient         @relation(fields: [patientId], references: [id])
 }
 
 model PhenotypeData {
-    id          String   @id @default(uuid())
+    id          String         @id @default(uuid())
     name        String
     description String
     traits      String[]
+    categories  CategoryType[]
     patientId   String
-    patient     Patient  @relation(fields: [patientId], references: [id])
+    patient     Patient        @relation(fields: [patientId], references: [id])
 }
 
 model ImagingData {
-    id          String      @id @default(uuid())
+    id          String         @id @default(uuid())
     name        String
     description String
     imageType   ImagingType
     image       String // Store the actual image
     imageUrl    String // URL to the stored image file
+    categories  CategoryType[]
     patientId   String
-    patient     Patient     @relation(fields: [patientId], references: [id])
+    patient     Patient        @relation(fields: [patientId], references: [id])
 }
 
 model SignalData {
-    id          String     @id @default(uuid())
+    id          String         @id @default(uuid())
     name        String
     description String
     signalType  SignalType
     dataPoints  String // Store data points as JSON String (stringify)
     duration    Float // Duration of the signal in seconds
     sampleRate  Float // Sample rate in Hz
+    categories  CategoryType[]
     patientId   String
-    patient     Patient    @relation(fields: [patientId], references: [id])
-}
-
-model Category {
-    id       String            @id @default(uuid())
-    name     String            @unique
-    type     CategoryType
-    patients CategoryPatient[]
-}
-
-model CategoryPatient {
-    categoryId String
-    patientId  String
-    category   Category @relation(fields: [categoryId], references: [id])
-    patient    Patient  @relation(fields: [patientId], references: [id])
-
-    @@id([categoryId, patientId])
+    patient     Patient        @relation(fields: [patientId], references: [id])
 }
 
 model DataAccessLog {
@@ -109,25 +96,6 @@ model DataAccessLog {
     timestamp    DateTime   @default(now())
     researcherId String
     researcher   Researcher @relation(fields: [researcherId], references: [id])
-}
-
-model Project {
-    id                 String              @id @default(uuid())
-    name               String
-    description        String
-    code               String // Used to join the project
-    status             ProjectStatus       @default(ACTIVE)
-    researcherProjects ResearcherProject[]
-}
-
-model ResearcherProject {
-    role         ProjectRole
-    projectId    String
-    project      Project     @relation(fields: [projectId], references: [id])
-    researcherId String
-    researcher   Researcher  @relation(fields: [researcherId], references: [id])
-
-    @@id([researcherId, projectId])
 }
 
 model Token {

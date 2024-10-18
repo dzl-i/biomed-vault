@@ -16,6 +16,7 @@ export async function updateSignal(researcherId: string, signalId: string, signa
     signalType: signal.signalType,
     dataPoints: signal.dataPoints,
     duration: signal.duration,
-    sampleRate: signal.sampleRate
+    sampleRate: signal.sampleRate,
+    categories: signal.categories
   }
 }
