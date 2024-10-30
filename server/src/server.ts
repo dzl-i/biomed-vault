@@ -559,7 +559,7 @@ app.get('/search/patients/:searchTerm', authenticateToken, async (req: Request, 
   try {
     const researcherId = res.locals.researcherId;
     const { searchTerm } = req.params;
-    const { patients } = await searchPatient(researcherId);
+    const { patients } = await searchPatient(searchTerm);
 
     // Logging
     await logCreate(researcherId, `viewed a list of patients with a search ${searchTerm}`, "SUCCESS");
