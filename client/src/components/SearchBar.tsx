@@ -4,7 +4,7 @@ import { ChangeEventHandler, FormEventHandler } from "react"
 
 export const SearchBar = ({ handleSearchChange, handleSearch, isLoading }: { handleSearchChange: ChangeEventHandler<HTMLInputElement>, handleSearch: FormEventHandler<HTMLFormElement>, isLoading: boolean }) => {
   return (
-    <form className="flex flex-row items-center gap-4 mb-8 w-full" onSubmit={handleSearch}>
+    <form className="flex flex-row flex-grow items-center gap-4 mb-8" onSubmit={handleSearch}>
       {/* Search Section */}
       <div className="flex flex-row flex-grow items-center px-4 bg-biomedata-gray rounded-2xl">
         <SearchIcon />
