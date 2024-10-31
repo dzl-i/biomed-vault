@@ -135,16 +135,63 @@ enum SignalType {
 }
 
 enum CategoryType {
+    // Disease Categories
     DISEASE
-    PHENOTYPE
-    MUTATION
-    TREATMENT
-    DRUG
-}
+    CANCER
+    CARDIOVASCULAR
+    NEUROLOGICAL
+    GENETIC
+    METABOLIC
+    IMMUNOLOGICAL
+    INFECTIOUS
+    DEVELOPMENTAL
 
-enum ProjectRole {
-    LEAD
-    MEMBER
+    // Clinical Categories
+    DIAGNOSIS
+    TREATMENT
+    SCREENING
+    PREVENTION
+    EMERGENCY
+
+    // Phenotype Categories
+    SYMPTOM
+    SYNDROME
+    COMPLICATION
+    SIDE_EFFECT
+
+    // Genetic Categories
+    MUTATION
+    VARIANT
+    POLYMORPHISM
+    DELETION
+    INSERTION
+    FUSION
+    AMPLIFICATION
+
+    // Treatment Categories
+    DRUG
+    THERAPY
+    SURGERY
+    RADIATION
+    IMMUNOTHERAPY
+    GENE_THERAPY
+    HORMONE_THERAPY
+
+    // Demographic Categories
+    PEDIATRIC
+    ADULT
+    GERIATRIC
+    MATERNAL
+
+    // Anatomical Categories
+    BRAIN
+    HEART
+    LUNG
+    LIVER
+    KIDNEY
+    BONE
+    MUSCLE
+    BLOOD
 }
 
 enum DataQuality {
@@ -152,11 +199,4 @@ enum DataQuality {
     LOW
     MEDIUM
     HIGH
-}
-
-enum ProjectStatus {
-    ACTIVE
-    COMPLETED
-    SUSPENDED
-    ARCHIVED
 }
