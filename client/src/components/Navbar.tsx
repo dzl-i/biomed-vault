@@ -59,12 +59,14 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
   return (
     <nav className="fixed flex flex-col items-center justify-between w-20 h-screen gap-4 p-4" style={{ backgroundColor: "#f8f8fa" }}>
       <div className="flex items-center justify-center h-10 p-2">
-        <Image
-          src={BiomeDataIcon}
-          alt="BiomeData Icon"
-          width={33}
-          height={33}
-        />
+        <Link href={"/dashboard"}>
+          <Image
+            src={BiomeDataIcon}
+            alt="BiomeData Icon"
+            width={33}
+            height={33}
+          />
+        </Link>
       </div>
       <div className="flex flex-col h-full w-full" style={{ borderTop: "2px solid #e0e0e0" }}>
         <div className="flex flex-col items-center py-3">
