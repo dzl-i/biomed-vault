@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Logout } from "./Logout";
 import { Privacy } from "./Privacy";
+import { Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 
 export const Navbar = ({ researcherId }: { researcherId: string }) => {
   const pathname = usePathname();
@@ -28,7 +29,8 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
 
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
-  const [showPrivacySafety, setShowPrivacySafety] = useState(false);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleLogoutClick = async () => {
     try {
@@ -67,8 +69,15 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
       <div className="flex flex-col h-full w-full" style={{ borderTop: "2px solid #e0e0e0" }}>
         <div className="flex flex-col items-center py-3">
           <Tooltip placement="right" content="Privacy and Safety" color="primary" closeDelay={0} showArrow={true}>
-            <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={() => setShowPrivacySafety(true)} />
+            <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={onOpen} />
           </Tooltip>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose) => (
+                <Privacy onClose={onClose} />
+              )}
+            </ModalContent>
+          </Modal>
         </div>
       </div>
 
@@ -125,12 +134,6 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
           onConfirm={handleLogoutClick}
           onCancel={() => setShowLogoutConfirmation(false)}
           isLoadingLogout={isLoadingLogout}
-        />
-      )}
-
-      {showPrivacySafety && (
-        <Privacy
-          onClose={() => setShowPrivacySafety(false)}
         />
       )}
     </nav >
