@@ -1,6 +1,30 @@
 import { CategoryType, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+export async function getPatients() {
+  const patients = await prisma.patient.findMany({
+    include: {
+      researcher: {
+        select: {
+          email: true
+        }
+      }
+    }
+  });
+
+  return patients.map(patient => ({
+    id: patient.id,
+    name: patient.name,
+    dateOfBirth: patient.dateOfBirth,
+    sex: patient.sex,
+    diagnosticInfo: patient.diagnosticInfo,
+    treatmentInfo: patient.treatmentInfo,
+    categories: patient.categories,
+    researcherId: patient.researcherId,
+    researcherEmail: patient.researcher.email
+  }));
+}
+
 export async function getPhenotypes() {
   const phenotypes = await prisma.phenotypeData.findMany({
     select: {

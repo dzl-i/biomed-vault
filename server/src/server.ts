@@ -168,7 +168,7 @@ app.get('/researcher/profile/:username', authenticateToken, async (req: Request,
 app.get('/dataset/list-patients', authenticateToken, async (req: Request, res: Response) => {
   try {
     const researcherId = res.locals.researcherId;
-    const { patients } = await datasetListPatients(researcherId);
+    const { patients } = await datasetListPatients();
 
     // Logging
     await logCreate(researcherId, `viewed a list of their patients`, "SUCCESS");
