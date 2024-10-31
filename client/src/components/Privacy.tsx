@@ -21,7 +21,7 @@ export const Privacy = ({ onClose }: { onClose: MouseEventHandler<HTMLButtonElem
         <p className="flex justify-center">
           Logging is also implemented in the application. Every action performed, whether uploading, viewing, or editing data, is logged to ensure data integrity and provide an audit trail. This audit trail is only visible to system admins, where they can view audit trail as a whole, or based on any given researcher.
         </p>
-        <Button color="primary" onClick={onClose}>Close</Button>
+        <button color="primary" onClick={onClose} className="bg-biomedata-blue py-3 rounded-2xl text-white hover:opacity-85">Close</button>
       </div>
     </div>
   )
