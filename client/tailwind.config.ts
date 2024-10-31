@@ -10,8 +10,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "biomedata-blue": "#596FFF",
+        "biomedata-blue": "#1279F2",
         "biomedata-purple": "#A34CF5",
+        "biomedata-gray": "#F4F4F4",
         "biomedata-hover": "#EBEBEB",
         "biomedata-active": "#D2E2FE",
       },
