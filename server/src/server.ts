@@ -269,7 +269,7 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
     // Logging
     await logCreate(researcherId, `uploaded Patient ${name}'s data`, "SUCCESS");
 
-    res.status(200).json({ name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo, categories: patient.categories });
+    res.status(200).json({ id: patient.id, name: patient.name, dateOfBirth: patient.dateOfBirth, sex: patient.sex, diagnosticInfo: patient.diagnosticInfo, treatmentInfo: patient.treatmentInfo, categories: patient.categories, researcherId: patient.researcherId, researcherEmail: patient.researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });

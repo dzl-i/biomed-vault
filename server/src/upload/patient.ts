@@ -8,11 +8,14 @@ export async function uploadPatient(researcherId: string, name: string, dateOfBi
   if (patient === null) throw { status: 400, message: "Invalid researcher." };
 
   return {
+    id: patient.id,
     name: patient.name,
     dateOfBirth: patient.dateOfBirth,
     sex: patient.sex,
     diagnosticInfo: patient.diagnosticInfo,
     treatmentInfo: patient.treatmentInfo,
-    categories: patient.categories
+    categories: patient.categories,
+    researcherId: patient.researcherId,
+    researcherEmail: patient.researcher.email
   }
 }

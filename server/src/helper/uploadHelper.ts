@@ -18,6 +18,13 @@ export async function createPatient(researcherId: string, name: string, dateOfBi
       researcher: {
         connect: researcher
       }
+    },
+    include: {
+      researcher: {
+        select: {
+          email: true
+        }
+      }
     }
   });
 }
