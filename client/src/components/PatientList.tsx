@@ -6,21 +6,45 @@ import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } fr
 import { UsersIcon, InfoIcon, MailIcon, SlidersHorizontalIcon, PlusIcon } from "lucide-react"
 
 import { calculateAge } from "@/utils/date"
-import { Patient } from "@/utils/types"
+import { PatientSummary } from "@/utils/types"
 
 import { SearchBar } from "./SearchBar"
 import { FilterPatient } from "./FilterPatient"
 import { UploadPatient } from "./UploadPatient"
 
+interface FilterState {
+  selectedAges: string[];
+  selectedSex: string[];
+  selectedTreatment: string;
+  selectedCategories: string[];
+}
+
+const initialFilterState: FilterState = {
+  selectedAges: [],
+  selectedSex: [],
+  selectedTreatment: "",
+  selectedCategories: []
+};
+
 export const PatientList = ({ researcherId }: { researcherId: string }) => {
   const [search, setSearch] = useState("");
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
 
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<PatientSummary[]>([]);
+  const [originalPatients, setOriginalPatients] = useState<PatientSummary[]>([]);
   const [isLoadingPatients, setIsLoadingPatients] = useState<boolean>(true);
+
+  const [filters, setFilters] = useState<FilterState>(initialFilterState);
 
   const { isOpen: isOpenFilter, onOpen: onOpenFilter, onOpenChange: onOpenFilterChange } = useDisclosure();
   const { isOpen: isOpenUpload, onOpen: onOpenUpload, onOpenChange: onOpenUploadChange } = useDisclosure();
+
+  const getReadableFilterName = (filter: string): string => {
+    return filter
+      .split(/[_-]/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -38,6 +62,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
         if (response.ok) {
           const data = await response.json();
           setPatients(data.patients);
+          setOriginalPatients(data.patients);
         } else {
           const errorData = await response.json();
           console.error("Failed to fetch patients:", errorData);
@@ -73,7 +98,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
       if (response.ok) {
         const responseData = await response.json();
         setPatients(responseData.patients);
-        console.log(responseData.patients)
+        setOriginalPatients(responseData.patients);
       } else {
         // Handle error response from the API
         const errorData = await response.json();
@@ -100,7 +125,14 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
         <SearchBar handleSearchChange={handleSearchChange} handleSearch={handleSearch} isLoading={isLoadingSearch} />
 
         {/* Filter Button */}
-        <Button color="primary" variant="bordered" size="lg" startContent={<SlidersHorizontalIcon />} onClick={onOpenFilter}>Filter</Button>
+        <Button color="primary" variant="bordered" size="lg" startContent={<SlidersHorizontalIcon />} onClick={onOpenFilter}>
+          Filter
+          {Object.values(filters).flat().filter(Boolean).length > 0 && (
+            <Chip size="sm" color="primary" className="ml-2">
+              {Object.values(filters).flat().filter(Boolean).length}
+            </Chip>
+          )}
+        </Button>
         <Modal
           isOpen={isOpenFilter}
           onOpenChange={onOpenFilterChange}
@@ -109,7 +141,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
         >
           <ModalContent>
             {(onClose) => (
-              <FilterPatient onClose={onClose} patients={patients} setPatients={setPatients} />
+              <FilterPatient onClose={onClose} patients={originalPatients} setPatients={setPatients} filters={filters} setFilters={setFilters} />
             )}
           </ModalContent>
         </Modal>
@@ -129,6 +161,48 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
           </ModalContent>
         </Modal>
       </div>
+
+      {/* Active Filters Display */}
+      {Object.values(filters).flat().filter(Boolean).length > 0 && (
+        <div className="flex flex-row flex-wrap gap-2 items-center mb-8">
+          <span className="font-semibold">Active Filters:</span>
+          {filters.selectedAges.map(age => (
+            <Chip
+              key={age}
+              variant="flat"
+              color="primary"
+            >
+              Age: {getReadableFilterName(age)}
+            </Chip>
+          ))}
+          {filters.selectedSex.map(sex => (
+            <Chip
+              key={sex}
+              variant="flat"
+              color="primary"
+            >
+              Sex: {getReadableFilterName(sex)}
+            </Chip>
+          ))}
+          {filters.selectedTreatment && (
+            <Chip
+              variant="flat"
+              color="primary"
+            >
+              Treatment: {getReadableFilterName(filters.selectedTreatment)}
+            </Chip>
+          )}
+          {filters.selectedCategories.map(category => (
+            <Chip
+              key={category}
+              variant="flat"
+              color="primary"
+            >
+              Category: {getReadableFilterName(category)}
+            </Chip>
+          ))}
+        </div>
+      )}
 
       {isLoadingPatients || isLoadingSearch ? <Spinner label="Fetching patient data..." color="primary" /> :
         patients.length === 0 ? <p className="flex w-full justify-center items-center font-bold">No patients found.</p> :
