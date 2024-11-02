@@ -1,4 +1,3 @@
-import { Button } from "@nextui-org/react"
 import { MouseEventHandler } from "react"
 
 export const Privacy = ({ onClose }: { onClose: MouseEventHandler<HTMLButtonElement> }) => {

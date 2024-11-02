@@ -1,11 +1,11 @@
-import React, { Dispatch, FormEvent, MouseEventHandler, SetStateAction, useMemo, useState } from "react"
+import React, { Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
 import { Button, Checkbox, CheckboxGroup, DatePicker, Input, ModalBody, ModalFooter, ModalHeader, Radio, RadioGroup, Spinner, Textarea } from "@nextui-org/react"
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 
 import { CategoryType, PatientSummary } from "@/utils/types"
 
-export const UploadPatient = ({ onClose, patients, setPatients }: { onClose: MouseEventHandler<HTMLButtonElement>, patients: PatientSummary[], setPatients: Dispatch<SetStateAction<PatientSummary[]>> }) => {
+export const UploadPatient = ({ onClose, setPatients }: { onClose: () => void, setPatients: Dispatch<SetStateAction<PatientSummary[]>> }) => {
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(today(getLocalTimeZone()));
   const [sex, setSex] = useState("");
@@ -51,7 +51,7 @@ export const UploadPatient = ({ onClose, patients, setPatients }: { onClose: Mou
         setPatients(currentPatients => [...currentPatients, newPatient]);
 
         // Close the modal
-        onClose && onClose({} as any);
+        onClose();
 
         // Reset the form
         setName("");
@@ -91,7 +91,7 @@ export const UploadPatient = ({ onClose, patients, setPatients }: { onClose: Mou
 
         {/* Patient's Sex */}
         <RadioGroup value={sex} onValueChange={setSex}>
-          <p className="text-sm">Patient's Sex</p>
+          <p className="text-sm">Patient&apos;s Sex</p>
           <Radio value="MALE">Male</Radio>
           <Radio value="FEMALE">Female</Radio>
           <Radio value="OTHER">Other</Radio>

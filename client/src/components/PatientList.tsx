@@ -156,7 +156,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
         >
           <ModalContent>
             {(onClose) => (
-              <UploadPatient onClose={onClose} patients={patients} setPatients={setPatients} />
+              <UploadPatient onClose={onClose} setPatients={setPatients} />
             )}
           </ModalContent>
         </Modal>

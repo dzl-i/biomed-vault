@@ -1,4 +1,4 @@
-import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { Button, Checkbox, CheckboxGroup, ModalBody, ModalFooter, ModalHeader, Radio, RadioGroup } from "@nextui-org/react"
 
 import { CategoryType, PatientSummary } from "@/utils/types"
@@ -18,7 +18,7 @@ interface FilterState {
 }
 
 interface Props {
-  onClose: MouseEventHandler<HTMLButtonElement>;
+  onClose: () => void;
   patients: PatientSummary[];
   setPatients: Dispatch<SetStateAction<PatientSummary[]>>;
   filters: FilterState;
@@ -82,7 +82,7 @@ export const FilterPatient = ({ onClose, patients, setPatients, filters, setFilt
     }
 
     setPatients(filteredResults);
-    onClose({} as any);
+    onClose();
   };
 
   const resetFilters = () => {
@@ -94,7 +94,7 @@ export const FilterPatient = ({ onClose, patients, setPatients, filters, setFilt
     });
 
     setPatients(patients);
-    onClose({} as any);
+    onClose();
   };
 
   return (
