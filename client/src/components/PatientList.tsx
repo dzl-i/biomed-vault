@@ -237,7 +237,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
                         color="secondary"
                         variant="flat"
                       >
-                        {category}
+                        {getReadableFilterName(category).toUpperCase()}
                       </Chip>
                     ))}
                   </div>
