@@ -3,13 +3,12 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { UsersIcon, InfoIcon, MailIcon, SlidersHorizontalIcon, PlusIcon, SyringeIcon } from "lucide-react"
+import { InfoIcon, MailIcon, SlidersHorizontalIcon, PlusIcon, SyringeIcon } from "lucide-react"
 
 import { PhenotypeSummary } from "@/utils/types"
 
 import { SearchBar } from "./SearchBar"
 import { FilterPhenotype } from "./FilterPhenotype"
-import { UploadPhenotype } from "./UploadPhenotype"
 
 interface FilterState {
   selectedCategories: string[];
