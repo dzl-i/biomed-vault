@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { InfoIcon, MailIcon, SlidersHorizontalIcon, PlusIcon, SyringeIcon } from "lucide-react"
+import { InfoIcon, MailIcon, SlidersHorizontalIcon, SyringeIcon } from "lucide-react"
 
 import { PhenotypeSummary } from "@/utils/types"
 
@@ -29,7 +29,6 @@ export const PhenotypeList = ({ researcherId }: { researcherId: string }) => {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
 
   const { isOpen: isOpenFilter, onOpen: onOpenFilter, onOpenChange: onOpenFilterChange } = useDisclosure();
-  const { isOpen: isOpenUpload, onOpen: onOpenUpload, onOpenChange: onOpenUploadChange } = useDisclosure();
 
   const getReadableFilterName = (filter: string): string => {
     return filter
