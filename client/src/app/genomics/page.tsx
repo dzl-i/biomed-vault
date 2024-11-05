@@ -4,6 +4,7 @@ import { Navbar } from '../../components/Navbar';
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { UnauthenticatedUser } from '@/components/UnauthenticatedUser';
+import { GenomicList } from '@/components/GenomicList';
 
 export default function Page() {
   // Cookie settings
@@ -21,9 +22,8 @@ export default function Page() {
       {validUser ? (
         <>
           <Navbar researcherId={researcherId} />
-          <div className="flex flex-col w-full justify-center items-center pl-20">
-            <p>This is BiomeData&apos;s genomic dataset page</p>
-            <p>If you can see this, congratulations! You are a valid user that has logged in. Enjoy!</p>
+          <div className="flex flex-col w-full ml-20 items-center">
+            <GenomicList researcherId={researcherId} />
           </div>
         </>
       ) : (
