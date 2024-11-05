@@ -22,7 +22,6 @@ import { datasetListPhenotype } from './dataset/listPhenotypes';
 import { datasetListGenomics } from './dataset/listGenomic';
 import { datasetListImaging } from './dataset/listImaging';
 import { datasetListSignals } from './dataset/listSignals';
-import { datasetListCategorisedData } from './dataset/listCategory';
 import { patientDetails } from './patient/details';
 import { uploadPatient } from './upload/patient';
 import { uploadGenomic } from './upload/genomic';
