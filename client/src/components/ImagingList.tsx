@@ -149,7 +149,7 @@ export const ImagingList = ({ researcherId }: { researcherId: string }) => {
               variant="flat"
               color="primary"
             >
-              Data Type: {imageType}
+              Image Type: {imageType}
             </Chip>
           ))}
           {filters.categories.map(category => (
