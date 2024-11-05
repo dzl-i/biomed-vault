@@ -106,3 +106,13 @@ export interface PatientSummary {
   researcherId: string;
   researcherEmail: string;
 };
+
+export interface PhenotypeSummary {
+  id: string;
+  name: string;
+  description: string;
+  traits: string[];
+  categories: string[];
+  researcherId: string;
+  researcherEmail: string;
+}
