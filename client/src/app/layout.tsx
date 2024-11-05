@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <NextUIProvider className="light">
           {children}
+          <SpeedInsights />
         </NextUIProvider>
       </body>
     </html>
