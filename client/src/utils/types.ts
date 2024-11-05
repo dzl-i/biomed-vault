@@ -116,3 +116,36 @@ export interface PhenotypeSummary {
   researcherId: string;
   researcherEmail: string;
 }
+
+export interface GenomicSummary {
+  id: string;
+  name: string;
+  description: string;
+  dataType: string;
+  rawDataUrl: string;
+  quality: string;
+  categories: string[];
+  researcherId: string;
+  researcherEmail: string;
+}
+
+export interface ImagingSummary {
+  id: string;
+  name: string;
+  description: string;
+  imageType: string;
+  imageUrl: string;
+  categories: string[];
+  researcherId: string;
+  researcherEmail: string;
+}
+
+export interface SignalSummary {
+  id: string;
+  name: string;
+  description: string;
+  signalType: string;
+  categories: string[];
+  researcherId: string;
+  researcherEmail: string;
+}
