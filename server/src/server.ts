@@ -88,8 +88,8 @@ app.post('/auth/register', async (req: Request, res: Response) => {
     const { accessToken, refreshToken, researcherId, researcherName, researcherUsername } = await authRegister(name, email, password, username, institution);
 
     // Assign cookies
-    res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
-    res.cookie('refreshToken', refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
+    res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 1800000 });
+    res.cookie('refreshToken', refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 7776000000 });
 
     res.header('Access-Control-Allow-Credentials', 'true');
 
@@ -109,8 +109,8 @@ app.post('/auth/login', async (req: Request, res: Response) => {
     const { accessToken, refreshToken, researcherId, researcherName, researcherUsername } = await authLogin(email, password);
 
     // Assign cookies
-    res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
-    res.cookie('refreshToken', refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
+    res.cookie('accessToken', accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 1800000 });
+    res.cookie('refreshToken', refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 7776000000 });
 
     res.header('Access-Control-Allow-Credentials', 'true');
 
@@ -695,8 +695,8 @@ async function authenticateToken(req: Request, res: Response, next: NextFunction
         await deleteToken(refreshToken);
 
         // Set new cookies
-        res.cookie('accessToken', newTokens.accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 1800000 });
-        res.cookie('refreshToken', newTokens.refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7776000000 });
+        res.cookie('accessToken', newTokens.accessToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 1800000 });
+        res.cookie('refreshToken', newTokens.refreshToken, { httpOnly: isProduction, path: "/", secure: isProduction, sameSite: isProduction ? "none" : "lax", domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost", maxAge: 7776000000 });
 
         res.locals.researcherId = rtDecoded.researcherId;
         return next();
