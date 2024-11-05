@@ -37,9 +37,9 @@ const Checkbox: React.FC<CheckboxProps> = ({ value, children }) => {
         px-4 py-2 rounded-full text-sm font-medium
         transition-all duration-200 ease-in-out
         ${isSelected
-          ? 'bg-blue-500 text-white hover:bg-blue-600'
+          ? 'bg-biomedata-blue text-white hover:opacity-85'
           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-biomedata-blue
       `}
       role="checkbox"
       aria-checked={isSelected}
