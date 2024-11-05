@@ -26,22 +26,22 @@ export const FilterGenomic = ({ onClose, genomics, setGenomics, filters, setFilt
 
     // Filter by data type if any data type options are selected
     if (filters.dataType.length > 0) {
-      filteredResults = filteredResults.filter(patient =>
-        filters.dataType.includes(patient.dataType)
+      filteredResults = filteredResults.filter(genomic =>
+        filters.dataType.includes(genomic.dataType)
       );
     }
 
     // Filter by data quality if any data quality options are selected
     if (filters.quality.length > 0) {
-      filteredResults = filteredResults.filter(patient =>
-        filters.quality.includes(patient.quality)
+      filteredResults = filteredResults.filter(genomic =>
+        filters.quality.includes(genomic.quality)
       );
     }
 
     // Filter by categories if any categories are selected
     if (filters.categories.length > 0) {
-      filteredResults = filteredResults.filter(patient =>
-        patient.categories.some(category =>
+      filteredResults = filteredResults.filter(genomic =>
+        genomic.categories.some(category =>
           filters.categories.includes(category)
         )
       );

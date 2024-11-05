@@ -211,7 +211,7 @@ export const GenomicList = ({ researcherId }: { researcherId: string }) => {
 
                 <div className="flex gap-3 items-end justify-end">
                   <Link href={genomic.rawDataUrl} target="_blank"><Button color="primary"><SquareArrowOutUpRightIcon />View Source</Button></Link>
-                  {genomic.researcherId === researcherId ? <Link href={`/genomic/${genomic.id}`}><Button color="primary"><InfoIcon />View Profile</Button></Link> : <Link href={`mailto:${genomic.researcherEmail}`}><Button color="primary"><MailIcon />{genomic.researcherEmail}</Button></Link>}
+                  {genomic.researcherId === researcherId ? <Link href={`/genomic/${genomic.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link> : <Link href={`mailto:${genomic.researcherEmail}`}><Button color="primary"><MailIcon />{genomic.researcherEmail}</Button></Link>}
                 </div>
               </div>
             ))}

@@ -183,7 +183,7 @@ export const PhenotypeList = ({ researcherId }: { researcherId: string }) => {
                 </div>
 
                 <div className="flex items-end justify-end">
-                  {phenotype.researcherId === researcherId ? <Link href={`/phenotype/${phenotype.id}`}><Button color="primary"><InfoIcon />View Profile</Button></Link> : <Link href={`mailto:${phenotype.researcherEmail}`}><Button color="primary"><MailIcon />{phenotype.researcherEmail}</Button></Link>}
+                  {phenotype.researcherId === researcherId ? <Link href={`/phenotype/${phenotype.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link> : <Link href={`mailto:${phenotype.researcherEmail}`}><Button color="primary"><MailIcon />{phenotype.researcherEmail}</Button></Link>}
                 </div>
               </div>
             ))}

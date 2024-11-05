@@ -24,8 +24,8 @@ export const FilterPhenotype = ({ onClose, phenotypes, setPhenotypes, filters, s
 
     // Filter by categories if any categories are selected
     if (filters.selectedCategories.length > 0) {
-      filteredResults = filteredResults.filter(patient =>
-        patient.categories.some(category =>
+      filteredResults = filteredResults.filter(phenotype =>
+        phenotype.categories.some(category =>
           filters.selectedCategories.includes(category)
         )
       );
