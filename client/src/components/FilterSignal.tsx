@@ -59,8 +59,8 @@ export const FilterSignal = ({ onClose, signals, setSignals, filters, setFilters
         Filter Signals
       </ModalHeader>
       <ModalBody>
-        {/* Filter by Data Type */}
-        <CheckboxGroup label="Select Data Type" color="primary" value={filters.signalType} onValueChange={(value) => setFilters(prev => ({ ...prev, signalType: value }))} className="mb-4">
+        {/* Filter by Signal Type */}
+        <CheckboxGroup label="Select Signal Type" color="primary" value={filters.signalType} onValueChange={(value) => setFilters(prev => ({ ...prev, signalType: value }))} className="mb-4">
           <Checkbox value="ECG">Electrocardiography (ECG)</Checkbox>
           <Checkbox value="EEG">Electroencephalography (EEG)</Checkbox>
           <Checkbox value="EMG">Electromyography (EMG)</Checkbox>
