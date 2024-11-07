@@ -149,3 +149,73 @@ export interface SignalSummary {
   researcherId: string;
   researcherEmail: string;
 }
+
+export interface PatientDetail {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  sex: string;
+  diagnosticInfo: string;
+  treatmentInfo: string;
+  categories: string[];
+  researcherId: string;
+  researcherEmail: string;
+  phenotypeData: PhenotypeDetail[];
+  genomicData: GenomicDetail[];
+  imagingData: ImagingDetail[];
+  signalData: SignalDetail[];
+};
+
+export interface PhenotypeDetail {
+  id: string;
+  name: string;
+  description: string;
+  traits: string[];
+  categories: string[];
+  patientId: string;
+  researcherId: string;
+  researcherEmail: string;
+}
+
+export interface GenomicDetail {
+  id: string;
+  name: string;
+  description: string;
+  dataType: string;
+  geneNames: string[];
+  mutationTypes: string[];
+  impacts: string[];
+  rawDataUrl: string;
+  quality: string;
+  categories: string[];
+  patientId: string;
+  researcherId: string;
+  researcherEmail: string;
+}
+
+export interface ImagingDetail {
+  id: string;
+  name: string;
+  description: string;
+  imageType: string;
+  image: string;
+  imageUrl: string;
+  categories: string[];
+  patientId: string;
+  researcherId: string;
+  researcherEmail: string;
+}
+
+export interface SignalDetail {
+  id: string;
+  name: string;
+  description: string;
+  signalType: string;
+  dataPoints: string;
+  duration: number;
+  sampleRate: number;
+  categories: string[];
+  patientId: string;
+  researcherId: string;
+  researcherEmail: string;
+}
