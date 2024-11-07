@@ -19,7 +19,13 @@ const qualities = [
   { key: "HIGH", label: "High" },
 ];
 
-export const UploadGenomic = ({ onClose, setGenomics }: { onClose: () => void, setGenomics: Dispatch<SetStateAction<GenomicSummary[]>> }) => {
+interface UploadGenomicProps {
+  onClose: () => void;
+  setGenomics: (phenotype: GenomicSummary) => void;
+  patientId: string;
+}
+
+export const UploadGenomic = ({ onClose, setGenomics, patientId }: UploadGenomicProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [dataType, setDataType] = useState("");
@@ -112,7 +118,7 @@ export const UploadGenomic = ({ onClose, setGenomics }: { onClose: () => void, s
         const newGenomic = await response.json();
 
         // Append the new genomic to the existing list
-        setGenomics(currentGenomics => [...currentGenomics, newGenomic]);
+        setGenomics(newGenomic);
 
         // Close the modal
         onClose();
@@ -142,7 +148,7 @@ export const UploadGenomic = ({ onClose, setGenomics }: { onClose: () => void, s
   return (
     <>
       <ModalHeader className="flex flex-col gap-1 text-center text-3xl">
-        Upload a New Genomic
+        Upload a New Genomic Data
       </ModalHeader>
       <ModalBody>
         {/* Genomic's Name */}

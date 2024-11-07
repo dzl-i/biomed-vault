@@ -12,7 +12,13 @@ const imagingType = [
   { key: "PETSCAN", label: "Positron Emission Tomography Scan (PET Scan)" },
 ];
 
-export const UploadImaging = ({ onClose, setImagings }: { onClose: () => void, setImagings: Dispatch<SetStateAction<ImagingSummary[]>> }) => {
+interface UploadImagingProps {
+  onClose: () => void;
+  setImagings: (phenotype: ImagingSummary) => void;
+  patientId: string;
+}
+
+export const UploadImaging = ({ onClose, setImagings, patientId }: UploadImagingProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageType, setImageType] = useState("");
@@ -102,7 +108,7 @@ export const UploadImaging = ({ onClose, setImagings }: { onClose: () => void, s
         const newImaging = await response.json();
 
         // Append the new imaging to the existing list
-        setImagings(currentImagings => [...currentImagings, newImaging]);
+        setImagings(newImaging);
 
         // Close the modal
         onClose();
@@ -127,7 +133,7 @@ export const UploadImaging = ({ onClose, setImagings }: { onClose: () => void, s
   return (
     <>
       <ModalHeader className="flex flex-col gap-1 text-center text-3xl">
-        Upload a New Imaging
+        Upload a New Imaging Data
       </ModalHeader>
       <ModalBody>
         {/* Imaging's Name */}

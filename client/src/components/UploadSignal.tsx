@@ -21,7 +21,13 @@ const signalTypes = [
   { key: "EOG", label: "Electrooculography (EOG)" },
 ];
 
-export const UploadSignal = ({ onClose, setSignals }: { onClose: () => void, setSignals: Dispatch<SetStateAction<SignalSummary[]>> }) => {
+interface UploadSignalProps {
+  onClose: () => void;
+  setSignals: (phenotype: SignalSummary) => void;
+  patientId: string;
+}
+
+export const UploadSignal = ({ onClose, setSignals, patientId }: UploadSignalProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [signalType, setSignalType] = useState("");
@@ -106,7 +112,7 @@ export const UploadSignal = ({ onClose, setSignals }: { onClose: () => void, set
         const newSignal = await response.json();
 
         // Append the new signal to the existing list
-        setSignals(currentSignals => [...currentSignals, newSignal]);
+        setSignals(newSignal);
 
         // Close the modal
         onClose();
@@ -136,7 +142,7 @@ export const UploadSignal = ({ onClose, setSignals }: { onClose: () => void, set
   return (
     <>
       <ModalHeader className="flex flex-col gap-1 text-center text-3xl">
-        Upload a New Signal
+        Upload a New Signal Data
       </ModalHeader>
       <ModalBody>
         {/* Signal Name */}

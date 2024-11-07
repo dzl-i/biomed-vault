@@ -5,7 +5,13 @@ import { CategoryType, PhenotypeSummary } from "@/utils/types"
 import { CheckboxGroup } from "./CheckboxGroup";
 import { PlusCircleIcon, X } from "lucide-react";
 
-export const UploadPhenotype = ({ onClose, setPhenotypes }: { onClose: () => void, setPhenotypes: Dispatch<SetStateAction<PhenotypeSummary[]>> }) => {
+interface UploadPhenotypeProps {
+  onClose: () => void;
+  setPhenotypes: (phenotype: PhenotypeSummary) => void;
+  patientId: string;
+}
+
+export const UploadPhenotype = ({ onClose, setPhenotypes, patientId }: UploadPhenotypeProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [trait, setTrait] = useState("");
@@ -56,7 +62,7 @@ export const UploadPhenotype = ({ onClose, setPhenotypes }: { onClose: () => voi
         const newPhenotype = await response.json();
 
         // Append the new phenotype to the existing list
-        setPhenotypes(currentPhenotypes => [...currentPhenotypes, newPhenotype]);
+        setPhenotypes(newPhenotype);
 
         // Close the modal
         onClose();
@@ -82,7 +88,7 @@ export const UploadPhenotype = ({ onClose, setPhenotypes }: { onClose: () => voi
   return (
     <>
       <ModalHeader className="flex flex-col gap-1 text-center text-3xl">
-        Upload a New Phenotype
+        Upload a New Phenotype Data
       </ModalHeader>
       <ModalBody>
         {/* Phenotype's Name */}
