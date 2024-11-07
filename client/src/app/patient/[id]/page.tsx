@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { Navbar } from '../../../components/Navbar';
 
 import { UnauthenticatedUser } from '@/components/UnauthenticatedUser';
+import { PatientOverview } from '@/components/PatientOverview';
 
 export default function Page({ params }: { params: { id: string } }) {
   const cookieStore = cookies();
@@ -13,10 +14,8 @@ export default function Page({ params }: { params: { id: string } }) {
       {validUser ? (
         <>
           <Navbar researcherId={params.id} />
-          <div className="flex flex-col w-full justify-center items-center pl-20">
-            <p>This is BiomeData&apos;s patient overview page</p>
-            <p>Profile ID is {params.id}</p>
-            <p>If you can see this, congratulations! You are a valid user that has logged in. Enjoy!</p>
+          <div className="flex flex-col w-full ml-20 items-center">
+            <PatientOverview patientId={params.id} />
           </div>
         </>
       ) : (
