@@ -12,6 +12,8 @@ export async function overviewSignal(signalid: string, researcherId: string) {
     dataPoints: signal.dataPoints,
     duration: signal.duration,
     sampleRate: signal.sampleRate,
-    categories: signal.categories
+    categories: signal.categories,
+    patientId: signal.patient.id,
+    researcherEmail: signal.patient.researcher.email
   }
 }

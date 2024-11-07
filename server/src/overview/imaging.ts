@@ -11,6 +11,8 @@ export async function overviewImaging(imagingId: string, researcherId: string) {
     imageType: imaging.imageType,
     image: imaging.image,
     imageUrl: imaging.imageUrl,
-    categories: imaging.categories
+    categories: imaging.categories,
+    patientId: imaging.patient.id,
+    researcherEmail: imaging.patient.researcher.email
   }
 }

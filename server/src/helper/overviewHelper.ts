@@ -10,7 +10,12 @@ export async function detailPatient(patientId: string) {
       genomicData: true,
       phenotypes: true,
       imagingData: true,
-      signalData: true
+      signalData: true,
+      researcher: {
+        select: {
+          email: true
+        }
+      }
     }
   });
 }
@@ -23,9 +28,11 @@ export async function detailGenomic(genomicId: string) {
     include: {
       patient: {
         select: {
+          id: true,
           researcher: {
             select: {
-              id: true
+              id: true,
+              email: true
             }
           }
         }
@@ -42,9 +49,11 @@ export async function detailPhenotype(phenotypeId: string) {
     include: {
       patient: {
         select: {
+          id: true,
           researcher: {
             select: {
-              id: true
+              id: true,
+              email: true,
             }
           }
         }
@@ -61,9 +70,11 @@ export async function detailImaging(imagingId: string) {
     include: {
       patient: {
         select: {
+          id: true,
           researcher: {
             select: {
-              id: true
+              id: true,
+              email: true,
             }
           }
         }
@@ -80,9 +91,11 @@ export async function detailSignal(signalId: string) {
     include: {
       patient: {
         select: {
+          id: true,
           researcher: {
             select: {
-              id: true
+              id: true,
+              email: true,
             }
           }
         }
