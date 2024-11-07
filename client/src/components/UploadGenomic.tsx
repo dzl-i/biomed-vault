@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
+import React, { ChangeEvent, FormEvent, useMemo, useState } from "react"
 import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
 
 import { CategoryType, GenomicSummary } from "@/utils/types"
@@ -94,6 +94,7 @@ export const UploadGenomic = ({ onClose, setGenomics, patientId }: UploadGenomic
 
       // Construct an object with the input values
       const genomicData = {
+        patientId,
         name,
         description,
         dataType,

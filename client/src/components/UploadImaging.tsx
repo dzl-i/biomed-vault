@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
+import React, { ChangeEvent, FormEvent, useMemo, useState } from "react"
 import { Button, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
 
 import { CategoryType, ImagingSummary } from "@/utils/types"
@@ -87,6 +87,7 @@ export const UploadImaging = ({ onClose, setImagings, patientId }: UploadImaging
       setIsLoading(true);
 
       const imagingData = {
+        patientId,
         name,
         description,
         imageType,

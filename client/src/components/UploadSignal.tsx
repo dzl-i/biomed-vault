@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
+import React, { ChangeEvent, FormEvent, useMemo, useState } from "react"
 import { Button, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
 
 import { CategoryType, SignalSummary } from "@/utils/types"
@@ -90,6 +90,7 @@ export const UploadSignal = ({ onClose, setSignals, patientId }: UploadSignalPro
 
       // Construct an object with the input values
       const signalData = {
+        patientId,
         name,
         description,
         signalType,

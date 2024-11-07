@@ -1,4 +1,4 @@
-import React, { Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
+import React, { FormEvent, useMemo, useState } from "react"
 import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Spinner, Textarea } from "@nextui-org/react"
 
 import { CategoryType, PhenotypeSummary } from "@/utils/types"
@@ -43,6 +43,7 @@ export const UploadPhenotype = ({ onClose, setPhenotypes, patientId }: UploadPhe
 
       // Construct an object with the input values
       const phenotypeData = {
+        patientId,
         name,
         description,
         traits,
