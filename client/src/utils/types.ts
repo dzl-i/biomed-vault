@@ -160,10 +160,10 @@ export interface PatientDetail {
   categories: string[];
   researcherId: string;
   researcherEmail: string;
-  phenotypeData: PhenotypeDetail[];
-  genomicData: GenomicDetail[];
-  imagingData: ImagingDetail[];
-  signalData: SignalDetail[];
+  phenotypeData: PhenotypeSummary[];
+  genomicData: GenomicSummary[];
+  imagingData: ImagingSummary[];
+  signalData: SignalSummary[];
 };
 
 export interface PhenotypeDetail {
