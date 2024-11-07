@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useMemo, useState } from "react"
-import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
+import { Button, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
 
 import { CategoryType, ImagingSummary } from "@/utils/types"
 import { CheckboxGroup } from "./CheckboxGroup";
@@ -54,7 +54,7 @@ export const UploadImaging = ({ onClose, setImagings }: { onClose: () => void, s
     // Check file size (e.g., limit to 5MB)
     const maxSize = 5 * 1024 * 1024
     if (file.size > maxSize) {
-      console.error("File size must be less than 5MB")
+      console.error("File size must be less than 5MB", imageFile)
       return
     }
 

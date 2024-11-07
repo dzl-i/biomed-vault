@@ -72,7 +72,7 @@ export const UploadSignal = ({ onClose, setSignals }: { onClose: () => void, set
       setPreviewData(chartData);
       setDataPoints(JSON.stringify(chartData));
     } catch (error) {
-      console.error('Invalid file format. Please upload a JSON file with time-value pairs');
+      console.error('Invalid file format. Please upload a JSON file with time-value pairs', error);
       setPreviewData(null);
     }
   };
@@ -175,7 +175,7 @@ export const UploadSignal = ({ onClose, setSignals }: { onClose: () => void, set
                 {fileName || "No file selected"}
               </span>
             </div>
-            <p className="text-sm">Upload a JSON file with time-value pairs (e.g. "0": 1.0, "100": 1.5)</p>
+            <p className="text-sm">Upload a JSON file with time-value pairs (e.g. &quot;0&quot;: 1.0, &quot;100&quot;: 1.5)</p>
           </label>
         </div>
 
