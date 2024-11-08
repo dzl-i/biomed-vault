@@ -94,8 +94,8 @@ export const UploadSignal = ({ onClose, setSignals, patientId }: UploadSignalPro
         name,
         description,
         signalType,
-        duration,
-        sampleRate,
+        duration: parseFloat(duration),
+        sampleRate: parseFloat(sampleRate),
         dataPoints,
         categories
       };
