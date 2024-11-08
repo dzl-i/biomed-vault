@@ -48,3 +48,14 @@ export async function getResearcherPatients(id: string) {
     }
   });
 }
+
+export async function getResearcherDetails(id: string) {
+  return await prisma.researcher.findUnique({
+    where: {
+      id: id
+    },
+    include: {
+      patients: true
+    }
+  });
+}

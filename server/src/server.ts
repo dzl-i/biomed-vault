@@ -146,16 +146,15 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
 
 
 // RESEARCHER ROUTES
-app.get('/researcher/profile/:username', authenticateToken, async (req: Request, res: Response) => {
+app.get('/researcher/profile', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, email, institution } = await researcherProfile(username);
+    const { researcher } = await researcherProfile(researcherId);
 
     // Logging
-    await logCreate(researcherId, `viewed Researcher ${username}'s profile`, "SUCCESS");
+    await logCreate(researcherId, `viewed Researcher ${researcher.username}'s profile`, "SUCCESS");
 
-    res.status(200).json({ researcherName: name, researcherUsername: username, researcherEmail: email, researcherInstitution: institution });
+    res.status(200).json({ researcher });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
