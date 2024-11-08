@@ -225,7 +225,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
               <p className="text-foreground-600">{formatDate(patient.dateOfBirth)}</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-1">Age</h4>
+              <h4 className="font-semibold mb-1">Sex</h4>
               <p className="text-foreground-600">{patient.sex.charAt(0) + patient.sex.slice(1).toLowerCase()}</p>
             </div>
           </CardBody>
@@ -262,7 +262,6 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
         <Card className="pb-1">
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Phenotype Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
 
             {/* Upload Phenotype Button */}
             <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadPhenotype} className="ml-3">Upload Phenotype</Button>
@@ -319,7 +318,6 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
         <Card className="pb-1">
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Genomic Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
 
             {/* Upload Genomic Button */}
             <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadGenomic} className="ml-3">Upload Genomic</Button>
@@ -368,7 +366,6 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
         <Card className="pb-1">
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Imaging Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
 
             {/* Upload Imaging Button */}
             <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadImaging} className="ml-3">Upload Imaging</Button>
@@ -417,7 +414,6 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
         <Card className="pb-1">
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Signal Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
 
             {/* Upload Signal Button */}
             <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadSignal} className="ml-3">Upload Signal</Button>
