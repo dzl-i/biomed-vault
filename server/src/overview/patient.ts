@@ -4,7 +4,6 @@ import { detailPatient } from "../helper/overviewHelper";
 export async function overviewPatient(patientId: string, researcherId: string) {
   const patient = await detailPatient(patientId);
   if (patient === null) throw { status: 400, message: "Invalid patient." };
-  if (patient.researcherId !== researcherId) throw { status: 401, message: "This is not your patient and you are not authorised to access this patient's details." }
 
   return {
     id: patient.id,
