@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { UsersIcon, InfoIcon, MailIcon, SlidersHorizontalIcon, PlusIcon } from "lucide-react"
+import { UsersIcon, InfoIcon, SlidersHorizontalIcon, PlusIcon } from "lucide-react"
 
 import { calculateAge } from "@/utils/date"
 import { PatientSummary } from "@/utils/types"
@@ -244,7 +244,7 @@ export const PatientList = ({ researcherId }: { researcherId: string }) => {
                 </div>
 
                 <div className="flex items-end justify-end">
-                  {patient.researcherId === researcherId ? <Link href={`/patient/${patient.id}`}><Button color="primary"><InfoIcon />View Profile</Button></Link> : <Link href={`mailto:${patient.researcherEmail}`}><Button color="primary"><MailIcon />{patient.researcherEmail}</Button></Link>}
+                  <Link href={`/patient/${patient.id}`}><Button color="primary"><InfoIcon />View Profile</Button></Link>
                 </div>
               </div>
             ))}

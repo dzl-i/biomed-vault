@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { InfoIcon, MailIcon, SlidersHorizontalIcon, SyringeIcon } from "lucide-react"
+import { InfoIcon, SlidersHorizontalIcon, SyringeIcon } from "lucide-react"
 
 import { PhenotypeSummary } from "@/utils/types"
 
@@ -18,7 +18,7 @@ const initialFilterState: FilterState = {
   selectedCategories: []
 };
 
-export const PhenotypeList = ({ researcherId }: { researcherId: string }) => {
+export const PhenotypeList = () => {
   const [search, setSearch] = useState("");
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
 
@@ -183,7 +183,7 @@ export const PhenotypeList = ({ researcherId }: { researcherId: string }) => {
                 </div>
 
                 <div className="flex items-end justify-end">
-                  {phenotype.researcherId === researcherId ? <Link href={`/phenotype/${phenotype.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link> : <Link href={`mailto:${phenotype.researcherEmail}`}><Button color="primary"><MailIcon />{phenotype.researcherEmail}</Button></Link>}
+                  <Link href={`/phenotype/${phenotype.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link>
                 </div>
               </div>
             ))}

@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { InfoIcon, MailIcon, ActivityIcon, SlidersHorizontalIcon } from "lucide-react"
+import { InfoIcon, ActivityIcon, SlidersHorizontalIcon } from "lucide-react"
 
 import { SignalSummary } from "@/utils/types"
 
@@ -20,7 +20,7 @@ const initialFilterState: FilterState = {
   categories: [],
 };
 
-export const SignalList = ({ researcherId }: { researcherId: string }) => {
+export const SignalList = () => {
   const [search, setSearch] = useState("");
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
 
@@ -198,7 +198,7 @@ export const SignalList = ({ researcherId }: { researcherId: string }) => {
                 </div>
 
                 <div className="flex gap-3 items-end justify-end">
-                  {signal.researcherId === researcherId ? <Link href={`/signal/${signal.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link> : <Link href={`mailto:${signal.researcherEmail}`}><Button color="primary"><MailIcon />{signal.researcherEmail}</Button></Link>}
+                  <Link href={`/signal/${signal.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link>
                 </div>
               </div>
             ))}

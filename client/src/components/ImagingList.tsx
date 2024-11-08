@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Button, Chip, Divider, Modal, ModalContent, Spinner, useDisclosure } from "@nextui-org/react"
-import { InfoIcon, MailIcon, SlidersHorizontalIcon, BrainIcon, SquareArrowOutUpRightIcon } from "lucide-react"
+import { InfoIcon, SlidersHorizontalIcon, BrainIcon, SquareArrowOutUpRightIcon } from "lucide-react"
 
 import { ImagingSummary } from "@/utils/types"
 
@@ -20,7 +20,7 @@ const initialFilterState: FilterState = {
   categories: [],
 };
 
-export const ImagingList = ({ researcherId }: { researcherId: string }) => {
+export const ImagingList = () => {
   const [search, setSearch] = useState("");
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
 
@@ -198,7 +198,7 @@ export const ImagingList = ({ researcherId }: { researcherId: string }) => {
 
                 <div className="flex gap-3 items-end justify-end">
                   <Link href={imaging.imageUrl} target="_blank"><Button color="primary"><SquareArrowOutUpRightIcon />View Source</Button></Link>
-                  {imaging.researcherId === researcherId ? <Link href={`/imaging/${imaging.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link> : <Link href={`mailto:${imaging.researcherEmail}`}><Button color="primary"><MailIcon />{imaging.researcherEmail}</Button></Link>}
+                  <Link href={`/imaging/${imaging.id}`}><Button color="primary"><InfoIcon />More Details</Button></Link>
                 </div>
               </div>
             ))}
