@@ -229,3 +229,12 @@ export interface SignalDetail {
   researcherInstitution: string;
   researcherEmail: string;
 }
+
+export interface ResearcherDetail {
+  id: string;
+  name: string;
+  institution: string;
+  email: string;
+  username: string;
+  patients: PatientSummary[];
+}
