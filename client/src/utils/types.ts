@@ -159,6 +159,8 @@ export interface PatientDetail {
   treatmentInfo: string;
   categories: string[];
   researcherId: string;
+  researcherName: string;
+  researcherInstitution: string;
   researcherEmail: string;
   phenotypeData: PhenotypeSummary[];
   genomicData: GenomicSummary[];
@@ -174,6 +176,8 @@ export interface PhenotypeDetail {
   categories: string[];
   patientId: string;
   researcherId: string;
+  researcherName: string;
+  researcherInstitution: string;
   researcherEmail: string;
 }
 
@@ -190,6 +194,8 @@ export interface GenomicDetail {
   categories: string[];
   patientId: string;
   researcherId: string;
+  researcherName: string;
+  researcherInstitution: string;
   researcherEmail: string;
 }
 
@@ -203,6 +209,8 @@ export interface ImagingDetail {
   categories: string[];
   patientId: string;
   researcherId: string;
+  researcherName: string;
+  researcherInstitution: string;
   researcherEmail: string;
 }
 
@@ -217,5 +225,7 @@ export interface SignalDetail {
   categories: string[];
   patientId: string;
   researcherId: string;
+  researcherName: string;
+  researcherInstitution: string;
   researcherEmail: string;
 }
