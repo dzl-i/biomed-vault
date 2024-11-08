@@ -131,8 +131,8 @@ app.post('/auth/logout', authenticateToken, async (req: Request, res: Response) 
     await authLogout(refreshToken);
 
     // Assign cookies
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
+    res.clearCookie('accessToken', { domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost" });
+    res.clearCookie('refreshToken', { domain: isProduction ? "biomedata.denzeliskandar.com" : ".localhost" });
 
     // Logging
     await logCreate(researcherId, "logged out of their account", "SUCCESS");
