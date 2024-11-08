@@ -1,9 +1,9 @@
 "use client"
 
-import { Button, Card, CardBody, CardHeader, Chip, Divider, getKeyValue, Modal, ModalContent, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
+import { Button, Card, CardBody, CardHeader, Chip, Divider, getKeyValue, Link, Modal, ModalContent, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
 import { GenomicSummary, ImagingSummary, PatientDetail, PhenotypeSummary, SignalSummary } from "@/utils/types";
 import { useEffect, useState } from "react";
-import { PencilIcon, PlusIcon, UserIcon } from "lucide-react";
+import { MailIcon, PencilIcon, PlusIcon, UserIcon } from "lucide-react";
 import { UploadPhenotype } from "./UploadPhenotype";
 import { UploadGenomic } from "./UploadGenomic";
 import { UploadImaging } from "./UploadImaging";
@@ -90,7 +90,7 @@ const signalColumns = [
   },
 ];
 
-export const PatientOverview = ({ patientId }: { patientId: string }) => {
+export const PatientOverview = ({ researcherId, patientId }: { researcherId: string, patientId: string }) => {
   const [patient, setPatient] = useState<PatientDetail | null>(null);
   const [isLoadingPatientOverview, setIsLoadingPatientOverview] = useState(true);
 
@@ -202,11 +202,11 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
     <div className="flex flex-col w-5/6 my-12">
       {/* Header Section */}
       <div className="flex flex-col gap-1">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row items-center gap-4">
           <UserIcon size={42} />
-          <p className="text-5xl font-extrabold">{patient.name}</p>
+          <p className="text-5xl font-extrabold">{patient.researcherId === researcherId ? patient.name : "REDACTED"}</p>
         </div>
-        <p className="text-foreground-500">Patient ID: {patient.id}</p>
+        <p className="text-foreground-500">Patient ID: {patient.researcherId === researcherId ? patient.id : "REDACTED"}</p>
       </div>
 
       <Divider className="my-8" />
@@ -216,7 +216,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
         <Card className="pb-1">
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Patient Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
+            <Button color="primary" variant="bordered" className={`${patient.researcherId === researcherId ? "" : "hidden"}`} startContent={<PencilIcon />}>Edit</Button>
           </CardHeader>
           <Divider />
           <CardBody className="px-8 space-y-4">
@@ -235,7 +235,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
           {/* Medical Information */}
           <CardHeader className="flex flex-row w-full px-8">
             <h3 className="text-lg font-bold flex flex-grow">Medical Information</h3>
-            <Button color="primary" variant="bordered"><PencilIcon />Edit</Button>
+            <Button color="primary" variant="bordered" className={`${patient.researcherId === researcherId ? "" : "hidden"}`} startContent={<PencilIcon />}>Edit</Button>
           </CardHeader>
           <Divider />
           <CardBody className="px-8 space-y-4">
@@ -264,7 +264,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
             <h3 className="text-lg font-bold flex flex-grow">Phenotype Information</h3>
 
             {/* Upload Phenotype Button */}
-            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadPhenotype} className="ml-3">Upload Phenotype</Button>
+            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadPhenotype} className={`${patient.researcherId === researcherId ? "" : "hidden"}`}>Upload Phenotype</Button>
             <Modal isOpen={isOpenUploadPhenotype} onOpenChange={onOpenUploadPhenotypeChange} scrollBehavior="inside" size="4xl">
               <ModalContent>
                 {(onClose) => (
@@ -279,7 +279,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
               <TableHeader columns={phenotypeColumns}>
                 {(column) => <TableColumn key={column.key} width={"25%"}>{column.label}</TableColumn>}
               </TableHeader>
-              <TableBody items={patient.phenotypeData}>
+              <TableBody items={patient.phenotypeData} emptyContent={"No rows to display."}>
                 {(item) => (
                   <TableRow key={item.id} className="rounded-2xl hover:cursor-pointer hover:bg-foreground-100" onClick={() => router.push(`/phenotype/${item.id}`)}>
                     {(columnKey) => (
@@ -320,7 +320,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
             <h3 className="text-lg font-bold flex flex-grow">Genomic Information</h3>
 
             {/* Upload Genomic Button */}
-            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadGenomic} className="ml-3">Upload Genomic</Button>
+            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadGenomic} className={`${patient.researcherId === researcherId ? "" : "hidden"}`}>Upload Genomic</Button>
             <Modal isOpen={isOpenUploadGenomic} onOpenChange={onOpenUploadGenomicChange} scrollBehavior="inside" size="4xl">
               <ModalContent>
                 {(onClose) => (
@@ -335,7 +335,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
               <TableHeader columns={genomicColumns}>
                 {(column) => <TableColumn key={column.key} width={"20%"}>{column.label}</TableColumn>}
               </TableHeader>
-              <TableBody items={patient.genomicData}>
+              <TableBody items={patient.genomicData} emptyContent={"No rows to display."}>
                 {(item) => (
                   <TableRow key={item.id} className="rounded-2xl hover:cursor-pointer hover:bg-foreground-100" onClick={() => router.push(`/genomic/${item.id}`)}>
                     {(columnKey) => (
@@ -368,7 +368,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
             <h3 className="text-lg font-bold flex flex-grow">Imaging Information</h3>
 
             {/* Upload Imaging Button */}
-            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadImaging} className="ml-3">Upload Imaging</Button>
+            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadImaging} className={`${patient.researcherId === researcherId ? "" : "hidden"}`}>Upload Imaging</Button>
             <Modal isOpen={isOpenUploadImaging} onOpenChange={onOpenUploadImagingChange} scrollBehavior="inside" size="4xl">
               <ModalContent>
                 {(onClose) => (
@@ -383,7 +383,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
               <TableHeader columns={imagingColumns}>
                 {(column) => <TableColumn key={column.key} width={"25%"}>{column.label}</TableColumn>}
               </TableHeader>
-              <TableBody items={patient.imagingData}>
+              <TableBody items={patient.imagingData} emptyContent={"No rows to display."}>
                 {(item) => (
                   <TableRow key={item.id} className="rounded-2xl hover:cursor-pointer hover:bg-foreground-100" onClick={() => router.push(`/imaging/${item.id}`)}>
                     {(columnKey) => (
@@ -416,7 +416,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
             <h3 className="text-lg font-bold flex flex-grow">Signal Information</h3>
 
             {/* Upload Signal Button */}
-            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadSignal} className="ml-3">Upload Signal</Button>
+            <Button color="primary" variant="solid" startContent={<PlusIcon />} onClick={onOpenUploadSignal} className={`${patient.researcherId === researcherId ? "" : "hidden"}`}>Upload Signal</Button>
             <Modal isOpen={isOpenUploadSignal} onOpenChange={onOpenUploadSignalChange} scrollBehavior="inside" size="4xl">
               <ModalContent>
                 {(onClose) => (
@@ -431,7 +431,7 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
               <TableHeader columns={signalColumns}>
                 {(column) => <TableColumn key={column.key} width={"25%"}>{column.label}</TableColumn>}
               </TableHeader>
-              <TableBody items={patient.signalData}>
+              <TableBody items={patient.signalData} emptyContent={"No rows to display."}>
                 {(item) => (
                   <TableRow key={item.id} className="rounded-2xl hover:cursor-pointer hover:bg-foreground-100" onClick={() => router.push(`/signal/${item.id}`)}>
                     {(columnKey) => (
@@ -455,6 +455,29 @@ export const PatientOverview = ({ patientId }: { patientId: string }) => {
                 )}
               </TableBody>
             </Table>
+          </CardBody>
+        </Card>
+
+        {/* Researcher Information */}
+        <Card className="pb-1">
+          <CardHeader className="flex flex-row w-full px-8">
+            <h3 className="text-lg font-bold flex flex-grow">Researcher Information</h3>
+            <Button color="primary" variant="bordered" className={`${patient.researcherId === researcherId ? "" : "hidden"}`} startContent={<PencilIcon />}>Edit</Button>
+          </CardHeader>
+          <Divider />
+          <CardBody className="px-8 space-y-4">
+            <div>
+              <h4 className="font-semibold mb-1">Name</h4>
+              <p className="text-foreground-600">{patient.researcherName}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-1">Institution</h4>
+              <p className="text-foreground-600">{patient.researcherInstitution}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-1">Email</h4>
+              <Link href={`mailto:${patient.researcherEmail}`}><Button color="primary"><MailIcon />{patient.researcherEmail}</Button></Link>
+            </div>
           </CardBody>
         </Card>
       </div>
