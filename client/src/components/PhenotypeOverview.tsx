@@ -1,94 +1,9 @@
 "use client"
 
-import { Button, Card, CardBody, CardHeader, Chip, Divider, getKeyValue, Link, Modal, ModalContent, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
-import { GenomicSummary, ImagingSummary, PhenotypeDetail, PhenotypeSummary, SignalSummary } from "@/utils/types";
+import { Button, Card, CardBody, CardHeader, Chip, Divider, Link, Spinner } from "@nextui-org/react"
+import { PhenotypeDetail } from "@/utils/types";
 import { useEffect, useState } from "react";
-import { InfoIcon, MailIcon, PencilIcon, PlusIcon, SyringeIcon } from "lucide-react";
-import { UploadPhenotype } from "./UploadPhenotype";
-import { UploadGenomic } from "./UploadGenomic";
-import { UploadImaging } from "./UploadImaging";
-import { UploadSignal } from "./UploadSignal";
-import { useRouter } from "next/navigation";
-
-const phenotypeColumns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "description",
-    label: "DESCRIPTION",
-  },
-  {
-    key: "traits",
-    label: "TRAITS",
-  },
-  {
-    key: "categories",
-    label: "CATEGORIES",
-  },
-];
-
-const genomicColumns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "description",
-    label: "DESCRIPTION",
-  },
-  {
-    key: "dataType",
-    label: "DATA TYPE",
-  },
-  {
-    key: "quality",
-    label: "QUALITY",
-  },
-  {
-    key: "categories",
-    label: "CATEGORIES",
-  },
-];
-
-const imagingColumns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "description",
-    label: "DESCRIPTION",
-  },
-  {
-    key: "imageType",
-    label: "IMAGE TYPE",
-  },
-  {
-    key: "categories",
-    label: "CATEGORIES",
-  },
-];
-
-const signalColumns = [
-  {
-    key: "name",
-    label: "NAME",
-  },
-  {
-    key: "description",
-    label: "DESCRIPTION",
-  },
-  {
-    key: "signalType",
-    label: "SIGNAL TYPE",
-  },
-  {
-    key: "categories",
-    label: "CATEGORIES",
-  },
-];
+import { InfoIcon, MailIcon, PencilIcon, SyringeIcon } from "lucide-react";
 
 export const PhenotypeOverview = ({ researcherId, phenotypeId }: { researcherId: string, phenotypeId: string }) => {
   const [phenotype, setPhenotype] = useState<PhenotypeDetail | null>(null);
@@ -189,7 +104,7 @@ export const PhenotypeOverview = ({ researcherId, phenotypeId }: { researcherId:
               <h4 className="font-semibold mb-1">Categories</h4>
               <div className="flex flex-row gap-2">
                 {phenotype.categories.map((category) => (
-                  <Chip color="secondary" variant="flat" key={category}>{category}</Chip>
+                  <Chip color="secondary" variant="flat" key={category}>{getReadableCategoryName(category)}</Chip>
                 ))}
               </div>
             </div>
