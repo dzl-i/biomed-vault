@@ -10,6 +10,7 @@ export async function overviewPhenotype(phenotypeId: string, researcherId: strin
     traits: phenotype.traits,
     categories: phenotype.categories,
     patientId: phenotype.patient.id,
+    researcherId: phenotype.patient.researcher.id,
     researcherEmail: phenotype.patient.researcher.email
   }
 }

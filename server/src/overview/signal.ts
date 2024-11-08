@@ -13,6 +13,7 @@ export async function overviewSignal(signalid: string, researcherId: string) {
     sampleRate: signal.sampleRate,
     categories: signal.categories,
     patientId: signal.patient.id,
+    researcherId: signal.patient.researcher.id,
     researcherEmail: signal.patient.researcher.email
   }
 }

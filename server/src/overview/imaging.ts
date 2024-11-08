@@ -12,6 +12,7 @@ export async function overviewImaging(imagingId: string, researcherId: string) {
     imageUrl: imaging.imageUrl,
     categories: imaging.categories,
     patientId: imaging.patient.id,
+    researcherId: imaging.patient.researcher.id,
     researcherEmail: imaging.patient.researcher.email
   }
 }
