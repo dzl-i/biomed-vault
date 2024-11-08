@@ -23,7 +23,7 @@ export default function Page() {
         <>
           <Navbar researcherId={researcherId} />
           <div className="flex flex-col w-full ml-20 items-center">
-            <ImagingList researcherId={researcherId} />
+            <ImagingList />
           </div>
         </>
       ) : (
