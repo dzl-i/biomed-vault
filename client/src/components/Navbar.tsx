@@ -28,9 +28,9 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
   const router = useRouter();
 
   const [isLoadingLogout, setIsLoadingLogout] = useState(false);
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isOpenPrivacy, onOpen: onOpenPrivacy, onOpenChange: onOpenPrivacyChange } = useDisclosure();
+  const { isOpen: isOpenLogout, onOpen: onOpenLogout, onOpenChange: onOpenLogoutChange } = useDisclosure();
 
   const handleLogoutClick = async () => {
     try {
@@ -71,9 +71,9 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
       <div className="flex flex-col h-full w-full" style={{ borderTop: "2px solid #e0e0e0" }}>
         <div className="flex flex-col items-center py-3">
           <Tooltip placement="right" content="Privacy and Safety" color="primary" closeDelay={0} showArrow={true}>
-            <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={onOpen} />
+            <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={onOpenPrivacy} />
           </Tooltip>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <Modal isOpen={isOpenPrivacy} onOpenChange={onOpenPrivacyChange}>
             <ModalContent>
               {(onClose) => (
                 <Privacy onClose={onClose} />
@@ -126,18 +126,21 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
         </div>
         <div className="flex flex-col items-center">
           <Tooltip placement="right" content="Log Out" color="primary" closeDelay={0} showArrow={true}>
-            <LogOutIcon strokeWidth={1.5} className="h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover" onClick={() => setShowLogoutConfirmation(true)} />
+            <LogOutIcon strokeWidth={1.5} className="h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover" onClick={onOpenLogout} />
           </Tooltip>
+          <Modal isOpen={isOpenLogout} onOpenChange={onOpenLogoutChange}>
+            <ModalContent>
+              {(onClose) => (
+                <Logout
+                  onConfirm={handleLogoutClick}
+                  onCancel={onClose}
+                  isLoadingLogout={isLoadingLogout}
+                />
+              )}
+            </ModalContent>
+          </Modal>
         </div>
       </div>
-
-      {showLogoutConfirmation && (
-        <Logout
-          onConfirm={handleLogoutClick}
-          onCancel={() => setShowLogoutConfirmation(false)}
-          isLoadingLogout={isLoadingLogout}
-        />
-      )}
     </nav >
   )
 }
