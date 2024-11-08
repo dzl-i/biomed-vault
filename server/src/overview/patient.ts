@@ -18,6 +18,8 @@ export async function overviewPatient(patientId: string, researcherId: string) {
     signalData: patient.signalData,
     categories: patient.categories,
     researcherId: patient.researcherId,
+    researcherName: patient.researcher.name,
+    researcherInstitution: patient.researcher.institution,
     researcherEmail: patient.researcher.email
   }
 }

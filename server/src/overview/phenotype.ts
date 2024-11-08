@@ -11,6 +11,8 @@ export async function overviewPhenotype(phenotypeId: string, researcherId: strin
     categories: phenotype.categories,
     patientId: phenotype.patient.id,
     researcherId: phenotype.patient.researcher.id,
+    researcherName: phenotype.patient.researcher.name,
+    researcherInstitution: phenotype.patient.researcher.institution,
     researcherEmail: phenotype.patient.researcher.email
   }
 }

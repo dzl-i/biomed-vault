@@ -16,6 +16,8 @@ export async function overviewGenomic(genomicId: string, researcherId: string) {
     categories: genomic.categories,
     patientId: genomic.patient.id,
     researcherId: genomic.patient.researcher.id,
+    researcherName: genomic.patient.researcher.name,
+    researcherInstitution: genomic.patient.researcher.institution,
     researcherEmail: genomic.patient.researcher.email
   }
 }

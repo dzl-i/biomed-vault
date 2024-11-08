@@ -13,6 +13,8 @@ export async function detailPatient(patientId: string) {
       signalData: true,
       researcher: {
         select: {
+          name: true,
+          institution: true,
           email: true
         }
       }
@@ -32,6 +34,8 @@ export async function detailGenomic(genomicId: string) {
           researcher: {
             select: {
               id: true,
+              name: true,
+              institution: true,
               email: true
             }
           }
@@ -53,6 +57,8 @@ export async function detailPhenotype(phenotypeId: string) {
           researcher: {
             select: {
               id: true,
+              name: true,
+              institution: true,
               email: true,
             }
           }
@@ -74,6 +80,8 @@ export async function detailImaging(imagingId: string) {
           researcher: {
             select: {
               id: true,
+              name: true,
+              institution: true,
               email: true,
             }
           }
@@ -95,6 +103,8 @@ export async function detailSignal(signalId: string) {
           researcher: {
             select: {
               id: true,
+              name: true,
+              institution: true,
               email: true,
             }
           }

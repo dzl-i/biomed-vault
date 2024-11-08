@@ -345,12 +345,12 @@ app.get('/overview/patient/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories, researcherId: researchersId, researcherEmail } = await overviewPatient(id, researcherId);
+    const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail } = await overviewPatient(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories, researcherId: researchersId, researcherEmail });
+    res.status(200).json({ id, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, genomicData, phenotypeData, imagingData, signalData, categories, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -361,12 +361,12 @@ app.get('/overview/genomic/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories, patientId, researcherId: researchersId, researcherEmail } = await overviewGenomic(id, researcherId);
+    const { name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail } = await overviewGenomic(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Genomic Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories, patientId, researcherId: researchersId, researcherEmail });
+    res.status(200).json({ id, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -377,12 +377,12 @@ app.get('/overview/phenotype/:id', authenticateToken, async (req: Request, res: 
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, traits, categories, patientId, researcherId: researchersId, researcherEmail } = await overviewPhenotype(id, researcherId);
+    const { name, description, traits, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail } = await overviewPhenotype(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Phenotype Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, traits, categories, patientId, researcherId: researchersId, researcherEmail });
+    res.status(200).json({ id, name, description, traits, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -393,12 +393,12 @@ app.get('/overview/imaging/:id', authenticateToken, async (req: Request, res: Re
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, imageType, image, imageUrl, categories, patientId, researcherId: researchersId, researcherEmail } = await overviewImaging(id, researcherId);
+    const { name, description, imageType, image, imageUrl, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail } = await overviewImaging(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Imaging Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, imageType, image, imageUrl, categories, patientId, researcherId: researchersId, researcherEmail });
+    res.status(200).json({ id, name, description, imageType, image, imageUrl, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
@@ -409,12 +409,12 @@ app.get('/overview/signal/:id', authenticateToken, async (req: Request, res: Res
   try {
     const { id } = req.params;
     const researcherId = res.locals.researcherId;
-    const { name, description, signalType, dataPoints, duration, sampleRate, categories, patientId, researcherId: researchersId, researcherEmail } = await overviewSignal(id, researcherId);
+    const { name, description, signalType, dataPoints, duration, sampleRate, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail } = await overviewSignal(id, researcherId);
 
     // Logging
     await logCreate(researcherId, `viewed a detailed overview of Patient ${id}'s Signal Data ${name}`, "SUCCESS");
 
-    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate, categories, patientId, researcherId: researchersId, researcherEmail });
+    res.status(200).json({ id, name, description, signalType, dataPoints, duration, sampleRate, categories, patientId, researcherId: researchersId, researcherName, researcherInstitution, researcherEmail });
   } catch (error: any) {
     console.error(error);
     res.status(error.status || 500).json({ error: error.message || "An error occurred." });
