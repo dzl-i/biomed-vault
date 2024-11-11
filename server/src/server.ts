@@ -47,6 +47,7 @@ import { searchGenomic } from './search/genomic';
 import { searchPhenotype } from './search/phenotype';
 import { searchImaging } from './search/imaging';
 import { searchSignal } from './search/signal';
+import { visualisationData } from './visualisation/data';
 
 // Database client
 const prisma = new PrismaClient()
@@ -633,6 +634,22 @@ app.get('/search/signals/:searchTerm', authenticateToken, async (req: Request, r
   }
 })
 
+
+// VISUALISATION ROUTES
+app.get('/visualisation/data', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const researcherId = res.locals.researcherId;
+    const dashboardData = await visualisationData();
+
+    // Logging
+    await logCreate(researcherId, `viewed the dashboard`, "SUCCESS");
+
+    res.status(200).json({ dashboardData });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.status || 500).json({ error: error.message || "An error occurred." });
+  }
+})
 
 ///////////////////////// SERVER /////////////////////////
 
