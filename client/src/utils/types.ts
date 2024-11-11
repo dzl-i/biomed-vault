@@ -238,3 +238,37 @@ export interface ResearcherDetail {
   username: string;
   patients: PatientSummary[];
 }
+
+export interface DashboardData {
+  patientDemographics: {
+    age: string;
+    male: number;
+    female: number;
+    other: number;
+  }[];
+
+  genomicDistribution: {
+    name: string;
+    value: number;
+  }[];
+
+  mutationTypesCloud: {
+    text: string;
+    value: number;
+  }[];
+
+  phenotypeTraitsCloud: {
+    text: string;
+    value: number;
+  }[];
+
+  imagingDistribution: {
+    name: string;
+    value: number;
+  }[];
+
+  signalDistribution: {
+    name: string;
+    value: number;
+  }[];
+}
