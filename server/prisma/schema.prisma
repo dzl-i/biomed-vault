@@ -135,63 +135,71 @@ enum SignalType {
 }
 
 enum CategoryType {
-    // Disease Categories
-    DISEASE
-    CANCER
-    CARDIOVASCULAR
-    NEUROLOGICAL
-    GENETIC
-    METABOLIC
-    IMMUNOLOGICAL
-    INFECTIOUS
-    DEVELOPMENTAL
+    // Disease Classifications
+    ONCOLOGICAL // Cancer and neoplastic diseases
+    CARDIOVASCULAR // Heart and circulatory system diseases
+    NEUROLOGICAL // Brain and nervous system disorders
+    RESPIRATORY // Lung and breathing disorders
+    GASTROINTESTINAL // Digestive system disorders
+    ENDOCRINE // Hormone-related disorders
+    IMMUNOLOGICAL // Immune system disorders
+    MUSCULOSKELETAL // Bone and muscle disorders
+    DERMATOLOGICAL // Skin conditions
+    GENETIC_DISORDER // Inherited conditions
+    INFECTIOUS_DISEASE // Bacterial, viral, fungal infections
+    RARE_DISEASE // Rare genetic conditions
 
-    // Clinical Categories
-    DIAGNOSIS
-    TREATMENT
-    SCREENING
-    PREVENTION
-    EMERGENCY
-
-    // Phenotype Categories
-    SYMPTOM
-    SYNDROME
-    COMPLICATION
-    SIDE_EFFECT
-
-    // Genetic Categories
-    MUTATION
-    VARIANT
-    POLYMORPHISM
-    DELETION
-    INSERTION
-    FUSION
-    AMPLIFICATION
+    // Clinical Aspects
+    PRIMARY_DIAGNOSIS // Initial diagnosis
+    SECONDARY_DIAGNOSIS // Complications or concurrent conditions
+    ACUTE_CARE // Immediate/emergency care
+    CHRONIC_CARE // Long-term management
+    PALLIATIVE_CARE // End-of-life care
+    PREVENTIVE_CARE // Disease prevention
+    CLINICAL_TRIAL // Research studies
 
     // Treatment Categories
-    DRUG
-    THERAPY
-    SURGERY
-    RADIATION
-    IMMUNOTHERAPY
-    GENE_THERAPY
-    HORMONE_THERAPY
+    CHEMOTHERAPY // Cancer drug treatment
+    IMMUNOTHERAPY // Immune system treatment
+    TARGETED_THERAPY // Specific molecular targeting
+    HORMONE_THERAPY // Hormone-based treatment
+    RADIATION_THERAPY // Radiation treatment
+    SURGICAL // Surgical procedures
+    COMBINATION_THERAPY // Multiple treatment types
+    EXPERIMENTAL_THERAPY // Novel treatments
 
-    // Demographic Categories
-    PEDIATRIC
-    ADULT
-    GERIATRIC
-    MATERNAL
+    // Demographic Scope
+    PEDIATRIC // Children (0-18)
+    ADULT // Adults (19-64)
+    GERIATRIC // Elderly (65+)
+    MATERNAL // Pregnancy-related
+    FAMILIAL // Family-based studies
 
-    // Anatomical Categories
-    BRAIN
-    HEART
-    LUNG
-    LIVER
-    KIDNEY
-    BONE
-    MUSCLE
-    BLOOD
+    // Anatomical Systems
+    CENTRAL_NERVOUS // Brain, spinal cord
+    PERIPHERAL_NERVOUS // Peripheral nerves
+    CARDIAC // Heart specific
+    VASCULAR // Blood vessels
+    RESPIRATION // Nose, pharynx, larynx, trachea, lungs, bronchi
+    DIGESTIVE // Mouth, esophagus, stomach, intestines, colon
+    HEPATIC // Liver
+    PANCREATIC // Pancreas
+    RENAL // Kidneys
+    URINARY // Bladder, urethra
+    REPRODUCTIVE // Reproductive organs
+    SKELETAL // Bones
+    MUSCULAR // Muscles
+    INTEGUMENTARY // Skin, hair, nails
+    LYMPHATIC // Lymph nodes, vessels
+    ENDOCRINE_THYROID // Thyroid
+    ENDOCRINE_ADRENAL // Adrenal glands
+    ENDOCRINE_PITUITARY // Pituitary gland
+    OCULAR // Eyes
+    AUDITORY // Ears
+    ORAL // Mouth, teeth, gums
+    JOINT // Joints and connective tissue
+    HEMATOLOGIC // Blood and bone marrow
+    IMMUNE // Immune system components
 }
 
 enum DataQuality {
