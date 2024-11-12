@@ -263,7 +263,7 @@ app.post('/upload/patient', authenticateToken, async (req: Request, res: Respons
   try {
     const researcherId = res.locals.researcherId;
     const { name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, categories } = req.body;
-    const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, categories);
+    const patient = await uploadPatient(researcherId, name, dateOfBirth, sex, diagnosticInfo, treatmentInfo, categories as CategoryType[]);
 
     // Logging
     await logCreate(researcherId, `uploaded Patient ${name}'s data`, "SUCCESS");
@@ -279,7 +279,7 @@ app.post('/upload/genomic', authenticateToken, async (req: Request, res: Respons
   try {
     const researcherId = res.locals.researcherId;
     const { patientId, name, description, dataType, geneNames, mutationTypes, impacts, rawDataUrl, quality, categories } = req.body;
-    const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality, categories);
+    const genomic = await uploadGenomic(patientId, name, description, dataType as GenomicDataType, geneNames, mutationTypes, impacts, rawDataUrl, quality as DataQuality, categories as CategoryType[]);
 
     // Logging
     await logCreate(researcherId, `uploaded a Genomic Data ${name} for Patient ${patientId}`, "SUCCESS");
@@ -295,7 +295,7 @@ app.post('/upload/phenotype', authenticateToken, async (req: Request, res: Respo
   try {
     const researcherId = res.locals.researcherId;
     const { patientId, name, description, traits, categories } = req.body;
-    const phenotype = await uploadPhenotype(patientId, name, description, traits, categories);
+    const phenotype = await uploadPhenotype(patientId, name, description, traits, categories as CategoryType[]);
 
     // Logging
     await logCreate(researcherId, `uploaded a Phenotype Data ${name} for Patient ${patientId}`, "SUCCESS");
@@ -311,7 +311,7 @@ app.post('/upload/imaging', authenticateToken, async (req: Request, res: Respons
   try {
     const researcherId = res.locals.researcherId;
     const { patientId, name, description, imageType, image, imageUrl, categories } = req.body;
-    const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl, categories);
+    const imaging = await uploadImaging(patientId, name, description, imageType as ImagingType, image, imageUrl, categories as CategoryType[]);
 
     // Logging
     await logCreate(researcherId, `uploaded an Imaging Data ${name} for Patient ${patientId}`, "SUCCESS");
@@ -327,7 +327,7 @@ app.post('/upload/signal', authenticateToken, async (req: Request, res: Response
   try {
     const researcherId = res.locals.researcherId;
     const { patientId, name, description, signalType, dataPoints, duration, sampleRate, categories } = req.body;
-    const signal = await uploadSignal(patientId, name, description, signalType as SignalType, dataPoints, duration, sampleRate, categories);
+    const signal = await uploadSignal(patientId, name, description, signalType as SignalType, dataPoints, duration, sampleRate, categories as CategoryType[]);
 
     // Logging
     await logCreate(researcherId, `uploaded a Signal Data ${name} for Patient ${patientId}`, "SUCCESS");
