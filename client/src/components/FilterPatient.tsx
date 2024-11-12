@@ -3,6 +3,7 @@ import { Button, Checkbox, CheckboxGroup, ModalBody, ModalFooter, ModalHeader, R
 
 import { CategoryType, PatientSummary } from "@/utils/types"
 import { calculateAge } from "@/utils/date";
+import { CheckboxGroup as CustomCheckboxGroup } from "./CheckboxGroup";
 
 // Age range interface
 interface AgeRange {
@@ -128,57 +129,37 @@ export const FilterPatient = ({ onClose, patients, setPatients, filters, setFilt
         </RadioGroup>
 
         {/* Filter by Categories */}
-        <CheckboxGroup label="Select categories of interest" color="primary" value={filters.selectedCategories} onValueChange={(value) => setFilters(prev => ({ ...prev, selectedCategories: value }))}>
-          {/* Disease Categories */}
+        <CustomCheckboxGroup value={filters.selectedCategories} onValueChange={(value) => setFilters(prev => ({ ...prev, selectedCategories: value }))}>
+          {/* Disease Classifications */}
           <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Disease Categories</p>
+            <p className="text-sm font-semibold mb-1">Disease Classifications</p>
             <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.DISEASE}>Disease</Checkbox>
-              <Checkbox value={CategoryType.CANCER}>Cancer</Checkbox>
-              <Checkbox value={CategoryType.CARDIOVASCULAR}>Cardiovascular</Checkbox>
-              <Checkbox value={CategoryType.NEUROLOGICAL}>Neurological</Checkbox>
-              <Checkbox value={CategoryType.GENETIC}>Genetic</Checkbox>
-              <Checkbox value={CategoryType.METABOLIC}>Metabolic</Checkbox>
-              <Checkbox value={CategoryType.IMMUNOLOGICAL}>Immunological</Checkbox>
-              <Checkbox value={CategoryType.INFECTIOUS}>Infectious</Checkbox>
-              <Checkbox value={CategoryType.DEVELOPMENTAL}>Developmental</Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ONCOLOGICAL}>Oncological</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CARDIOVASCULAR}>Cardiovascular</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.NEUROLOGICAL}>Neurological</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.RESPIRATORY}>Respiratory</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.GASTROINTESTINAL}>Gastrointestinal</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ENDOCRINE}>Endocrine</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.IMMUNOLOGICAL}>Immunological</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.MUSCULOSKELETAL}>Musculoskeletal</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.DERMATOLOGICAL}>Dermatological</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.GENETIC_DISORDER}>Genetic Disorder</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.INFECTIOUS_DISEASE}>Infectious Disease</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.RARE_DISEASE}>Rare Disease</CustomCheckboxGroup.Checkbox>
             </div>
           </div>
 
-          {/* Clinical Categories */}
+          {/* Clinical Aspects */}
           <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Clinical Categories</p>
+            <p className="text-sm font-semibold mb-1">Clinical Aspects</p>
             <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.DIAGNOSIS}>Diagnosis</Checkbox>
-              <Checkbox value={CategoryType.TREATMENT}>Treatment</Checkbox>
-              <Checkbox value={CategoryType.SCREENING}>Screening</Checkbox>
-              <Checkbox value={CategoryType.PREVENTION}>Prevention</Checkbox>
-              <Checkbox value={CategoryType.EMERGENCY}>Emergency</Checkbox>
-            </div>
-          </div>
-
-          {/* Phenotype Categories */}
-          <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Phenotype Categories</p>
-            <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.SYMPTOM}>Symptom</Checkbox>
-              <Checkbox value={CategoryType.SYNDROME}>Syndrome</Checkbox>
-              <Checkbox value={CategoryType.COMPLICATION}>Complication</Checkbox>
-              <Checkbox value={CategoryType.SIDE_EFFECT}>Side Effect</Checkbox>
-            </div>
-          </div>
-
-          {/* Genetic Categories */}
-          <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Genetic Categories</p>
-            <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.MUTATION}>Mutation</Checkbox>
-              <Checkbox value={CategoryType.VARIANT}>Variant</Checkbox>
-              <Checkbox value={CategoryType.POLYMORPHISM}>Polymorphism</Checkbox>
-              <Checkbox value={CategoryType.DELETION}>Deletion</Checkbox>
-              <Checkbox value={CategoryType.INSERTION}>Insertion</Checkbox>
-              <Checkbox value={CategoryType.FUSION}>Fusion</Checkbox>
-              <Checkbox value={CategoryType.AMPLIFICATION}>Amplification</Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PRIMARY_DIAGNOSIS}>Primary Diagnosis</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.SECONDARY_DIAGNOSIS}>Secondary Diagnosis</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ACUTE_CARE}>Acute Care</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CHRONIC_CARE}>Chronic Care</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PALLIATIVE_CARE}>Palliative Care</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PREVENTIVE_CARE}>Preventive Care</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CLINICAL_TRIAL}>Clinical Trial</CustomCheckboxGroup.Checkbox>
             </div>
           </div>
 
@@ -186,42 +167,60 @@ export const FilterPatient = ({ onClose, patients, setPatients, filters, setFilt
           <div className="mb-2">
             <p className="text-sm font-semibold mb-1">Treatment Categories</p>
             <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.DRUG}>Drug</Checkbox>
-              <Checkbox value={CategoryType.THERAPY}>Therapy</Checkbox>
-              <Checkbox value={CategoryType.SURGERY}>Surgery</Checkbox>
-              <Checkbox value={CategoryType.RADIATION}>Radiation</Checkbox>
-              <Checkbox value={CategoryType.IMMUNOTHERAPY}>Immunotherapy</Checkbox>
-              <Checkbox value={CategoryType.GENE_THERAPY}>Gene Therapy</Checkbox>
-              <Checkbox value={CategoryType.HORMONE_THERAPY}>Hormone Therapy</Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CHEMOTHERAPY}>Chemotherapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.IMMUNOTHERAPY}>Immunotherapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.TARGETED_THERAPY}>Targeted Therapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.HORMONE_THERAPY}>Hormone Therapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.RADIATION_THERAPY}>Radiation Therapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.SURGICAL}>Surgical</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.COMBINATION_THERAPY}>Combination Therapy</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.EXPERIMENTAL_THERAPY}>Experimental Therapy</CustomCheckboxGroup.Checkbox>
             </div>
           </div>
 
-          {/* Demographic Categories */}
+          {/* Demographic Scope */}
           <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Demographic Categories</p>
+            <p className="text-sm font-semibold mb-1">Demographic Scope</p>
             <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.PEDIATRIC}>Pediatric</Checkbox>
-              <Checkbox value={CategoryType.ADULT}>Adult</Checkbox>
-              <Checkbox value={CategoryType.GERIATRIC}>Geriatric</Checkbox>
-              <Checkbox value={CategoryType.MATERNAL}>Maternal</Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PEDIATRIC}>Pediatric</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ADULT}>Adult</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.GERIATRIC}>Geriatric</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.MATERNAL}>Maternal</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.FAMILIAL}>Familial</CustomCheckboxGroup.Checkbox>
             </div>
           </div>
 
-          {/* Anatomical Categories */}
+          {/* Anatomical Systems */}
           <div className="mb-2">
-            <p className="text-sm font-semibold mb-1">Anatomical Categories</p>
+            <p className="text-sm font-semibold mb-1">Anatomical Systems</p>
             <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-              <Checkbox value={CategoryType.BRAIN}>Brain</Checkbox>
-              <Checkbox value={CategoryType.HEART}>Heart</Checkbox>
-              <Checkbox value={CategoryType.LUNG}>Lung</Checkbox>
-              <Checkbox value={CategoryType.LIVER}>Liver</Checkbox>
-              <Checkbox value={CategoryType.KIDNEY}>Kidney</Checkbox>
-              <Checkbox value={CategoryType.BONE}>Bone</Checkbox>
-              <Checkbox value={CategoryType.MUSCLE}>Muscle</Checkbox>
-              <Checkbox value={CategoryType.BLOOD}>Blood</Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CENTRAL_NERVOUS}>Central Nervous</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PERIPHERAL_NERVOUS}>Peripheral Nervous</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.CARDIAC}>Cardiac</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.VASCULAR}>Vascular</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.RESPIRATION}>Respiration</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.DIGESTIVE}>Digestive</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.HEPATIC}>Hepatic</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.PANCREATIC}>Pancreatic</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.RENAL}>Renal</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.URINARY}>Urinary</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.REPRODUCTIVE}>Reproductive</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.SKELETAL}>Skeletal</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.MUSCULAR}>Muscular</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.INTEGUMENTARY}>Integumentary</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.LYMPHATIC}>Lymphatic</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ENDOCRINE_THYROID}>Endocrine (Thyroid)</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ENDOCRINE_ADRENAL}>Endocrine (Adrenal)</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ENDOCRINE_PITUITARY}>Endocrine (Pituitary)</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.OCULAR}>Ocular</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.AUDITORY}>Auditory</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.ORAL}>Oral</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.JOINT}>Joint</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.HEMATOLOGIC}>Hematologic</CustomCheckboxGroup.Checkbox>
+              <CustomCheckboxGroup.Checkbox value={CategoryType.IMMUNE}>Immune</CustomCheckboxGroup.Checkbox>
             </div>
           </div>
-        </CheckboxGroup>
+        </CustomCheckboxGroup>
       </ModalBody>
       <ModalFooter className="justify-center gap-4">
         <Button color="danger" variant="bordered" onClick={resetFilters}>

@@ -35,63 +35,71 @@ export enum DataQuality {
 }
 
 export enum CategoryType {
-  // Disease Categories
-  DISEASE = 'DISEASE',
-  CANCER = 'CANCER',
-  CARDIOVASCULAR = 'CARDIOVASCULAR',
-  NEUROLOGICAL = 'NEUROLOGICAL',
-  GENETIC = 'GENETIC',
-  METABOLIC = 'METABOLIC',
-  IMMUNOLOGICAL = 'IMMUNOLOGICAL',
-  INFECTIOUS = 'INFECTIOUS',
-  DEVELOPMENTAL = 'DEVELOPMENTAL',
+  // Disease Classifications
+  ONCOLOGICAL = 'ONCOLOGICAL',                   // Cancer and neoplastic diseases
+  CARDIOVASCULAR = 'CARDIOVASCULAR',             // Heart and circulatory system diseases
+  NEUROLOGICAL = 'NEUROLOGICAL',                 // Brain and nervous system disorders
+  RESPIRATORY = 'RESPIRATORY',                   // Lung and breathing disorders
+  GASTROINTESTINAL = 'GASTROINTESTINAL',         // Digestive system disorders
+  ENDOCRINE = 'ENDOCRINE',                       // Hormone-related disorders
+  IMMUNOLOGICAL = 'IMMUNOLOGICAL',               // Immune system disorders
+  MUSCULOSKELETAL = 'MUSCULOSKELETAL',           // Bone and muscle disorders
+  DERMATOLOGICAL = 'DERMATOLOGICAL',             // Skin conditions
+  GENETIC_DISORDER = 'GENETIC_DISORDER',         // Inherited conditions
+  INFECTIOUS_DISEASE = 'INFECTIOUS_DISEASE',     // Bacterial, viral, fungal infections
+  RARE_DISEASE = 'RARE_DISEASE',                 // Rare genetic conditions
 
-  // Clinical Categories
-  DIAGNOSIS = 'DIAGNOSIS',
-  TREATMENT = 'TREATMENT',
-  SCREENING = 'SCREENING',
-  PREVENTION = 'PREVENTION',
-  EMERGENCY = 'EMERGENCY',
-
-  // Phenotype Categories
-  SYMPTOM = 'SYMPTOM',
-  SYNDROME = 'SYNDROME',
-  COMPLICATION = 'COMPLICATION',
-  SIDE_EFFECT = 'SIDE_EFFECT',
-
-  // Genetic Categories
-  MUTATION = 'MUTATION',
-  VARIANT = 'VARIANT',
-  POLYMORPHISM = 'POLYMORPHISM',
-  DELETION = 'DELETION',
-  INSERTION = 'INSERTION',
-  FUSION = 'FUSION',
-  AMPLIFICATION = 'AMPLIFICATION',
+  // Clinical Aspects
+  PRIMARY_DIAGNOSIS = 'PRIMARY_DIAGNOSIS',       // Initial diagnosis
+  SECONDARY_DIAGNOSIS = 'SECONDARY_DIAGNOSIS',   // Complications or concurrent conditions
+  ACUTE_CARE = 'ACUTE_CARE',                     // Immediate/emergency care
+  CHRONIC_CARE = 'CHRONIC_CARE',                 // Long-term management
+  PALLIATIVE_CARE = 'PALLIATIVE_CARE',           // End-of-life care
+  PREVENTIVE_CARE = 'PREVENTIVE_CARE',           // Disease prevention
+  CLINICAL_TRIAL = 'CLINICAL_TRIAL',             // Research studies
 
   // Treatment Categories
-  DRUG = 'DRUG',
-  THERAPY = 'THERAPY',
-  SURGERY = 'SURGERY',
-  RADIATION = 'RADIATION',
-  IMMUNOTHERAPY = 'IMMUNOTHERAPY',
-  GENE_THERAPY = 'GENE_THERAPY',
-  HORMONE_THERAPY = 'HORMONE_THERAPY',
+  CHEMOTHERAPY = 'CHEMOTHERAPY',                 // Cancer drug treatment
+  IMMUNOTHERAPY = 'IMMUNOTHERAPY',               // Immune system treatment
+  TARGETED_THERAPY = 'TARGETED_THERAPY',         // Specific molecular targeting
+  HORMONE_THERAPY = 'HORMONE_THERAPY',           // Hormone-based treatment
+  RADIATION_THERAPY = 'RADIATION_THERAPY',       // Radiation treatment
+  SURGICAL = 'SURGICAL',                         // Surgical procedures
+  COMBINATION_THERAPY = 'COMBINATION_THERAPY',   // Multiple treatment types
+  EXPERIMENTAL_THERAPY = 'EXPERIMENTAL_THERAPY', // Novel treatments
 
-  // Demographic Categories
-  PEDIATRIC = 'PEDIATRIC',
-  ADULT = 'ADULT',
-  GERIATRIC = 'GERIATRIC',
-  MATERNAL = 'MATERNAL',
+  // Demographic Scope
+  PEDIATRIC = 'PEDIATRIC',                       // Children (0-18)
+  ADULT = 'ADULT',                               // Adults (19-64)
+  GERIATRIC = 'GERIATRIC',                       // Elderly (65+)
+  MATERNAL = 'MATERNAL',                         // Pregnancy-related
+  FAMILIAL = 'FAMILIAL',                         // Family-based studies
 
-  // Anatomical Categories
-  BRAIN = 'BRAIN',
-  HEART = 'HEART',
-  LUNG = 'LUNG',
-  LIVER = 'LIVER',
-  KIDNEY = 'KIDNEY',
-  BONE = 'BONE',
-  MUSCLE = 'MUSCLE',
-  BLOOD = 'BLOOD'
+  // Anatomical Systems
+  CENTRAL_NERVOUS = 'CENTRAL_NERVOUS',           // Brain, spinal cord
+  PERIPHERAL_NERVOUS = 'PERIPHERAL_NERVOUS',     // Peripheral nerves
+  CARDIAC = 'CARDIAC',                           // Heart specific
+  VASCULAR = 'VASCULAR',                         // Blood vessels
+  RESPIRATION = 'RESPIRATION',                   // Nose, pharynx, larynx, trachea, lungs, bronchi
+  DIGESTIVE = 'DIGESTIVE',                       // Mouth, esophagus, stomach, intestines, colon
+  HEPATIC = 'HEPATIC',                           // Liver
+  PANCREATIC = 'PANCREATIC',                     // Pancreas
+  RENAL = 'RENAL',                               // Kidneys
+  URINARY = 'URINARY',                           // Bladder, urethra
+  REPRODUCTIVE = 'REPRODUCTIVE',                 // Reproductive organs
+  SKELETAL = 'SKELETAL',                         // Bones
+  MUSCULAR = 'MUSCULAR',                         // Muscles
+  INTEGUMENTARY = 'INTEGUMENTARY',               // Skin, hair, nails
+  LYMPHATIC = 'LYMPHATIC',                       // Lymph nodes, vessels
+  ENDOCRINE_THYROID = 'ENDOCRINE_THYROID',       // Thyroid
+  ENDOCRINE_ADRENAL = 'ENDOCRINE_ADRENAL',       // Adrenal glands
+  ENDOCRINE_PITUITARY = 'ENDOCRINE_PITUITARY',   // Pituitary gland
+  OCULAR = 'OCULAR',                             // Eyes
+  AUDITORY = 'AUDITORY',                         // Ears
+  ORAL = 'ORAL',                                 // Mouth, teeth, gums
+  JOINT = 'JOINT',                               // Joints and connective tissue
+  HEMATOLOGIC = 'HEMATOLOGIC',                   // Blood and bone marrow
+  IMMUNE = 'IMMUNE'                              // Immune system components
 }
 
 // Interfaces
