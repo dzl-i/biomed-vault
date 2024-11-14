@@ -162,7 +162,7 @@ export const UploadSignal = ({ onClose, setSignals, patientId }: UploadSignalPro
         </Select>
 
         {/* Signal Duration */}
-        <Input type="number" step={0.01} label="Signal Duration (in milliseconds)" placeholder="Enter the signal duration (in milliseconds)" variant="underlined" value={duration} onValueChange={setDuration} />
+        <Input type="number" step={0.01} label="Signal Duration (in seconds)" placeholder="Enter the signal duration (in seconds)" variant="underlined" value={duration} onValueChange={setDuration} />
 
         {/* Signal Sample Rate */}
         <Input type="number" step={0.01} label="Signal Sample Rate (in Hertz)" placeholder="Enter the signal sample rate (in Hertz)" variant="underlined" value={sampleRate} onValueChange={setSampleRate} />

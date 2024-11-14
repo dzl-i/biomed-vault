@@ -105,7 +105,7 @@ export const SignalOverview = ({ researcherId, signalId }: { researcherId: strin
               {signalTypes.find(type => type.key === signal.signalType)?.label || signal.signalType}
             </div>
             <div>
-              <h4 className="font-semibold mb-1">Duration (in milliseconds)</h4>
+              <h4 className="font-semibold mb-1">Duration (in seconds)</h4>
               <p className="text-foreground-600">{signal.duration}</p>
             </div>
             <div>
