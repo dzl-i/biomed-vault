@@ -23,6 +23,41 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const validateEmail = (email: string) => email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+  const isInvalidEmail = useMemo(() => {
+    if (email === "") return false;
+
+    return validateEmail(email) ? false : true;
+  }, [email]);
+
+  const validatePassword = (password: string) => password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*()-_=+\[\]\{\},.]/.test(password);
+  const isInvalidPassword = useMemo(() => {
+    if (password === "") return false;
+
+    return validatePassword(password) ? false : true;
+  }, [password]);
+
+  const validateName = (name: string) => /^[a-zA-Z\s'-]+$/.test(name);
+  const isInvalidName = useMemo(() => {
+    if (name === "") return false;
+
+    return validateName(name) ? false : true;
+  }, [name]);
+
+  const validateUsername = (username: string) => /^[a-zA-Z0-9]+$/.test(username);
+  const isInvalidUsername = useMemo(() => {
+    if (username === "") return false;
+
+    return validateUsername(username) ? false : true;
+  }, [username]);
+
+  const validateInstitution = (institution: string) => /^[a-zA-Z\s'-]+$/.test(institution);
+  const isInvalidInstitution = useMemo(() => {
+    if (institution === "") return false;
+
+    return validateInstitution(institution) ? false : true;
+  }, [institution]);
+
   const readyToSubmit = useMemo(
     () => name && validator.isEmail(email) && username && password && institution,
     [name, email, username, password, institution]
@@ -110,7 +145,7 @@ export default function Page() {
       <div className="flex flex-grow w-full items-center justify-center">
         <Card style={{ border: "0.1rem solid rgba(255, 255, 255, 0.4)" }} className="flex items-center flex-col w-[500px] p-8">
           <form className="w-full">
-            <CardBody className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-5 items-center">
+            <CardBody className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 items-center">
               <div className="flex flex-row gap-3">
                 <Image
                   src={BiomeDataIcon}
@@ -120,11 +155,11 @@ export default function Page() {
                 />
                 <h2 className="text-3xl font-black bg-gradient-to-r from-biomedata-blue to-biomedata-purple inline-block text-transparent bg-clip-text">BiomeData</h2>
               </div>
-              <Input isRequired size="md" type="name" label="Full Name" placeholder="Enter your full name" onChange={handleNameChange} />
-              <Input isRequired size="md" type="email" label="Email" placeholder="Enter your email" onChange={handleEmailChange} />
-              <Input isRequired size="md" type="password" label="Password" placeholder="Enter your password" onChange={handlePasswordChange} />
-              <Input isRequired size="md" type="text" label="Username" placeholder="Enter your username" onChange={handleUsernameChange} />
-              <Input isRequired size="md" type="text" label="Institution" placeholder="Enter your institution" onChange={handleInstitutionChange} />
+              <Input isRequired size="md" type="name" label="Full Name" placeholder="Enter your full name" isInvalid={isInvalidName} color={isInvalidName ? "danger" : "default"} errorMessage="Please enter a valid name" onChange={handleNameChange} />
+              <Input isRequired size="md" type="email" label="Email" placeholder="Enter your email" isInvalid={isInvalidEmail} color={isInvalidEmail ? "danger" : "default"} errorMessage="Please enter a valid email" onChange={handleEmailChange} />
+              <Input isRequired size="md" type="password" label="Password" placeholder="Enter your password" isInvalid={isInvalidPassword} color={isInvalidPassword ? "danger" : "default"} errorMessage="Password must contain at least 8 characters, and include uppercase, lowercase, numerical, and special characters" onChange={handlePasswordChange} />
+              <Input isRequired size="md" type="text" label="Username" placeholder="Enter your username" isInvalid={isInvalidUsername} color={isInvalidUsername ? "danger" : "default"} errorMessage="Please enter a valid username" onChange={handleUsernameChange} />
+              <Input isRequired size="md" type="text" label="Institution" placeholder="Enter your institution" isInvalid={isInvalidInstitution} color={isInvalidInstitution ? "danger" : "default"} errorMessage="Please enter a valid institution" onChange={handleInstitutionChange} />
               <ErrorMessage message={errorMessage} onClose={() => setErrorMessage(null)} />
               <div className="flex flex-row w-full justify-between">
                 <Link href="/">

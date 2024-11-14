@@ -20,6 +20,22 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const validateEmail = (email: string) => email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+
+  const isInvalidEmail = useMemo(() => {
+    if (email === "") return false;
+
+    return validateEmail(email) ? false : true;
+  }, [email]);
+
+  const validatePassword = (password: string) => password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*()-_=+\[\]\{\},.]/.test(password);
+
+  const isInvalidPassword = useMemo(() => {
+    if (password === "") return false;
+
+    return validatePassword(password) ? false : true;
+  }, [password]);
+
   const readyToSubmit = useMemo(
     () => validator.isEmail(email) && password,
     [email, password]
@@ -100,8 +116,8 @@ export default function Page() {
                 />
                 <h2 className="text-3xl font-black bg-gradient-to-r from-biomedata-blue to-biomedata-purple inline-block text-transparent bg-clip-text">BiomeData</h2>
               </div>
-              <Input isRequired size="md" type="email" label="Email" placeholder="Enter your email" onChange={handleEmailChange} />
-              <Input isRequired size="md" type="password" label="Password" placeholder="Enter your password" onChange={handlePasswordChange} />
+              <Input isRequired size="md" type="email" label="Email" placeholder="Enter your email" isInvalid={isInvalidEmail} color={isInvalidEmail ? "danger" : "default"} errorMessage="Please enter a valid email" onChange={handleEmailChange} />
+              <Input isRequired size="md" type="password" label="Password" placeholder="Enter your password" isInvalid={isInvalidPassword} color={isInvalidPassword ? "danger" : "default"} errorMessage="Password must contain at least 8 characters, and include uppercase, lowercase, numerical, and special characters" onChange={handlePasswordChange} />
               <ErrorMessage message={errorMessage} onClose={() => setErrorMessage(null)} />
               <div className="flex flex-row w-full justify-between">
                 <Link href="/">
