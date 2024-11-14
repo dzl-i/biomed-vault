@@ -8,7 +8,6 @@ import BiomeDataIcon from "../../assets/biomedata-logo.png";
 
 import "dotenv/config";
 import { passwordStrength } from "check-password-strength";
-import validator from "validator";
 
 import { Button, Card, CardBody, Divider, Input, Link, Spinner } from "@nextui-org/react";
 import { ErrorMessage } from "../../components/ErrorMessage";
@@ -59,7 +58,7 @@ export default function Page() {
   }, [institution]);
 
   const readyToSubmit = useMemo(
-    () => name && validator.isEmail(email) && username && password && institution,
+    () => validateName(name) && validateEmail(email) && validateUsername(username) && validatePassword(password) && validateInstitution(institution),
     [name, email, username, password, institution]
   );
 
