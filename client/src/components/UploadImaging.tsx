@@ -170,7 +170,7 @@ export const UploadImaging = ({ onClose, setImagings, patientId }: UploadImaging
         </div>
 
         {/* Image's URL */}
-        <Input autoFocus label="Image's URL" placeholder="Enter the image's URL" variant="underlined" value={imageUrl} onValueChange={setImageUrl} />
+        <Input label="Image's URL" placeholder="Enter the image's URL" variant="underlined" value={imageUrl} onValueChange={setImageUrl} />
 
         {/* Imaging's Categories */}
         <CheckboxGroup value={categories} onValueChange={setCategories}>
