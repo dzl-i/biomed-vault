@@ -21,12 +21,53 @@
     <section><h1 id="biomedata">BiomeData</h1>
 <p><em>Empowering Biomedical Research Through Unified Data Management</em></p>
 </section><section>
+<h2 id="agenda">agenda</h2>
+<ul>
+<li>Introduction to BiomeData</li>
+<li>Tech Stack</li>
+<li>System Security</li>
+<li>Privacy and Safety</li>
+<li>Live Demonstration</li>
+<li>Future Plans and Improvements</li>
+</ul>
+</section><section>
+<h2 id="disclaimer-and-notes">disclaimer and notes</h2>
+<ul>
+<li>All data in the application is fictional
+<ul>
+<li>Data is highly randomised (data such as signal data might not make sense)</li>
+</ul>
+</li>
+<li>Scope adjustment with approval
+<ul>
+<li>Reduced expectation for number of visualisations</li>
+<li>No longer required to generate/export reports on datasets</li>
+<li>More lenient marking 😅</li>
+</ul>
+</li>
+</ul>
+</section><section>
 
 
 <section data-shortcode-section>
-<h2 id="what-is-it">what is it?</h2>
+<h2 id="what-is-biomedata">what is biomedata?</h2>
+<p>A centralised platform for researchers to:</p>
+<ul>
+<li>Store diverse biomedical data</li>
+<li>Manage patient records securely</li>
+<li>Analyse biomedical data</li>
+<li>Collaborate while maintaining privacy and data integrity</li>
+</ul>
 </section><section>
 <h3 id="app-features">app features</h3>
+<ul>
+<li>Patient data management</li>
+<li>Upload biomedical data</li>
+<li>Search and filter capability for data retrieval</li>
+<li>Data visualisation</li>
+<li>Individual dataset overview</li>
+<li>Secure researcher authentication</li>
+</ul>
 
 </section>
 </section><section>
@@ -37,35 +78,56 @@
 </section><section>
 <h3 id="backendserver">backend/server</h3>
 <p>Express.js in TypeScript</p>
+<p>RESTful API Design</p>
+<p>JWT Authentication</p>
 </section><section>
 <h3 id="database">database</h3>
-<p>Prisma.io to interact with a PostgreSQL database</p>
+<p>PostgreSQL database</p>
+<p>Prisma ORM</p>
 </section><section>
 <h3 id="frontendclient">frontend/client</h3>
-<p>Next.js in TypeScript</p>
+<p>Next.js in TypeScript Execute (tsx)</p>
 </section><section>
 <h3 id="deployment">deployment</h3>
 <p>Render for Backend/Server</p>
 <p>Vercel for Frontend/Client</p>
-<p>App is hosted at <a href="https://biomedata.denzeliskandar.com">https://biomedata.denzeliskandar.com</a></p>
+<p>App is deployed at <a href="https://biomedata.denzeliskandar.com">https://biomedata.denzeliskandar.com</a></p>
 
 </section>
 </section><section>
 
 
 <section data-shortcode-section>
-<h2 id="technical-requirements">technical requirements</h2>
+<h2 id="system-security">system security</h2>
 </section><section>
 <h3 id="dataform-validation">data/form validation</h3>
+<p>Using RegEx</p>
+<figure><img src="/data-validation.png">
+</figure>
 </section><section>
-<h3 id="security">security</h3>
-<p>using secure HTTPS connection for data transfer</p>
+<h3 id="network-security">network security</h3>
+<p>Using secure HTTPS connection for data transfer</p>
+<figure><img src="/https.png">
+</figure>
 </section><section>
 <h3 id="cookies-workflow">cookies workflow</h3>
 <figure><img src="/token-flowchart.png">
 </figure>
 </section><section>
+<h3 id="authentication-flow">authentication flow</h3>
+<p>JWT-based authentication</p>
+<p>Refresh token rotation</p>
+<p>Session management</p>
+<p>Brute force protection</p>
+<p>Secure password storage - hash before making a request to prevent packet sniffing</p>
+</section><section>
 <h3 id="session-management">session management</h3>
+<p>Tokens stored as cookies</p>
+<p>Retrieve researcher&rsquo;s ID from the JWT</p>
+</section><section>
+<h3 id="access-control">access control</h3>
+<p>Role-based permissions (who can access what)</p>
+<p>Cookies included in API requests</p>
 
 </section>
 </section><section>
@@ -73,8 +135,37 @@
 
 <section data-shortcode-section>
 <h2 id="privacy-and-safety">privacy and safety</h2>
+</section><section>
+<h3 id="australian-privacy-act">australian privacy act</h3>
+<p>Only data that are relevant to the research are shown and visible to all researchers with an account</p>
+<p>Confidential data such as patient name and date of birth are hidden to the public</p>
+<p>Researcher contact information is available for further inquiries</p>
+</section><section>
+<h3 id="data-logging">data logging</h3>
+<p>Every request is logged, showing researcher&rsquo;s name, their action, and the outcome of the request (success or fail)</p>
+<p>Only available to system admins</p>
 
 </section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h2 id="future-plans">future plans</h2>
+</section><section>
+<h3 id="report-generation-and-export">report generation and export</h3>
+<p>Generate detailed reports on datasets, including patient demographics, mutation details, and data summaries</p>
+<p>Export reports in PDF or CSV format for easy sharing with collaborators or publication purposes</p>
+</section><section>
+<h3 id="enhanced-visualisation">enhanced visualisation</h3>
+<p>Show more data visualisation that can help with research</p>
+</section><section>
+<h3 id="projects">projects</h3>
+<p>Allows researchers to collaborate on some patients, allowing them to add/edit patients and their data</p>
+
+</section>
+</section><section>
+<h2 id="thank-you">thank you</h2>
+<p>Questions?</p>
 </section>
 
   
