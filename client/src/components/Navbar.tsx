@@ -58,32 +58,34 @@ export const Navbar = ({ researcherId }: { researcherId: string }) => {
 
   return (
     <nav className="fixed flex flex-col items-center justify-between w-20 h-screen gap-4 p-4" style={{ backgroundColor: "#f8f8fa" }}>
-      <div className="flex items-center justify-center h-10 p-2">
-        <Link href={"/dashboard"}>
-          <Image
-            src={BiomeDataIcon}
-            alt="BiomeData Icon"
-            width={33}
-            height={33}
-          />
-        </Link>
-      </div>
-      <div className="flex flex-col h-full w-full" style={{ borderTop: "2px solid #e0e0e0" }}>
-        <div className="flex flex-col items-center py-3">
-          <Tooltip placement="right" content="Privacy and Safety" color="primary" closeDelay={0} showArrow={true}>
-            <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={onOpenPrivacy} />
-          </Tooltip>
-          <Modal isOpen={isOpenPrivacy} onOpenChange={onOpenPrivacyChange}>
-            <ModalContent>
-              {(onClose) => (
-                <Privacy onClose={onClose} />
-              )}
-            </ModalContent>
-          </Modal>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-center h-10 p-2">
+          <Link href={"/dashboard"}>
+            <Image
+              src={BiomeDataIcon}
+              alt="BiomeData Icon"
+              width={33}
+              height={33}
+            />
+          </Link>
+        </div>
+        <div className="flex flex-col w-full" style={{ borderTop: "2px solid #e0e0e0" }}>
+          <div className="flex flex-col items-center py-3">
+            <Tooltip placement="right" content="Privacy and Safety" color="primary" closeDelay={0} showArrow={true}>
+              <ShieldCheckIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover`} onClick={onOpenPrivacy} />
+            </Tooltip>
+            <Modal isOpen={isOpenPrivacy} onOpenChange={onOpenPrivacyChange}>
+              <ModalContent>
+                {(onClose) => (
+                  <Privacy onClose={onClose} />
+                )}
+              </ModalContent>
+            </Modal>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 h-screen justify-center ">
+      <div className="flex flex-col gap-3 justify-center ">
         <Link href={"/dashboard"}>
           <Tooltip placement="right" content="Dashboard" color="primary" closeDelay={0} showArrow={true}>
             <HospitalIcon strokeWidth={1.5} className={`h-12 w-12 p-3 rounded-lg hover:bg-biomedata-hover ${pathname.startsWith("/dashboard") ? "bg-biomedata-active" : ""}`} />
